@@ -423,6 +423,31 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .modebar.slim { padding: 8px 12px; gap: 10px; flex-wrap: nowrap; }
 .modebar.slim .note { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* ---------- account, room list, dev channel ---------- */
+.home-top { display: flex; gap: 16px 24px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; }
+.home-top .home-hero { flex: 1 1 420px; min-width: 0; }
+.acct { display: flex; align-items: center; gap: 10px 12px; flex-wrap: wrap; padding: 10px 12px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); min-height: 52px; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; flex: none; object-fit: cover; }
+.avatar.ph { display: grid; place-items: center; background: var(--navy-soft); color: var(--navy); font-weight: 600; text-transform: uppercase; }
+.who { display: grid; line-height: 1.25; min-width: 0; }
+.who b { font-weight: 600; font-size: .95em; }
+.who span { font-size: .8em; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn.google { background: var(--surface); border-color: var(--line); font-weight: 600; }
+.btn.google .g { width: 18px; height: 18px; display: inline-grid; }
+.btn.google .g svg { width: 18px; height: 18px; }
+.rooms-card { grid-column: 1 / -1; }
+.room-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 4px 4px 4px 0; border-radius: var(--r-sm); background: var(--surface-2); }
+.room-main { display: grid; gap: 2px; padding: 8px 12px; text-decoration: none; color: var(--ink); min-width: 0; border-radius: var(--r-sm); }
+.room-main:hover { background: var(--navy-soft); }
+.room-main .rt { display: flex; gap: 6px; align-items: center; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.room-main .rm { font-size: .78em; color: var(--ink-3); }
+.room-row .acts { display: flex; gap: 6px; align-items: center; padding-right: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.confirm-q { font-size: .85em; color: var(--bad); font-weight: 600; }
+.pill.dev, .devbar b { background: #7C4DBF; color: #fff; }
+.devbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 16px; font-size: .82em; background: color-mix(in srgb, #7C4DBF 14%, var(--surface)); color: var(--ink); border-bottom: 1px solid var(--line); }
+.devbar b { padding: .1em .55em; border-radius: 4px; font-size: .9em; letter-spacing: .05em; }
+.devbar a { margin-left: auto; color: var(--navy); font-weight: 600; }
+
 </style>
 </head>
 <body>
@@ -450,8 +475,9 @@ const FIREBASE_CONFIG = {
   messagingSenderId: '583474889876',
 };
 const FIREBASE_VERSION = '10.12.2';
+const CHANNEL = 'prod'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-const SUGGESTED_SITE = 'ongiizaaa.github.io/ppb-live';
+const SUGGESTED_SITE = 'live.powerpointboy.com';
 
 /* ---------------- utilities ---------------- */
 const $ = (s, r = document) => r.querySelector(s);
@@ -627,29 +653,45 @@ class LocalBackend {
   async isOwner() { return true; }
   async claim() { return true; }
   participant() { return { pid: this.uid, pub: this.uid }; }
+  listenMyRooms(cb) { cb(myRooms().filter(r => r.code !== 'demo')); return () => {}; }
+  async getMyRoom(code) { return myRooms().find(r => r.code === code) || null; }
+  async saveMyRoom(code, data) { saveRoom({ code, ...data }); }
+  async deleteRoom(code) { await this.replace(code, null); try { localStorage.removeItem(this._key(code)); } catch { /* ignore */ } LS.set('ppb:rooms', myRooms().filter(r => r.code !== code)); return 'deleted'; }
 }
 
 class FirebaseBackend {
-  constructor(cfg) { this.kind = 'firebase'; this.cfg = cfg; this.offset = 0; this.authP = null; this.ready = this._init(); }
+  constructor(cfg) { this.kind = 'firebase'; this.cfg = cfg; this.offset = 0; this.authP = null; this.user = null; this.userSubs = new Set(); this.ready = this._init(); }
   async _init() {
     const base = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/`;
     const [A, D] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-database.js')]);
     this.D = D; this.app = A.initializeApp(this.cfg); this.db = D.getDatabase(this.app);
     D.onValue(D.ref(this.db, '.info/serverTimeOffset'), s => { this.offset = s.val() || 0; });
   }
-  // ล็อกอินแบบ Anonymous เฉพาะผู้จัด ผู้เรียนไม่ต้องล็อกอิน จึงไม่ติดเพดานสร้างบัญชี 100 บัญชีต่อชั่วโมงต่อ IP
-  signIn() {
+  // ผู้จัดล็อกอินด้วย Google · ผู้เรียนไม่ต้องล็อกอิน จึงไม่ติดเพดานสร้างบัญชี 100 บัญชีต่อชั่วโมงต่อ IP
+  auth() {
     if (!this.authP) this.authP = (async () => {
       await this.ready;
       const U = await import(`https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-auth.js`);
-      const auth = U.getAuth(this.app);
-      const user = await new Promise((res, rej) => {
-        const off = U.onAuthStateChanged(auth, u => { if (u) { off(); res(u); } else U.signInAnonymously(auth).catch(e => { off(); rej(e); }); });
+      this.U = U; this.authObj = U.getAuth(this.app);
+      await new Promise(res => {
+        let first = true;
+        U.onAuthStateChanged(this.authObj, u => {
+          this.user = u || null; this.uid = u?.uid;
+          if (first) { first = false; res(); }
+          this.userSubs.forEach(cb => { try { cb(this.user); } catch (e) { console.error(e); } });
+        });
       });
-      this.uid = user.uid; return user;
+      return this.user;
     })().catch(e => { this.authP = null; throw e; });
     return this.authP;
   }
+  onUser(cb) { this.userSubs.add(cb); this.auth().then(() => cb(this.user)).catch(e => { console.error(e); cb(null); }); return () => this.userSubs.delete(cb); }
+  async signInGoogle() {
+    await this.auth(); const p = new this.U.GoogleAuthProvider(); p.setCustomParameters({ prompt: 'select_account' });
+    return (await this.U.signInWithPopup(this.authObj, p)).user;
+  }
+  async signOut() { await this.auth(); await this.U.signOut(this.authObj); }
+  async need() { await this.auth(); if (!this.user) throw Object.assign(new Error('signin-required'), { code: 'signin-required' }); return this.user; }
   participant() {
     let me = LS.get('ppb:me');
     if (!me?.pid || me.pid.length < 16) { me = { pid: 'p' + rid(19), pub: rid(10) }; LS.set('ppb:me', me); }
@@ -657,23 +699,34 @@ class FirebaseBackend {
   }
   now() { return Date.now() + this.offset; }
   ref(p) { return this.D.ref(this.db, p); }
+  ts(v) { return mapTS(v === undefined ? null : v, () => this.D.serverTimestamp()); }
   listen(code, cb) {
-    return this.D.onValue(this.ref('events/' + code), s => cb(s.val()), err => { console.error(err); toast('อ่านข้อมูลห้องไม่ได้ ตรวจว่าเครื่องนี้เป็นผู้จัดและวาง Rules แล้ว', 'bad'); });
+    return this.D.onValue(this.ref('events/' + code), s => cb(s.val()), err => { console.error(err); toast('อ่านข้อมูลห้องไม่ได้ ตรวจว่าบัญชีนี้เป็นผู้จัดของห้อง', 'bad'); });
   }
   listenPath(path, cb) { return this.D.onValue(this.ref(path), s => cb(s.val()), err => console.error(path, err)); }
   async update(code, updates) {
-    const u = {}; for (const [k, v] of Object.entries(updates)) u[k] = mapTS(v === undefined ? null : v, () => this.D.serverTimestamp());
+    const u = {}; for (const [k, v] of Object.entries(updates)) u[k] = this.ts(v);
     return this.D.update(this.ref('events/' + code), u);
   }
+  async updateRoot(updates) { const u = {}; for (const [k, v] of Object.entries(updates)) u[k] = this.ts(v); return this.D.update(this.D.ref(this.db), u); }
   async exists(code) { return (await this.D.get(this.ref(`events/${code}/meta`))).exists(); }
   async createEvent(code, pin, data) {
-    await this.signIn();
+    const u = await this.need();
     await this.D.set(this.ref('pins/' + code), pin);
-    await this.D.set(this.ref(`owners/${code}/${this.uid}`), pin);
+    await this.D.set(this.ref(`owners/${code}/${u.uid}`), pin);
     await this.update(code, data);
   }
-  async isOwner(code) { try { await this.signIn(); return (await this.D.get(this.ref(`owners/${code}/${this.uid}`))).exists(); } catch (e) { console.warn(e); return false; } }
-  async claim(code, pin) { try { await this.signIn(); await this.D.set(this.ref(`owners/${code}/${this.uid}`), String(pin)); return true; } catch { return false; } }
+  async isOwner(code) { try { await this.auth(); if (!this.user) return false; return (await this.D.get(this.ref(`owners/${code}/${this.user.uid}`))).exists(); } catch (e) { console.warn(e); return false; } }
+  async claim(code, pin) { try { const u = await this.need(); await this.D.set(this.ref(`owners/${code}/${u.uid}`), String(pin)); return true; } catch { return false; } }
+  // รายการห้องของฉัน เก็บใน Firebase ใต้บัญชีผู้จัด ใช้ได้ทุกเครื่อง
+  listenMyRooms(cb) { if (!this.user) { cb([]); return () => {}; } return this.D.onValue(this.ref(`users/${this.user.uid}/rooms`), s => cb(Object.entries(s.val() || {}).map(([code, r]) => ({ code, ...r })).sort((a, b) => (b.at || 0) - (a.at || 0))), err => { console.error(err); cb([]); }); }
+  async getMyRoom(code) { try { await this.auth(); if (!this.user) return null; return (await this.D.get(this.ref(`users/${this.user.uid}/rooms/${code}`))).val(); } catch { return null; } }
+  async saveMyRoom(code, data) { if (!this.user) return; const u = {}; for (const [k, v] of Object.entries(data)) u[`users/${this.user.uid}/rooms/${code}/${k}`] = v; return this.updateRoot(u).catch(e => console.warn('save room list', e)); }
+  async deleteRoom(code) {
+    const u = await this.need();
+    try { await this.updateRoot({ [`events/${code}`]: null, [`pins/${code}`]: null, [`owners/${code}/${u.uid}`]: null, [`users/${u.uid}/rooms/${code}`]: null }); return 'deleted'; }
+    catch (e) { console.warn(e); await this.updateRoot({ [`users/${u.uid}/rooms/${code}`]: null }); return 'unlisted'; }
+  }
 }
 
 // มือถือผู้เรียนบน Firebase: ฟังเฉพาะข้อมูลที่ต้องใช้ ไม่โหลดคำตอบของคนอื่น
@@ -1338,47 +1391,109 @@ function myRooms() { return LS.get('ppb:rooms', []); }
 function saveRoom(room) { const list = myRooms().filter(r => r.code !== room.code); list.unshift({ ...myRooms().find(r => r.code === room.code), ...room }); LS.set('ppb:rooms', list.slice(0, 30)); }
 
 /* ---------------- views ---------------- */
+const fmtDate = ms => ms ? new Date(ms).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit' }) : '';
+function googleBtn(label, onDone) {
+  const b = h('button', { class: 'btn google', type: 'button' }, h('span', { class: 'g', html: '<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>' }), label);
+  b.addEventListener('click', async () => {
+    b.disabled = true;
+    try { await LIVE.signInGoogle(); onDone?.(); }
+    catch (e) { if (!/popup-closed|cancelled-popup/.test(e?.code || '')) toast(e?.code === 'auth/popup-blocked' ? 'เบราว์เซอร์บล็อกหน้าต่างล็อกอิน กดอนุญาต pop-up แล้วลองใหม่' : 'ล็อกอินไม่สำเร็จ ลองอีกครั้ง', 'bad'); }
+    finally { b.disabled = false; }
+  });
+  return b;
+}
+async function rememberRoom(db, code, data) { try { await db.saveMyRoom(code, data); } catch (e) { console.warn(e); } }
+
 class HomeView {
   constructor(root) {
-    const bar = modeBar('home', null);
+    this.db = LIVE;
     const codeIn = h('input', { class: 'input codebox', id: 'join-code', inputmode: 'numeric', maxLength: 6, placeholder: '000 000', autocomplete: 'off' });
     const joinGo = () => { const c = codeIn.value.replace(/\D/g, ''); if (c.length !== 6) return toast('ใส่รหัส 6 หลัก'); go('#join-' + c); };
     codeIn.addEventListener('keydown', e => { if (e.key === 'Enter') joinGo(); });
-    const titleIn = h('input', { class: 'input', id: 'new-title', maxLength: 80, placeholder: 'เช่น AI for Presentation — รุ่น 3' });
-    const createBtn = h('button', { class: 'btn primary', type: 'button' }, icon('plus'), 'สร้างห้อง');
-    createBtn.addEventListener('click', async () => { createBtn.disabled = true; try { await createRoom(titleIn.value.trim()); } finally { createBtn.disabled = false; } });
-    const rooms = myRooms().filter(r => r.code !== 'demo');
-    root.append(...[bar, h('main', { class: 'home' },
-      h('div', { class: 'home-hero' }, h('h1', null, 'Powerpointboy ', h('span', { style: { color: 'var(--brand)' } }, 'Live')),
-        h('p', null, 'โพล Word cloud คำถามปลายเปิด Quiz และ Q&A สำหรับคลาส in-house ผู้เรียนสแกน QR ตอบจากมือถือ ผลขึ้นจอทันที')),
+    this.titleIn = h('input', { class: 'input', id: 'new-title', maxLength: 80, placeholder: 'เช่น AI for Presentation — รุ่น 3' });
+    this.createBtn = h('button', { class: 'btn primary', type: 'button' }, icon('plus'), 'สร้างห้อง');
+    this.createBtn.addEventListener('click', async () => { this.createBtn.disabled = true; try { await createRoom(this.titleIn.value.trim()); } finally { this.createBtn.disabled = false; } });
+    this.titleIn.addEventListener('keydown', e => { if (e.key === 'Enter') this.createBtn.click(); });
+    this.acct = h('div', { class: 'acct' }); this.createBody = h('div', { style: { display: 'grid', gap: '14px' } }); this.roomsBody = h('div');
+    root.append(...[modeBar('home', null), h('main', { class: 'home' },
+      h('div', { class: 'home-top' },
+        h('div', { class: 'home-hero' }, h('h1', null, 'Powerpointboy ', h('span', { style: { color: 'var(--brand)' } }, 'Live')),
+          h('p', null, 'โพล Word cloud คำถามปลายเปิด Quiz และ Q&A สำหรับคลาส in-house ผู้เรียนสแกน QR ตอบจากมือถือ ผลขึ้นจอทันที')),
+        IS_LIVE ? this.acct : null),
       h('div', { class: 'home-grid' },
         h('section', { class: 'card' }, h('h2', null, 'เข้าร่วมห้อง'), h('label', { class: 'label', for: 'join-code', style: { marginBottom: '-8px' } }, 'รหัสห้อง 6 หลักบนจอ'), codeIn, h('button', { class: 'btn navy', type: 'button', onclick: joinGo }, 'เข้าร่วม')),
-        h('section', { class: 'card' }, h('h2', null, 'สร้างห้องใหม่'), h('label', { class: 'label', for: 'new-title', style: { marginBottom: '-8px' } }, 'ชื่อคลาสหรือหัวข้อ'), titleIn, createBtn,
-          h('p', { class: 'hint' }, IS_LIVE ? 'ได้รหัสห้องและ PIN ผู้จัด ใช้เปิดแผงควบคุมจากเครื่องอื่นได้' : 'ตอนนี้ยังไม่ได้ต่อ Firebase ห้องจะซิงก์ได้เฉพาะแท็บในเบราว์เซอร์นี้')),
-        h('section', { class: 'card' }, h('h2', null, 'ห้องของฉัน'),
-          rooms.length ? h('div', { class: 'roomlist' }, rooms.map(r => h('a', { href: '#host-' + r.code }, h('span', null, r.title || 'ไม่มีชื่อ'), h('span', { class: 'mono faint' }, fmtCode(r.code))))) : h('p', { class: 'hint' }, 'ห้องที่สร้างในเครื่องนี้จะอยู่ตรงนี้')),
-        h('section', { class: 'card' }, h('h2', null, 'ลองห้องเรียนจำลอง'), h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'เห็นจอนำเสนอกับมือถือผู้เรียน 3 เครื่องในหน้าเดียว มีคำถามตัวอย่างครบทุกแบบ'), h('a', { class: 'btn', href: '#demo' }, icon('users'), 'เปิดห้องเรียนจำลอง'))))].filter(Boolean));
+        h('section', { class: 'card' }, h('h2', null, 'สร้างห้องใหม่'), this.createBody),
+        h('section', { class: 'card' }, h('h2', null, 'ลองห้องเรียนจำลอง'), h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'เห็นจอนำเสนอกับมือถือผู้เรียน 3 เครื่องในหน้าเดียว มีคำถามตัวอย่างครบทุกแบบ'), h('a', { class: 'btn', href: '#demo' }, icon('users'), 'เปิดห้องเรียนจำลอง')),
+        h('section', { class: 'card rooms-card' }, h('div', { class: 'panel-head' }, h('h2', null, 'ห้องของฉัน'), this.roomCount = h('span', { class: 'pill', hidden: true })), this.roomsBody)))].filter(Boolean));
+    if (IS_LIVE) this.offUser = LIVE.onUser(u => this.setUser(u));
+    else this.setUser({ local: true });
   }
+  setUser(u) {
+    this.offRooms?.(); this.offRooms = null;
+    if (IS_LIVE) this.acct.replaceChildren(...(u
+      ? [u.photoURL ? h('img', { class: 'avatar', src: u.photoURL, alt: '', referrerpolicy: 'no-referrer' }) : h('span', { class: 'avatar ph' }, (u.displayName || u.email || '?').slice(0, 1)),
+        h('div', { class: 'who' }, h('b', null, u.displayName || 'ผู้จัด'), h('span', null, u.email || '')),
+        h('button', { class: 'btn ghost sm', type: 'button', onclick: () => LIVE.signOut() }, 'ออกจากระบบ')]
+      : [h('span', { class: 'muted', style: { fontSize: '.9em' } }, 'ผู้จัดล็อกอินเพื่อสร้างและจัดการห้อง'), googleBtn('เข้าสู่ระบบด้วย Google')]));
+    if (u) {
+      this.createBody.replaceChildren(h('label', { class: 'label', for: 'new-title', style: { marginBottom: '-8px' } }, 'ชื่อคลาสหรือหัวข้อ'), this.titleIn, this.createBtn,
+        h('p', { class: 'hint' }, IS_LIVE ? 'ได้รหัสห้องและ PIN ผู้จัด ห้องจะผูกกับบัญชีนี้ เปิดจากเครื่องไหนก็ได้' : 'ตอนนี้ยังไม่ได้ต่อ Firebase ห้องจะซิงก์ได้เฉพาะแท็บในเบราว์เซอร์นี้'));
+      this.roomsBody.replaceChildren(h('p', { class: 'hint' }, 'กำลังโหลด…'));
+      this.offRooms = this.db.listenMyRooms(list => this.renderRooms(list));
+    } else {
+      this.createBody.replaceChildren(h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'ล็อกอินด้วย Google ก่อน ห้องที่สร้างจะผูกกับบัญชีของคุณ'), googleBtn('เข้าสู่ระบบด้วย Google'));
+      this.roomsBody.replaceChildren(h('p', { class: 'hint' }, 'ล็อกอินเพื่อดูห้องที่คุณสร้างไว้'));
+      this.roomCount.hidden = true;
+    }
+  }
+  renderRooms(list) {
+    this.roomCount.textContent = `${list.length} ห้อง`; this.roomCount.hidden = !list.length;
+    if (!list.length) return this.roomsBody.replaceChildren(h('p', { class: 'hint' }, 'ห้องที่คุณสร้างจะอยู่ตรงนี้'));
+    this.roomsBody.replaceChildren(h('div', { class: 'roomlist' }, list.map(r => {
+      const acts = h('div', { class: 'acts' });
+      const row = h('div', { class: 'room-row' },
+        h('a', { class: 'room-main', href: '#host-' + r.code }, h('span', { class: 'rt' }, r.title || 'ไม่มีชื่อ', r.dev ? h('span', { class: 'pill dev' }, 'DEV') : null), h('span', { class: 'rm mono' }, fmtCode(r.code) + (r.at ? ' · ' + fmtDate(r.at) : ''))), acts);
+      const idle = () => acts.replaceChildren(h('button', { class: 'icon-btn', type: 'button', title: 'ลบห้อง', 'aria-label': `ลบห้อง ${r.title || r.code}`, onclick: ask }, icon('trash')));
+      const ask = () => acts.replaceChildren(h('span', { class: 'confirm-q' }, 'ลบถาวร?'),
+        h('button', { class: 'btn danger solid sm', type: 'button', onclick: async e => { e.target.disabled = true; const res = await this.db.deleteRoom(r.code).catch(() => null); toast(res === 'deleted' ? 'ลบห้องแล้ว' : res === 'unlisted' ? 'เอาออกจากรายการแล้ว (บัญชีนี้ไม่ได้เป็นเจ้าของห้อง)' : 'ลบไม่สำเร็จ', res ? '' : 'bad'); if (!IS_LIVE) this.renderRooms(myRooms().filter(x => x.code !== 'demo')); } }, 'ลบ'),
+        h('button', { class: 'btn sm', type: 'button', onclick: idle }, 'ยกเลิก'));
+      idle(); return row;
+    })), h('p', { class: 'hint', style: { marginTop: '10px' } }, 'ก่อนลบ เปิดห้องแล้วกดปุ่ม Excel เพื่อเก็บผลไว้ก่อน'));
+  }
+  destroy() { this.offUser?.(); this.offRooms?.(); }
 }
 async function createRoom(title) {
   const db = LIVE; await db.ready;
-  const data = { meta: { title: title || 'คลาสใหม่', at: TS, mode: 'join', qaOn: true } };
-  for (let i = 0; i < 6; i++) {
+  if (IS_LIVE && !db.user) return toast('ล็อกอินด้วย Google ก่อนสร้างห้อง', 'bad');
+  const data = { meta: { title: title || 'คลาสใหม่', at: TS, mode: 'join', qaOn: true, ...(CHANNEL === 'dev' ? { dev: true } : {}) } };
+  for (let i = 0; i < 5; i++) {
     const code = String(100000 + Math.floor(Math.random() * 900000)); const pin = String(1000 + Math.floor(Math.random() * 9000));
     if (await db.exists(code)) continue;
-    try { await db.createEvent(code, pin, data); saveRoom({ code, title: data.meta.title, pin, at: Date.now() }); go('#host-' + code); return; }
-    catch (e) { console.warn('create failed, retrying', e); }
+    try {
+      await db.createEvent(code, pin, data);
+      await rememberRoom(db, code, { title: data.meta.title, pin, at: Date.now(), ...(CHANNEL === 'dev' ? { dev: true } : {}) });
+      go('#host-' + code); return;
+    } catch (e) { console.warn('create failed, retrying', e); }
   }
-  toast('สร้างห้องไม่สำเร็จ ตรวจการตั้งค่า Firebase', 'bad');
+  toast(IS_LIVE ? `สร้างห้องไม่สำเร็จ บัญชี ${db.user?.email || ''} อาจยังไม่มีสิทธิ์สร้างห้อง` : 'สร้างห้องไม่สำเร็จ', 'bad');
 }
 
 class ClaimView {
   constructor(root, code, db, done) {
+    const card = h('section', { class: 'card' }, h('h2', null, `ห้อง ${fmtCode(code)}`));
+    root.append(h('main', { class: 'home', style: { maxWidth: '460px' } }, brand(), card));
+    if (IS_LIVE && !db.user) {
+      card.append(h('p', { class: 'muted' }, 'หน้านี้สำหรับผู้จัด ล็อกอินด้วยบัญชี Google ที่ใช้สร้างห้อง'), googleBtn('เข้าสู่ระบบด้วย Google', done),
+        h('p', { class: 'hint' }, 'ถ้าเป็นผู้เรียน ', h('a', { href: '#' + code }, 'เข้าห้องตรงนี้')));
+      return;
+    }
     const inp = h('input', { class: 'input codebox', id: 'claim-pin', inputmode: 'numeric', maxLength: 4, placeholder: '••••' });
     const btn = h('button', { class: 'btn primary', type: 'button' }, 'เปิดแผงควบคุม');
-    const submit = async () => { btn.disabled = true; const pin = inp.value.trim(); if (await db.claim(code, pin)) { saveRoom({ code, pin }); done(); } else { toast('PIN ไม่ถูกต้อง', 'bad'); btn.disabled = false; } };
+    const submit = async () => { btn.disabled = true; const pin = inp.value.trim(); if (await db.claim(code, pin)) { await rememberRoom(db, code, { pin, at: Date.now() }); done(); } else { toast('PIN ไม่ถูกต้อง', 'bad'); btn.disabled = false; } };
     btn.addEventListener('click', submit); inp.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
-    root.append(h('main', { class: 'home', style: { maxWidth: '440px' } }, brand(), h('section', { class: 'card' }, h('h2', null, `ห้อง ${fmtCode(code)}`), h('p', { class: 'muted' }, 'เครื่องนี้ยังไม่ได้เป็นผู้จัดของห้องนี้ ใส่ PIN ผู้จัด 4 หลักที่ได้ตอนสร้างห้อง'), h('label', { class: 'label', for: 'claim-pin', style: { marginBottom: '-8px' } }, 'PIN ผู้จัด'), inp, btn)));
+    card.append(h('p', { class: 'muted' }, IS_LIVE ? `บัญชี ${db.user.email || ''} ยังไม่ได้เป็นผู้จัดของห้องนี้ ใส่ PIN ผู้จัด 4 หลักเพื่อเพิ่มสิทธิ์ให้บัญชีนี้` : 'ใส่ PIN ผู้จัด 4 หลักที่ได้ตอนสร้างห้อง'),
+      h('label', { class: 'label', for: 'claim-pin', style: { marginBottom: '-8px' } }, 'PIN ผู้จัด'), inp, btn,
+      IS_LIVE ? h('button', { class: 'btn ghost sm', type: 'button', style: { justifySelf: 'start' }, onclick: async () => { await db.signOut(); done(); } }, 'สลับบัญชี') : null);
   }
 }
 
@@ -1389,10 +1504,11 @@ class HostView {
     const saveTitle = debounce(v => write(db, code, { 'meta/title': v }), 400);
     this.titleIn.addEventListener('input', () => saveTitle(this.titleIn.value)); this.titleIn.addEventListener('change', () => saveTitle.flush(this.titleIn.value));
     this.people = h('span', { class: 'stat' });
-    const room = myRooms().find(r => r.code === code);
+    const pinB = h('b', { class: 'mono' }); const pinBox = h('span', { class: 'pinbox', hidden: true, title: 'ให้ผู้ช่วยใส่ PIN นี้เพื่อร่วมควบคุมห้องด้วยบัญชีของเขา' }, icon('lock'), 'PIN ผู้จัด ', pinB);
+    if (IS_LIVE && code !== 'demo') db.getMyRoom(code).then(r => { if (r?.pin) { pinB.textContent = r.pin; pinBox.hidden = false; } });
     this.top = h('header', { class: 'host-top' }, IS_LIVE && code !== 'demo' ? brand() : null, this.titleIn,
       h('button', { class: 'code-chip', type: 'button', title: 'คัดลอกลิงก์ผู้เข้าร่วม', onclick: () => copyText(joinUrl(code)) }, icon('link'), fmtCode(code)),
-      IS_LIVE && room?.pin ? h('span', { class: 'pinbox', title: 'ใช้เปิดแผงควบคุมจากเครื่องอื่น' }, icon('lock'), 'PIN ผู้จัด ', h('b', { class: 'mono' }, room.pin)) : null,
+      pinBox,
       this.people, h('span', { class: 'spacer' }),
       h('button', { class: 'btn sm', type: 'button', onclick: () => exportXlsx(this.t, code) }, icon('download'), 'Excel'),
       h('a', { class: 'btn navy sm', href: '#screen-' + code, target: IN_FRAME ? null : '_blank', rel: 'noopener' }, icon('monitor'), 'เปิดจอนำเสนอ', IN_FRAME ? null : icon('ext')));
@@ -1414,7 +1530,7 @@ class HostView {
     const qs = qList(t);
     if (!this.sel) this.sel = t.meta.active || qs[0]?.id || 'join';
     if (!['join', 'qa'].includes(this.sel) && !t.qs?.[this.sel]) this.sel = qs[0]?.id || 'join';
-    if (this.t.meta.title) saveRoom({ code: this.code, title: this.t.meta.title });
+    if (t.meta.title && t.meta.title !== this.syncedTitle && this.code !== 'demo') { this.syncedTitle = t.meta.title; rememberRoom(this.db, this.code, { title: t.meta.title }); }
     this.renderSide(t, qs); this.renderEditor(t); this.renderCtrl(t);
     this.stage.preview = this.sel; this.stage.set(t);
   }
@@ -1771,7 +1887,8 @@ async function route() {
     try { await db.ready; } catch (e) { console.error(e); root.replaceChildren(h('main', { class: 'home', style: { maxWidth: '560px' } }, brand(), h('section', { class: 'card' }, h('h2', null, 'เชื่อมต่อ Firebase ไม่สำเร็จ'), h('p', { class: 'muted' }, 'ตรวจว่าเปิด Anonymous sign-in ใน Firebase Authentication แล้ว และ firebaseConfig ถูกต้อง'), h('code', { class: 'mono', style: { fontSize: '.8em', overflowWrap: 'anywhere' } }, String(e?.message || e)), h('a', { class: 'btn', href: '#demo' }, 'เปิดห้องเรียนจำลองแทน')))); return; }
     root.replaceChildren();
   }
-  document.title = { demo: 'ห้องเรียนจำลอง', home: 'Powerpointboy Live', host: 'แผงควบคุม', screen: 'จอนำเสนอ', join: 'เข้าร่วม' }[r.v] + (r.code && r.code !== 'demo' ? ' · ' + fmtCode(r.code) : '') + (r.v === 'home' ? '' : ' — Powerpointboy Live');
+  if (CHANNEL === 'dev' && r.v !== 'screen') root.append(h('div', { class: 'devbar' }, h('b', null, 'DEV'), h('span', null, 'หน้าทดสอบ · ใช้ฐานข้อมูลเดียวกับเว็บจริง'), h('a', { href: location.pathname.replace(/dev\/?(index\.html)?$/, '') }, 'ไปเว็บจริง')));
+  document.title = (CHANNEL === 'dev' ? '[DEV] ' : '') + { demo: 'ห้องเรียนจำลอง', home: 'Powerpointboy Live', host: 'แผงควบคุม', screen: 'จอนำเสนอ', join: 'เข้าร่วม' }[r.v] + (r.code && r.code !== 'demo' ? ' · ' + fmtCode(r.code) : '') + (r.v === 'home' ? '' : ' — Powerpointboy Live');
   if (r.v === 'demo') current = new DemoView(root);
   else if (r.v === 'home') current = new HomeView(root);
   else if (r.v === 'join') current = new JoinView(root, r.code, db);
