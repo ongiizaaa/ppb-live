@@ -448,6 +448,53 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .devbar b { padding: .1em .55em; border-radius: 4px; font-size: .9em; letter-spacing: .05em; }
 .devbar a { margin-left: auto; color: var(--navy); font-weight: 600; }
 
+/* ---------- หน้าผู้เรียน (ใส่รหัสห้อง) ---------- */
+.app.land-root { min-height: 100%; }
+.landing { flex: 1; width: 100%; max-width: 1080px; margin: 0 auto; padding: 18px 16px 20px; display: flex; flex-direction: column; }
+.land-top { display: flex; align-items: center; font-size: 1.05rem; }
+.land-hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 7vh 0 9vh; }
+.land-bar { display: flex; align-items: center; gap: 12px 22px; width: min(100%, 700px); padding: 10px 10px 10px 32px; border-radius: 999px; background: #1B3A6B; color: #fff; box-shadow: 0 14px 34px -16px rgba(19, 33, 59, .55); }
+.land-q { font-family: var(--f-display); font-weight: 700; font-size: 1.4rem; letter-spacing: -.01em; white-space: nowrap; cursor: pointer; }
+.land-field { flex: 1; min-width: 0; display: flex; align-items: center; gap: 4px; padding: 5px 5px 5px 18px; border-radius: 999px; background: #fff; transition: box-shadow .15s; }
+.land-field:focus-within { box-shadow: 0 0 0 3px #8FB0E8; }
+.land-hash { font-family: var(--f-mono); font-weight: 600; font-size: 1.25rem; color: #1B3A6B; }
+.land-input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #13213B; padding: 8px 6px; font-family: var(--f-mono); font-size: 1.4rem; font-weight: 600; letter-spacing: .1em; }
+.land-input::placeholder { font-family: var(--f-body); font-weight: 400; letter-spacing: 0; color: #8592AB; }
+.land-go { flex: none; display: grid; place-items: center; width: 50px; height: 50px; border: 0; border-radius: 50%; background: #FF6B00; color: #fff; transition: filter .15s, transform .1s; }
+.land-go svg.i { width: 24px; height: 24px; stroke-width: 2.2; }
+.land-go:hover { filter: brightness(1.07); }
+.land-go:active { transform: scale(.95); }
+.land-go:disabled { opacity: .6; cursor: progress; }
+.land-go:focus-visible { outline: 3px solid #fff; outline-offset: -6px; }
+.land-msg { margin-top: 14px; min-height: 1.5em; font-size: .92em; color: var(--ink-3); }
+.land-msg.bad { color: var(--bad); font-weight: 600; }
+.land-recent { margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 8px 12px 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; font-size: .9em; }
+.land-recent:hover { border-color: var(--navy); }
+.land-recent b { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.land-recent .mono { color: var(--ink-2); font-size: .92em; }
+.land-title { margin-top: clamp(30px, 7vh, 64px); font-size: clamp(2.1rem, 6.6vw, 4.5rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.14; }
+.land-title span { display: inline-block; }
+.land-title .hl { color: var(--brand); }
+.land-sub { margin-top: 16px; max-width: 46ch; color: var(--ink-2); font-size: clamp(1rem, 2.2vw, 1.2rem); text-wrap: pretty; }
+.land-foot { display: flex; justify-content: center; gap: 8px 18px; flex-wrap: wrap; font-size: .82em; color: var(--ink-3); }
+.land-foot a { color: var(--ink-3); }
+.land-foot a:hover { color: var(--ink-2); }
+@media (max-width: 600px) {
+  .land-hero { justify-content: flex-start; padding: 8vh 0 6vh; }
+  .land-bar { flex-direction: column; align-items: stretch; gap: 12px; padding: 18px 12px 12px; border-radius: 22px; }
+  .land-q { text-align: center; font-size: 1.2rem; }
+  .land-input { font-size: 1.5rem; }
+}
+
+/* ---------- หลังบ้าน: หน้าล็อกอิน ---------- */
+.home.gate { max-width: 460px; padding-top: 56px; }
+.gate-card { justify-items: start; padding: 28px; gap: 14px; }
+.gate-card h1 { font-size: 1.5rem; font-weight: 700; }
+.gate-card .btn.google { justify-self: stretch; padding: .75em 1em; }
+.pub-link { padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--navy); font-weight: 600; overflow-wrap: anywhere; }
+.hint a, .land-foot a { text-underline-offset: 2px; }
+.hint a { color: var(--navy); font-weight: 500; }
+
 </style>
 </head>
 <body>
@@ -531,6 +578,7 @@ const ICONS = {
   link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
   sliders: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
   home: '<path d="M3 11 12 4l9 7M5 10v10h14V10"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
 };
 function icon(name) {
   const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -538,7 +586,7 @@ function icon(name) {
   s.innerHTML = ICONS[name] || ''; return s;
 }
 const MARK = '<svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" style="fill:var(--brand)"/><rect x="8" y="16" width="4.2" height="8" rx="1.2" style="fill:var(--surface)"/><rect x="14" y="9.5" width="4.2" height="14.5" rx="1.2" style="fill:var(--surface)"/><rect x="20" y="13" width="4.2" height="11" rx="1.2" style="fill:var(--surface)"/></svg>';
-const brand = (extra) => h('a', { class: 'brand', href: '#home', html: MARK }, h('span', null, 'Powerpointboy ', h('b', null, 'Live')), extra);
+const brand = (extra, href = '#admin') => h('a', { class: 'brand', href, html: MARK }, h('span', null, 'Powerpointboy ', h('b', null, 'Live')), extra);
 
 const store = (s) => ({
   get(k, d = null) { try { const v = s().getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
@@ -569,14 +617,20 @@ async function copyText(s, okMsg = 'คัดลอกลิงก์แล้�
 function loadScript(src) {
   return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('load failed')); document.head.append(s); });
 }
+// หน้าผู้เรียนอยู่ที่ราก (/ หรือ /dev/) ส่วนหลังบ้านอยู่ที่ /admin/ (ไฟล์เดียวกัน แยกด้วย path)
+const ADMIN_RE = /\/admin(\/(index\.html)?)?$/;
+const IS_ADMIN_PATH = ADMIN_RE.test(location.pathname);
+const PATH_ADMIN = /^https?:$/.test(location.protocol) && !IN_FRAME && /\/(index\.html)?$/.test(location.pathname);
+function siteBase() { return location.href.split('#')[0].split('?')[0].replace(/admin\/(index\.html)?$/, '').replace(/admin$/, '').replace(/index\.html$/, ''); }
+const adminHref = (hash = '') => PATH_ADMIN ? siteBase() + 'admin/' + hash : (hash || '#admin');
 function siteLabel(code) {
   try {
-    const u = new URL(location.href);
+    const u = new URL(siteBase());
     if (IN_FRAME || u.protocol === 'file:') return code === 'demo' ? SUGGESTED_SITE : 'ไฟล์ในเครื่องนี้';
     return (u.host + u.pathname).replace(/\/(index\.html)?$/, '');
   } catch { return SUGGESTED_SITE; }
 }
-const joinUrl = code => location.href.split('#')[0] + '#join-' + code;
+const joinUrl = code => siteBase() + (/^\d{6}$/.test(code) ? '#' : '#join-') + code;
 const qrCache = new Map();
 function qrSvg(text) {
   if (qrCache.has(text)) return qrCache.get(text);
@@ -1190,6 +1244,7 @@ class Phone {
     const t = this.t; this.timed = false;
     if (!t?.meta) { this.tabs.hidden = true; this.headT.textContent = 'Powerpointboy Live'; this.headC.textContent = ''; return this.paint('none', () => h('div', { class: 'wait' }, h('b', null, 'ไม่พบห้องรหัสนี้'), h('span', null, 'ตรวจรหัสอีกครั้ง หรือสแกน QR บนจอ'))); }
     const m = t.meta; const me = t.ppl?.[this.pid];
+    if (this.lastSaved !== (m.title || '')) { this.lastSaved = m.title || ''; rememberLast(this.code, m.title); }
     this.headT.textContent = m.title || 'Powerpointboy Live'; this.headC.textContent = '#' + fmtCode(this.code);
     if (!me) { this.tabs.hidden = true; return this.paint('join', () => this.buildJoin(t)); }
     this.tabs.hidden = false;
@@ -1385,7 +1440,7 @@ function modeBar(active, code) {
   const items = isDemo ? [['demo', 'ห้องเรียนจำลอง', 'users'], ['host-demo', 'แผงควบคุม', 'sliders'], ['screen-demo', 'จอนำเสนอ', 'monitor'], ['join-demo', 'มือถือผู้เรียน', 'phone']] : [];
   return h('div', { class: 'modebar' }, brand(), h('span', { class: 'note' }, h('span', { class: 'pill navy' }, isDemo ? 'DEMO' : 'LOCAL'), h('span', null, note)), h('span', { class: 'spacer' }),
     items.length ? h('nav', { class: 'seg', 'aria-label': 'มุมมองเดโม' }, items.map(([k, l, ic]) => h('a', { href: '#' + k, class: active === k ? 'on' : '' }, icon(ic), ' ', l))) : null,
-    h('a', { class: 'btn ghost sm', href: '#home' }, icon('home'), 'หน้าแรก'));
+    h('a', { class: 'btn ghost sm', href: '#admin' }, icon('home'), 'หน้าแรก'));
 }
 function myRooms() { return LS.get('ppb:rooms', []); }
 function saveRoom(room) { const list = myRooms().filter(r => r.code !== room.code); list.unshift({ ...myRooms().find(r => r.code === room.code), ...room }); LS.set('ppb:rooms', list.slice(0, 30)); }
@@ -1404,47 +1459,104 @@ function googleBtn(label, onDone) {
 }
 async function rememberRoom(db, code, data) { try { await db.saveMyRoom(code, data); } catch (e) { console.warn(e); } }
 
+/* หน้าผู้เรียน: ใส่รหัสห้องอย่างเดียว */
+const LAST_KEY = 'ppb:last';
+function rememberLast(code, title) { if (code && code !== 'demo') LS.set(LAST_KEY, { code, title: title || '', at: Date.now() }); }
+class LandingView {
+  constructor(root) {
+    this.db = LIVE;
+    const input = h('input', { class: 'land-input', id: 'land-code', type: 'text', inputmode: 'numeric', pattern: '[0-9 ]*', maxLength: 7, placeholder: 'ใส่รหัสห้อง', autocomplete: 'off', autocorrect: 'off', spellcheck: false, enterkeyhint: 'go', 'aria-describedby': 'land-msg' });
+    const goBtn = h('button', { class: 'land-go', type: 'submit', 'aria-label': 'เข้าร่วม' }, icon('arrow'));
+    const msg = h('p', { class: 'land-msg', id: 'land-msg', role: 'status', 'aria-live': 'polite' }, 'รหัส 6 หลักอยู่บนจอของวิทยากร');
+    const setMsg = (t, bad) => { msg.textContent = t; msg.classList.toggle('bad', !!bad); };
+    input.addEventListener('input', () => {
+      const d = input.value.replace(/\D/g, '').slice(0, 6);
+      const v = d.length > 3 ? d.slice(0, 3) + ' ' + d.slice(3) : d;
+      if (v !== input.value) input.value = v;
+      setMsg('รหัส 6 หลักอยู่บนจอของวิทยากร');
+    });
+    const form = h('form', { class: 'land-bar', novalidate: true },
+      h('label', { class: 'land-q', for: 'land-code' }, 'เข้าร่วมคลาส?'),
+      h('div', { class: 'land-field' }, h('span', { class: 'land-hash', 'aria-hidden': 'true' }, '#'), input, goBtn));
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const code = input.value.replace(/\D/g, '');
+      if (code.length !== 6) { setMsg('รหัสห้องมี 6 หลัก', true); input.focus(); return; }
+      goBtn.disabled = true; setMsg('กำลังหาห้อง…');
+      let ok = true;
+      try { ok = await Promise.race([this.db.exists(code), new Promise(r => setTimeout(() => r(true), 6000))]); } catch (err) { console.warn(err); ok = true; }
+      goBtn.disabled = false;
+      if (!ok) { setMsg(`ไม่พบห้อง ${fmtCode(code)} ตรวจตัวเลขบนจออีกครั้ง`, true); input.select(); return; }
+      go('#' + code);
+    });
+    const last = LS.get(LAST_KEY);
+    const recent = last && Date.now() - last.at < 12 * 3600e3
+      ? h('a', { class: 'land-recent', href: '#' + last.code }, h('span', { class: 'faint' }, 'กลับเข้าห้องล่าสุด'), h('b', null, last.title || 'ห้อง'), h('span', { class: 'mono' }, '#' + fmtCode(last.code)), icon('right'))
+      : null;
+    root.classList.add('land-root');
+    root.append(h('main', { class: 'landing' },
+      h('header', { class: 'land-top' }, brand(null, '#home')),
+      h('section', { class: 'land-hero' },
+        form, msg, recent,
+        h('h1', { class: 'land-title' }, h('span', null, 'ตอบคำถามในคลาส'), ' ', h('span', { class: 'hl' }, 'ได้จากมือถือ')),
+        h('p', { class: 'land-sub' }, 'โหวต ส่งคำตอบ เล่น Quiz และถามวิทยากรได้ทันที ไม่ต้องติดตั้งแอป ไม่ต้องสมัครสมาชิก')),
+      h('footer', { class: 'land-foot' }, h('span', null, 'Powerpointboy Live'), h('a', { href: adminHref() }, 'สำหรับวิทยากร'))));
+    if (!matchMedia('(pointer: coarse)').matches) setTimeout(() => input.focus(), 50);
+  }
+}
+
+/* หลังบ้าน: ล็อกอิน สร้างห้อง รายการห้อง */
 class HomeView {
   constructor(root) {
     this.db = LIVE;
-    const codeIn = h('input', { class: 'input codebox', id: 'join-code', inputmode: 'numeric', maxLength: 6, placeholder: '000 000', autocomplete: 'off' });
-    const joinGo = () => { const c = codeIn.value.replace(/\D/g, ''); if (c.length !== 6) return toast('ใส่รหัส 6 หลัก'); go('#join-' + c); };
-    codeIn.addEventListener('keydown', e => { if (e.key === 'Enter') joinGo(); });
     this.titleIn = h('input', { class: 'input', id: 'new-title', maxLength: 80, placeholder: 'เช่น AI for Presentation — รุ่น 3' });
     this.createBtn = h('button', { class: 'btn primary', type: 'button' }, icon('plus'), 'สร้างห้อง');
     this.createBtn.addEventListener('click', async () => { this.createBtn.disabled = true; try { await createRoom(this.titleIn.value.trim()); } finally { this.createBtn.disabled = false; } });
     this.titleIn.addEventListener('keydown', e => { if (e.key === 'Enter') this.createBtn.click(); });
-    this.acct = h('div', { class: 'acct' }); this.createBody = h('div', { style: { display: 'grid', gap: '14px' } }); this.roomsBody = h('div');
-    root.append(...[modeBar('home', null), h('main', { class: 'home' },
-      h('div', { class: 'home-top' },
-        h('div', { class: 'home-hero' }, h('h1', null, 'Powerpointboy ', h('span', { style: { color: 'var(--brand)' } }, 'Live')),
-          h('p', null, 'โพล Word cloud คำถามปลายเปิด Quiz และ Q&A สำหรับคลาส in-house ผู้เรียนสแกน QR ตอบจากมือถือ ผลขึ้นจอทันที')),
-        IS_LIVE ? this.acct : null),
-      h('div', { class: 'home-grid' },
-        h('section', { class: 'card' }, h('h2', null, 'เข้าร่วมห้อง'), h('label', { class: 'label', for: 'join-code', style: { marginBottom: '-8px' } }, 'รหัสห้อง 6 หลักบนจอ'), codeIn, h('button', { class: 'btn navy', type: 'button', onclick: joinGo }, 'เข้าร่วม')),
-        h('section', { class: 'card' }, h('h2', null, 'สร้างห้องใหม่'), this.createBody),
-        h('section', { class: 'card' }, h('h2', null, 'ลองห้องเรียนจำลอง'), h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'เห็นจอนำเสนอกับมือถือผู้เรียน 3 เครื่องในหน้าเดียว มีคำถามตัวอย่างครบทุกแบบ'), h('a', { class: 'btn', href: '#demo' }, icon('users'), 'เปิดห้องเรียนจำลอง')),
-        h('section', { class: 'card rooms-card' }, h('div', { class: 'panel-head' }, h('h2', null, 'ห้องของฉัน'), this.roomCount = h('span', { class: 'pill', hidden: true })), this.roomsBody)))].filter(Boolean));
+    this.main = h('main', { class: 'home' });
+    root.append(...[modeBar('home', null), this.main].filter(Boolean));
     if (IS_LIVE) this.offUser = LIVE.onUser(u => this.setUser(u));
     else this.setUser({ local: true });
   }
   setUser(u) {
     this.offRooms?.(); this.offRooms = null;
-    if (IS_LIVE) this.acct.replaceChildren(...(u
-      ? [u.photoURL ? h('img', { class: 'avatar', src: u.photoURL, alt: '', referrerpolicy: 'no-referrer' }) : h('span', { class: 'avatar ph' }, (u.displayName || u.email || '?').slice(0, 1)),
-        h('div', { class: 'who' }, h('b', null, u.displayName || 'ผู้จัด'), h('span', null, u.email || '')),
-        h('button', { class: 'btn ghost sm', type: 'button', onclick: () => LIVE.signOut() }, 'ออกจากระบบ')]
-      : [h('span', { class: 'muted', style: { fontSize: '.9em' } }, 'ผู้จัดล็อกอินเพื่อสร้างและจัดการห้อง'), googleBtn('เข้าสู่ระบบด้วย Google')]));
-    if (u) {
-      this.createBody.replaceChildren(h('label', { class: 'label', for: 'new-title', style: { marginBottom: '-8px' } }, 'ชื่อคลาสหรือหัวข้อ'), this.titleIn, this.createBtn,
-        h('p', { class: 'hint' }, IS_LIVE ? 'ได้รหัสห้องและ PIN ผู้จัด ห้องจะผูกกับบัญชีนี้ เปิดจากเครื่องไหนก็ได้' : 'ตอนนี้ยังไม่ได้ต่อ Firebase ห้องจะซิงก์ได้เฉพาะแท็บในเบราว์เซอร์นี้'));
-      this.roomsBody.replaceChildren(h('p', { class: 'hint' }, 'กำลังโหลด…'));
-      this.offRooms = this.db.listenMyRooms(list => this.renderRooms(list));
-    } else {
-      this.createBody.replaceChildren(h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'ล็อกอินด้วย Google ก่อน ห้องที่สร้างจะผูกกับบัญชีของคุณ'), googleBtn('เข้าสู่ระบบด้วย Google'));
-      this.roomsBody.replaceChildren(h('p', { class: 'hint' }, 'ล็อกอินเพื่อดูห้องที่คุณสร้างไว้'));
-      this.roomCount.hidden = true;
+    if (IS_LIVE && !u) {
+      this.main.className = 'home gate';
+      this.main.replaceChildren(brand(),
+        h('section', { class: 'card gate-card' },
+          h('span', { class: 'pill' }, 'หลังบ้านวิทยากร'),
+          h('h1', null, 'ล็อกอินเพื่อจัดการห้อง'),
+          h('p', { class: 'muted' }, 'สร้างห้อง เพิ่มคำถาม เปิดจอนำเสนอ และดูผลย้อนหลัง ใช้บัญชี Google ที่ได้รับสิทธิ์'),
+          googleBtn('เข้าสู่ระบบด้วย Google'),
+          h('p', { class: 'hint' }, 'ผู้เรียนไม่ต้องล็อกอิน ', h('a', { href: siteBase() || '#home' }, 'ไปหน้าใส่รหัสห้อง'))));
+      return;
     }
+    this.main.className = 'home';
+    const acct = !IS_LIVE ? null : h('div', { class: 'acct' },
+      u.photoURL ? h('img', { class: 'avatar', src: u.photoURL, alt: '', referrerpolicy: 'no-referrer' }) : h('span', { class: 'avatar ph' }, (u.displayName || u.email || '?').slice(0, 1)),
+      h('div', { class: 'who' }, h('b', null, u.displayName || 'ผู้จัด'), h('span', null, u.email || '')),
+      h('button', { class: 'btn ghost sm', type: 'button', onclick: () => LIVE.signOut() }, 'ออกจากระบบ'));
+    const pubUrl = PATH_ADMIN ? siteBase() : null;
+    this.roomsBody = h('div', null, h('p', { class: 'hint' }, 'กำลังโหลด…'));
+    this.roomCount = h('span', { class: 'pill', hidden: true });
+    this.main.replaceChildren(
+      h('div', { class: 'home-top' },
+        h('div', { class: 'home-hero' }, h('h1', null, 'Powerpointboy ', h('span', { style: { color: 'var(--brand)' } }, 'Live')),
+          h('p', null, 'หลังบ้านวิทยากร · สร้างห้อง เพิ่มคำถาม เปิดจอนำเสนอ และดูผลย้อนหลัง')),
+        acct),
+      h('div', { class: 'home-grid' },
+        h('section', { class: 'card' }, h('h2', null, 'สร้างห้องใหม่'),
+          h('label', { class: 'label', for: 'new-title', style: { marginBottom: '-8px' } }, 'ชื่อคลาสหรือหัวข้อ'), this.titleIn, this.createBtn,
+          h('p', { class: 'hint' }, IS_LIVE ? 'ได้รหัสห้องและ PIN ผู้จัด ห้องผูกกับบัญชีนี้ เปิดจากเครื่องไหนก็ได้' : 'ตอนนี้ยังไม่ได้ต่อ Firebase ห้องจะซิงก์ได้เฉพาะแท็บในเบราว์เซอร์นี้')),
+        h('section', { class: 'card' }, h('h2', null, 'หน้าผู้เรียน'),
+          h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'ผู้เรียนเปิดลิงก์นี้แล้วใส่รหัสห้อง 6 หลัก หรือสแกน QR บนจอนำเสนอ'),
+          h('div', { class: 'pub-link mono' }, siteLabel('x')),
+          h('div', { class: 'row' },
+            h('button', { class: 'btn', type: 'button', onclick: () => copyText(pubUrl || siteBase()) }, icon('copy'), 'คัดลอกลิงก์'),
+            h('a', { class: 'btn', href: pubUrl || '#home', target: pubUrl ? '_blank' : null, rel: 'noopener' }, 'เปิดหน้า', pubUrl ? icon('ext') : null))),
+        h('section', { class: 'card' }, h('h2', null, 'ลองห้องเรียนจำลอง'), h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'เห็นจอนำเสนอกับมือถือผู้เรียน 3 เครื่องในหน้าเดียว มีคำถามตัวอย่างครบทุกแบบ'), h('a', { class: 'btn', href: '#demo' }, icon('users'), 'เปิดห้องเรียนจำลอง')),
+        h('section', { class: 'card rooms-card' }, h('div', { class: 'panel-head' }, h('h2', null, 'ห้องของฉัน'), this.roomCount), this.roomsBody)));
+    this.offRooms = this.db.listenMyRooms(list => this.renderRooms(list));
   }
   renderRooms(list) {
     this.roomCount.textContent = `${list.length} ห้อง`; this.roomCount.hidden = !list.length;
@@ -1484,7 +1596,7 @@ class ClaimView {
     root.append(h('main', { class: 'home', style: { maxWidth: '460px' } }, brand(), card));
     if (IS_LIVE && !db.user) {
       card.append(h('p', { class: 'muted' }, 'หน้านี้สำหรับผู้จัด ล็อกอินด้วยบัญชี Google ที่ใช้สร้างห้อง'), googleBtn('เข้าสู่ระบบด้วย Google', done),
-        h('p', { class: 'hint' }, 'ถ้าเป็นผู้เรียน ', h('a', { href: '#' + code }, 'เข้าห้องตรงนี้')));
+        h('p', { class: 'hint' }, 'ถ้าเป็นผู้เรียน ', h('a', { href: joinUrl(code) }, 'เข้าห้องตรงนี้')));
       return;
     }
     const inp = h('input', { class: 'input codebox', id: 'claim-pin', inputmode: 'numeric', maxLength: 4, placeholder: '••••' });
@@ -1524,7 +1636,7 @@ class HostView {
   }
   set(t) {
     this.t = t;
-    if (!t?.meta) { this.edit.replaceChildren(h('div', { class: 'empty' }, h('b', null, 'ไม่พบห้องนี้'), h('a', { href: '#home' }, 'กลับหน้าแรก'))); return; }
+    if (!t?.meta) { this.edit.replaceChildren(h('div', { class: 'empty' }, h('b', null, 'ไม่พบห้องนี้'), h('a', { href: '#admin' }, 'กลับหน้าแรก'))); return; }
     if (document.activeElement !== this.titleIn) this.titleIn.value = t.meta.title || '';
     this.people.replaceChildren(icon('users'), `ในห้อง ${fmtN(pplCount(t))} คน`);
     const qs = qList(t);
@@ -1869,17 +1981,22 @@ async function exportXlsx(t, code) {
 let current = null; let forced = null;
 function parseRoute() {
   const raw = decodeURIComponent((forced ?? location.hash).replace(/^#\/?/, '')); forced = null;
-  if (!raw) return { v: IS_LIVE ? 'home' : 'demo' };
-  if (raw === 'demo' || raw === 'home') return { v: raw };
+  const start = !IS_LIVE ? 'demo' : IS_ADMIN_PATH ? 'admin' : 'home';
+  if (!raw) return { v: start };
+  if (raw === 'admin' || raw === 'demo') return { v: raw };
+  if (raw === 'home') return { v: IS_ADMIN_PATH ? 'admin' : 'home' };
   const m = raw.match(/^(host|screen|join)[-/]([a-z0-9]+)$/i);
   if (m) return { v: m[1].toLowerCase(), code: m[2].toLowerCase() };
   if (/^\d{6}$/.test(raw)) return { v: 'join', code: raw };
-  return { v: IS_LIVE ? 'home' : 'demo' };
+  return { v: start };
 }
 function go(hash) { if (location.hash === hash) return route(); try { location.hash = hash; } catch { /* sandboxed */ } if (location.hash !== hash) { forced = hash; route(); } }
 async function route() {
   current?.destroy?.(); current = null;
-  const r = parseRoute(); const root = $('#app'); root.className = 'app'; root.replaceChildren(); scrollTo(0, 0);
+  const r = parseRoute();
+  // หน้าผู้เรียน (ราก) มีแค่หน้าใส่รหัสกับหน้าตอบคำถาม ที่เหลือย้ายไปหลังบ้าน /admin/
+  if (PATH_ADMIN && !IS_ADMIN_PATH && ['admin', 'host', 'screen', 'demo'].includes(r.v)) { location.replace(adminHref(r.v === 'admin' ? '' : location.hash)); return; }
+  const root = $('#app'); root.className = 'app'; root.replaceChildren(); scrollTo(0, 0);
   const db = r.code ? backendFor(r.code) : LIVE;
   if (r.v === 'demo' || r.code === 'demo') await ensureDemo(false);
   if (db !== LOCAL) {
@@ -1887,10 +2004,11 @@ async function route() {
     try { await db.ready; } catch (e) { console.error(e); root.replaceChildren(h('main', { class: 'home', style: { maxWidth: '560px' } }, brand(), h('section', { class: 'card' }, h('h2', null, 'เชื่อมต่อ Firebase ไม่สำเร็จ'), h('p', { class: 'muted' }, 'ตรวจว่าเปิด Anonymous sign-in ใน Firebase Authentication แล้ว และ firebaseConfig ถูกต้อง'), h('code', { class: 'mono', style: { fontSize: '.8em', overflowWrap: 'anywhere' } }, String(e?.message || e)), h('a', { class: 'btn', href: '#demo' }, 'เปิดห้องเรียนจำลองแทน')))); return; }
     root.replaceChildren();
   }
-  if (CHANNEL === 'dev' && r.v !== 'screen') root.append(h('div', { class: 'devbar' }, h('b', null, 'DEV'), h('span', null, 'หน้าทดสอบ · ใช้ฐานข้อมูลเดียวกับเว็บจริง'), h('a', { href: location.pathname.replace(/dev\/?(index\.html)?$/, '') }, 'ไปเว็บจริง')));
-  document.title = (CHANNEL === 'dev' ? '[DEV] ' : '') + { demo: 'ห้องเรียนจำลอง', home: 'Powerpointboy Live', host: 'แผงควบคุม', screen: 'จอนำเสนอ', join: 'เข้าร่วม' }[r.v] + (r.code && r.code !== 'demo' ? ' · ' + fmtCode(r.code) : '') + (r.v === 'home' ? '' : ' — Powerpointboy Live');
+  if (CHANNEL === 'dev' && r.v !== 'screen') root.append(h('div', { class: 'devbar' }, h('b', null, 'DEV'), h('span', null, 'หน้าทดสอบ · ใช้ฐานข้อมูลเดียวกับเว็บจริง'), h('a', { href: location.pathname.replace(/\/dev(\/|$)/, '/') + location.hash }, 'ไปเว็บจริง')));
+  document.title = (CHANNEL === 'dev' ? '[DEV] ' : '') + { demo: 'ห้องเรียนจำลอง', home: 'Powerpointboy Live', admin: 'หลังบ้าน', host: 'แผงควบคุม', screen: 'จอนำเสนอ', join: 'เข้าร่วม' }[r.v] + (r.code && r.code !== 'demo' ? ' · ' + fmtCode(r.code) : '') + (r.v === 'home' ? '' : ' — Powerpointboy Live');
   if (r.v === 'demo') current = new DemoView(root);
-  else if (r.v === 'home') current = new HomeView(root);
+  else if (r.v === 'home') current = new LandingView(root);
+  else if (r.v === 'admin') current = new HomeView(root);
   else if (r.v === 'join') current = new JoinView(root, r.code, db);
   else {
     const own = await db.isOwner(r.code);
