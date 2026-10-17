@@ -7,7 +7,7 @@
 <title>[DEV] Powerpointboy Live</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400..700&display=swap">
 <style>
 /* Layout: host = sidebar + work area · screen = 16:9 stage scaled by container units · phone = single column card stack */
 :root {
@@ -32,9 +32,9 @@
   --bad-soft: #FBE3E3;
   --shadow: 0 1px 2px rgba(19, 33, 59, .06), 0 6px 20px -8px rgba(19, 33, 59, .18);
   --bezel: #16233D;
-  --f-display: 'Anuphan', 'IBM Plex Sans Thai', 'Noto Sans Thai', system-ui, sans-serif;
-  --f-body: 'IBM Plex Sans Thai', 'Anuphan', 'Noto Sans Thai', system-ui, sans-serif;
-  --f-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --f-display: 'Google Sans', 'Noto Sans Thai', system-ui, sans-serif;
+  --f-body: 'Google Sans', 'Noto Sans Thai', system-ui, sans-serif;
+  --f-mono: 'Google Sans', 'Noto Sans Thai', system-ui, sans-serif;
   --r: 12px;
   --r-sm: 8px;
 }
@@ -207,10 +207,10 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 }
 
 /* ---------- stage (projector) ---------- */
-.stage { position: relative; container-type: size; width: 100%; background: var(--surface); color: var(--ink); overflow: hidden; }
+.stage { position: relative; container-type: size; width: 100%; background: var(--room, var(--surface)); color: var(--ink); overflow: hidden; }
 .stage.fit { aspect-ratio: 16 / 9; max-width: 100%; }
 .stage.full { height: 100%; }
-.stage-inner { position: absolute; inset: 0; font-size: min(3cqh, 1.7cqw); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: 1.3em 2em 1em; gap: .8em; }
+.stage-inner { position: absolute; inset: 0; font-size: min(3cqh, 1.7cqw); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: .9em 1.5em .7em; gap: .6em; }
 .rail { display: flex; align-items: center; justify-content: space-between; gap: 1em; min-height: 2.6em; }
 .rail .ev { font-size: .78em; color: var(--ink-2); font-weight: 500; display: flex; align-items: center; gap: .6em; min-width: 0; }
 .rail .ev span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -219,15 +219,15 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .rail .join .code { font-family: var(--f-mono); color: var(--brand-ink); font-weight: 600; font-size: 1.15em; letter-spacing: .04em; }
 .rail .qr { width: 3.2em; height: 3.2em; background: #fff; padding: .2em; border-radius: .3em; }
 .qr svg, .qr img { display: block; width: 100%; height: 100%; }
-.foot { display: flex; align-items: center; justify-content: space-between; gap: 1em; font-size: .7em; color: var(--ink-3); min-height: 1.6em; }
+.foot { display: flex; align-items: center; justify-content: space-between; gap: 1em; font-size: .62em; color: var(--on-room, var(--ink-3)); opacity: .8; min-height: 1.4em; }
 .foot .cnt { display: inline-flex; align-items: center; gap: .45em; color: var(--ink-2); font-weight: 500; }
 .foot .keys { opacity: 0; transition: opacity .3s; }
 .stage:hover .foot .keys { opacity: 1; }
-.kbd { display: inline-block; padding: 0 .4em; border: 1px solid var(--line); border-radius: .3em; font-family: var(--f-mono); font-size: .9em; margin: 0 .15em; }
+.kbd { display: inline-block; padding: 0 .4em; border: 1px solid currentColor; border-radius: .3em; font-family: var(--f-mono); font-size: .9em; margin: 0 .15em; opacity: .85; }
 .scene { min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 1em; animation: sceneIn .35s ease-out; }
 @keyframes sceneIn { from { opacity: 0; transform: translateY(.4em); } }
 .st-type { display: inline-flex; align-items: center; gap: .45em; font-size: .7em; font-weight: 600; letter-spacing: .05em; color: var(--brand-ink); text-transform: uppercase; }
-.st-q { font-family: var(--f-display); font-weight: 600; font-size: 1.85em; line-height: 1.22; letter-spacing: -.01em; text-wrap: balance; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.st-q { font-family: var(--f-display); font-weight: 700; font-size: 1.6em; line-height: 1.22; letter-spacing: -.01em; text-wrap: balance; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .st-head { display: grid; gap: .35em; }
 .st-head.with-timer { grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 1.2em; }
 .hidden-note { display: grid; place-items: center; align-content: center; gap: .5em; color: var(--ink-3); text-align: center; }
@@ -236,18 +236,18 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 
 /* bars */
 .bars { display: grid; align-content: center; gap: .7em; min-height: 0; }
-.br { display: grid; grid-template-columns: minmax(0, 1fr) 4.2em; grid-template-rows: auto auto; column-gap: 1em; row-gap: .25em; align-items: end; }
+.br { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: .3em; }
 .br .lab { display: flex; align-items: center; gap: .55em; font-size: .95em; font-weight: 500; min-width: 0; }
 .br .lab span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .br .let { font-family: var(--f-display); font-weight: 700; color: var(--ink-3); width: 1.2em; flex: none; }
-.br .pct { grid-row: 1 / span 2; grid-column: 2; font-family: var(--f-display); font-weight: 600; font-size: 1.35em; text-align: right; font-variant-numeric: tabular-nums; line-height: 1; }
-.br .trk { height: 1.15em; border-radius: .3em; background: var(--track); overflow: hidden; position: relative; }
-.br .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--bar); border-radius: .3em; transition: width .6s cubic-bezier(.2,.8,.2,1); }
+.br .pct { position: absolute; top: 50%; left: calc(max(var(--w, 0%), .9em) + .5em); transform: translateY(-50%); font-family: var(--f-display); font-weight: 500; font-size: 1.15em; font-variant-numeric: tabular-nums; line-height: 1; white-space: nowrap; transition: left .6s cubic-bezier(.2,.8,.2,1); }
+.br .trk { height: 1.3em; margin-right: 3.6em; position: relative; }
+.br .fill { position: absolute; inset: 0 auto 0 0; width: 0; min-width: .9em; background: var(--bar-off, var(--bar)); border-radius: 99px; transition: width .6s cubic-bezier(.2,.8,.2,1); }
 .br.top .fill { background: var(--brand); }
 .br.top .pct { color: var(--brand-ink); }
 .br .n { font-size: .6em; color: var(--ink-3); font-weight: 500; margin-left: .3em; }
 .bars.dense { gap: .45em; }
-.bars.dense .trk { height: .85em; }
+.bars.dense .trk { height: .95em; }
 .br.correct .fill { background: var(--good); }
 .br.correct .pct, .br.correct .let { color: var(--good); }
 .br.wrong .fill { background: var(--ink-3); opacity: .45; }
@@ -371,7 +371,7 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .mini-bars .mb .top { display: flex; justify-content: space-between; gap: 8px; }
 .mini-bars .mb .top span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mini-bars .mb .trk { height: 8px; border-radius: 4px; background: var(--track); overflow: hidden; }
-.mini-bars .mb .trk i { display: block; height: 100%; background: var(--bar); border-radius: 4px; transition: width .5s; }
+.mini-bars .mb .trk i { display: block; height: 100%; background: var(--bar-off, var(--bar)); border-radius: 4px; transition: width .5s; }
 .mini-bars .mb.me .trk i { background: var(--brand); }
 .qa-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
 .qa-item .by { font-size: .78em; color: var(--ink-3); margin-bottom: 2px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
@@ -509,7 +509,6 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .themed { --brand: var(--th-a); --brand-ink: color-mix(in srgb, var(--th-a) 72%, #000); --brand-soft: color-mix(in srgb, var(--th-a) 12%, #fff); --on-brand: var(--th-on); --bar: var(--th-s); --navy: var(--th-s); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .themed { --brand-ink: color-mix(in srgb, var(--th-a) 60%, #fff); --brand-soft: color-mix(in srgb, var(--th-a) 22%, #121D31); --bar: color-mix(in srgb, var(--th-s) 35%, #fff); --navy: color-mix(in srgb, var(--th-s) 35%, #fff); } }
 :root[data-theme="dark"] .themed { --brand-ink: color-mix(in srgb, var(--th-a) 60%, #fff); --brand-soft: color-mix(in srgb, var(--th-a) 22%, #121D31); --bar: color-mix(in srgb, var(--th-s) 35%, #fff); --navy: color-mix(in srgb, var(--th-s) 35%, #fff); }
-.pv.themed .pv-head { box-shadow: inset 0 3px 0 var(--brand); }
 .theme-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--line); flex: none; }
 .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .swatch { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: left; font-weight: 500; font-size: .92em; }
@@ -580,10 +579,6 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .st-timer.low { background: var(--brand); color: var(--on-brand); border-color: transparent; }
 .st-timer.done { background: var(--bad); color: #fff; border-color: transparent; font-family: var(--f-display); animation: pulse 1s infinite; }
 .st-timer.paused { opacity: .75; }
-.st-timer.big { inset: 0; transform: none; border-radius: 0; border: 0; box-shadow: none; flex-direction: column; justify-content: center; gap: .05em; font-size: 9em; background: color-mix(in srgb, var(--surface) 96%, transparent); color: var(--ink); animation: none; z-index: 6; }
-.st-timer.big svg.i { width: .28em; height: .28em; color: var(--brand); }
-.st-timer.big.low { color: var(--brand); background: color-mix(in srgb, var(--surface) 96%, transparent); }
-.st-timer.big.done { color: var(--bad); font-size: 6em; background: color-mix(in srgb, var(--surface) 96%, transparent); }
 .pv-head-r { display: flex; align-items: center; gap: 8px; flex: none; }
 .pv-timer { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 99px; background: var(--surface-2); color: var(--ink); font-family: var(--f-mono); font-weight: 600; font-size: .82em; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pv-timer svg.i { width: 14px; height: 14px; }
@@ -600,6 +595,74 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .presenter > .stage { flex: 1; height: 100%; }
 body.presenting { overflow: hidden; }
 .fs-hint { position: absolute; left: 50%; bottom: 3.2em; transform: translateX(-50%); z-index: 7; display: inline-flex; align-items: center; gap: .5em; padding: .6em 1.1em; border: 0; border-radius: 99px; background: var(--ink); color: var(--surface); font-size: 15px; font-weight: 500; box-shadow: var(--shadow); animation: toastIn .3s ease-out; }
+
+/* ---------- ธีมทั้งห้อง (body.themed) ---------- */
+body.themed { --room: var(--room-l); --on-room: var(--on-room-l); --bar-off: color-mix(in srgb, var(--brand) 30%, var(--surface)); background: var(--room); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body.themed { --room: color-mix(in srgb, var(--th-a) 34%, #0B1322); --on-room: #ECF1F9; --bar-off: color-mix(in srgb, var(--brand) 38%, var(--surface)); } }
+:root[data-theme="dark"] body.themed { --room: color-mix(in srgb, var(--th-a) 34%, #0B1322); --on-room: #ECF1F9; --bar-off: color-mix(in srgb, var(--brand) 38%, var(--surface)); }
+body.themed .host-top, body.themed .host-side, body.themed .panel { box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 10px 30px -18px rgba(0,0,0,.35); border-color: transparent; }
+
+/* ---------- จอนำเสนอแบบกรอบสี + การ์ดขาว ---------- */
+.st-top { display: flex; align-items: center; justify-content: space-between; gap: 1em; min-height: 1.9em; color: var(--on-room, var(--ink-2)); font-size: .84em; font-weight: 500; }
+.st-top .tl, .st-top .tr { display: flex; align-items: center; gap: .5em; min-width: 0; white-space: nowrap; }
+.st-top .tl > span:not(.pill):not(.brand) { overflow: hidden; text-overflow: ellipsis; }
+.st-top .tl .pill { font-size: .8em; margin-left: .4em; }
+.st-top .jn { opacity: .92; }
+.st-top .jn b { font-weight: 700; }
+.st-top .cnt { display: inline-flex; align-items: center; gap: .35em; margin-left: 1em; font-variant-numeric: tabular-nums; }
+.st-card { min-height: 0; display: grid; background: var(--surface); border-radius: .75em; overflow: hidden; box-shadow: 0 .4em 1.6em -.8em rgba(0,0,0,.35); }
+.st-body { display: grid; min-height: 0; }
+.st-card .scene { gap: 0; }
+.st-card .st-head { padding: .85em 1.3em .75em; border-bottom: .06em solid var(--line); }
+.st-card .st-head .st-type { display: none; }
+.st-card .scene > :last-child { padding: 1.1em 1.6em 1.2em; min-height: 0; }
+.st-card .joinslide { padding: 1em 2.4em; }
+.st-card .qa-st .st-type { display: inline-flex; }
+
+/* รูปประกอบคำถามบนจอ */
+.q-body { display: grid; min-height: 0; }
+.q-media { display: none; }
+.q-body.has-img { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 1.6em; }
+.q-body.has-img .q-media { display: grid; place-items: center; min-height: 0; }
+.q-media img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: .45em; box-shadow: 0 .2em .9em -.4em rgba(0,0,0,.35); }
+.q-body.has-img .quiz-opts { grid-template-columns: 1fr; }
+.q-body.has-img .bars .br .lab { font-size: .9em; }
+
+/* ตัวจับเวลาเต็มจอ */
+.st-timer.big { position: absolute; inset: 0; transform: none; border-radius: 0; border: 0; box-shadow: none; flex-direction: column; justify-content: center; align-items: center; gap: .08em; background: var(--room, var(--surface)); color: var(--on-room, var(--ink)); font-size: 1em; animation: none; z-index: 6; padding: 0; }
+.st-timer.big svg.i { width: 3em; height: 3em; opacity: .9; }
+.st-timer.big .tm-num { font-family: var(--f-display); font-weight: 700; font-size: 11em; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.st-timer.big.low .tm-num { animation: pulse 1s infinite; }
+.st-timer.big.done .tm-num { font-size: 7em; }
+.st-timer.big.paused .tm-num { opacity: .7; }
+.st-timer.big .tm-x { position: absolute; top: 1em; right: 1em; font-size: 14px; opacity: 0; transition: opacity .3s; }
+.stage.awake .st-timer.big .tm-x, .st-timer.big .tm-x:focus-visible { opacity: 1; }
+
+/* ---------- มือถือผู้เรียนในห้อง: หัวบนพื้นสี การ์ดเนื้อหาสีอ่อน ---------- */
+body.themed .pv { background: transparent; }
+body.themed .pv-head { background: transparent; border-bottom: 0; color: var(--on-room); }
+body.themed .pv-head .c { color: var(--on-room); opacity: .8; }
+body.themed .pv-body { background: var(--bg); margin: 0 8px; border-radius: 18px 18px 0 0; }
+body.themed .pv-tabs { margin: 0 8px; border-top: 1px solid var(--line); }
+body.themed .app.full > .pv { border: 0; box-shadow: none; border-radius: 0; overflow: visible; }
+@media (min-width: 700px) { body.themed .app.full > .pv { margin: 16px auto 24px; } body.themed .pv-tabs { border-radius: 0 0 18px 18px; } }
+.pv-img { width: 100%; max-height: 42vh; object-fit: contain; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+
+/* ---------- หน้าต่างเครื่องมือ: ลากได้ ---------- */
+.tools { z-index: 95; }
+.tools.closed { transform: translateY(10px) scale(.98); visibility: hidden; transition: transform .2s ease, opacity .2s, visibility 0s linear .2s; }
+.tools-head { cursor: grab; touch-action: none; user-select: none; }
+.tools.dragging { transition: none; box-shadow: 0 30px 70px -18px rgba(19, 33, 59, .6); }
+.tools.dragging .tools-head { cursor: grabbing; }
+.grip { width: 10px; height: 16px; flex: none; opacity: .45; background: radial-gradient(circle, currentColor 1.2px, transparent 1.4px) 0 0 / 5px 5px; }
+
+/* ---------- แนบรูปในตัวแก้ไข ---------- */
+.img-drop { width: 100%; display: grid; justify-items: center; gap: 4px; padding: 16px 12px; border: 1.5px dashed var(--line); border-radius: 10px; background: var(--surface-2); color: var(--ink-2); text-align: center; }
+.img-drop svg.i { width: 22px; height: 22px; color: var(--ink-3); }
+.img-drop small { color: var(--ink-3); font-size: .8em; }
+.img-drop:hover, .img-drop.over, .img-prev.over { border-color: var(--brand); background: var(--brand-soft); }
+.img-prev { display: grid; gap: 8px; padding: 8px; border: 1.5px dashed transparent; border-radius: 10px; }
+.img-prev img { width: 100%; max-height: 220px; object-fit: contain; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
 
 </style>
 </head>
@@ -686,6 +749,7 @@ const ICONS = {
   sliders: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
   home: '<path d="M3 11 12 4l9 7M5 10v10h14V10"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5L5 20"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
   pause: '<rect x="6.5" y="5" width="3.5" height="14" rx="1"/><rect x="14" y="5" width="3.5" height="14" rx="1"/>',
   music: '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
@@ -910,7 +974,7 @@ class FirebaseBackend {
 class PhoneFeed {
   constructor(db, code, pid, cb) {
     Object.assign(this, { db, code, pid, cb, offs: {}, got: new Set(), active: undefined, queued: false });
-    this.t = { __feed: true, meta: null, qs: {}, ppl: {}, res: {}, agg: {}, score: {}, qa: {} };
+    this.t = { __feed: true, meta: null, qs: {}, ppl: {}, res: {}, agg: {}, score: {}, qa: {}, img: {} };
     this.sub('meta', 'meta', v => { this.t.meta = v; this.retarget(); });
     this.sub('qs', 'qs', v => { this.t.qs = v || {}; });
     this.sub('ppl', `ppl/${pid}`, v => { this.t.ppl = v ? { [pid]: v } : {}; });
@@ -920,8 +984,9 @@ class PhoneFeed {
   unsub(key) { if (this.offs[key]) { this.offs[key](); delete this.offs[key]; } this.got.delete(key); }
   retarget() {
     const a = this.t.meta?.active || null; if (a === this.active) return;
-    this.active = a; this.t.res = {}; this.t.agg = {};
-    if (!a) { this.unsub('res'); this.unsub('agg'); return; }
+    this.active = a; this.t.res = {}; this.t.agg = {}; this.t.img = {};
+    if (!a) { this.unsub('res'); this.unsub('agg'); this.unsub('img'); return; }
+    this.sub('img', `img/${a}`, v => { this.t.img = v ? { [a]: v } : {}; });
     this.sub('res', `res/${a}/${this.pid}`, v => { this.t.res = v ? { [a]: { [this.pid]: v } } : {}; });
     this.sub('agg', `agg/${a}`, v => { this.t.agg = v ? { [a]: v } : {}; });
   }
@@ -1081,6 +1146,11 @@ function sceneHead(q) {
   const head = h('div', { class: 'st-head' }, h('div', { style: { display: 'grid', gap: '.35em', minWidth: '0' } }, h('div', { class: 'st-type' }, icon(TYPES[q.t].icon), TYPES[q.t].name), title));
   return { el: head, setText(s) { title.textContent = s || 'ยังไม่ได้พิมพ์คำถาม'; title.classList.toggle('faint', !s); } };
 }
+// รูปประกอบคำถาม: ถ้ามีรูป แบ่งพื้นที่เป็นรูปซ้าย ผลลัพธ์ขวา
+function qMedia(results) {
+  const img = h('img', { alt: 'รูปประกอบคำถาม' }); const el = h('div', { class: 'q-body' }, h('div', { class: 'q-media' }, img), results); let cur = null;
+  return { el, set(src) { src = src || null; if (src === cur) return; cur = src; el.classList.toggle('has-img', !!src); if (src) img.src = src; else img.removeAttribute('src'); } };
+}
 function hiddenNote(msg = 'ผลลัพธ์ถูกซ่อนไว้') {
   const sub = h('span'); const el = h('div', { class: 'hidden-note', hidden: true }, icon('eyeOff'), h('b', null, msg), sub);
   return { el, set(n, unit = 'คน') { sub.textContent = `ตอบแล้ว ${fmtN(n)} ${unit}`; } };
@@ -1089,7 +1159,7 @@ function barRows(container, opts) {
   container.classList.toggle('dense', opts.length > 4);
   return opts.map((_, i) => {
     const r = { txt: h('span'), pct: h('div', { class: 'pct' }), fill: h('div', { class: 'fill' }), n: h('span', { class: 'n' }), ok: h('span', { class: 'ok', hidden: true }, icon('check')) };
-    r.el = h('div', { class: 'br' }, h('div', { class: 'lab' }, h('span', { class: 'let' }, LETTERS[i]), r.txt, r.n, r.ok), r.pct, h('div', { class: 'trk' }, r.fill));
+    r.el = h('div', { class: 'br' }, h('div', { class: 'lab' }, h('span', { class: 'let' }, LETTERS[i]), r.txt, r.n, r.ok), h('div', { class: 'trk' }, r.fill, r.pct));
     container.append(r.el); return r;
   });
 }
@@ -1100,7 +1170,7 @@ function paintBars(rows, q, T, mode, ans) {
     const share = T.people ? T.counts[i] / T.people : 0;
     r.pct.textContent = Math.round(share * 100) + '%';
     r.n.textContent = T.counts[i] ? `(${fmtN(T.counts[i])})` : '';
-    r.fill.style.width = (share * 100).toFixed(1) + '%';
+    r.fill.style.width = (share * 100).toFixed(1) + '%'; r.el.style.setProperty('--w', (share * 100).toFixed(1) + '%');
     if (mode === 'quiz') { const ok = i === ans; r.el.classList.toggle('correct', ok); r.el.classList.toggle('wrong', !ok); r.ok.hidden = !ok; }
     else r.el.classList.toggle('top', max > 0 && T.counts[i] === max);
   });
@@ -1109,11 +1179,12 @@ function paintBars(rows, q, T, mode, ans) {
 function ChoiceScene(q) {
   const head = sceneHead(q); const bars = h('div', { class: 'bars' }); const hidden = hiddenNote();
   const rows = barRows(bars, asArr(q.opts));
-  const el = h('div', { class: 'scene' }, head.el, h('div', { style: { display: 'grid', minHeight: '0' } }, bars, hidden.el));
+  const media = qMedia(h('div', { style: { display: 'grid', minHeight: '0' } }, bars, hidden.el));
+  const el = h('div', { class: 'scene' }, head.el, media.el);
   return {
     el, count: (t, q) => tally(t, q).people,
     update(t, q) {
-      head.setText(q.text); const T = tally(t, q);
+      head.setText(q.text); media.set(t.img?.[q.id]); const T = tally(t, q);
       bars.hidden = !!q.hide; hidden.el.hidden = !q.hide; hidden.set(T.people);
       paintBars(rows, q, T, 'mc');
     },
@@ -1135,11 +1206,12 @@ function QuizScene(q, phase) {
     body = h('div', { class: 'quiz-opts' });
     asArr(q.opts).forEach((_, i) => { const s = h('span'); optEls.push(s); body.append(h('div', { class: 'qopt' }, h('span', { class: 'let' }, LETTERS[i]), s)); });
   }
-  const el = h('div', { class: 'scene' }, head.el, h('div', { style: { display: 'grid', minHeight: '0' } }, body));
+  const media = qMedia(h('div', { style: { display: 'grid', minHeight: '0' } }, body));
+  const el = h('div', { class: 'scene' }, head.el, media.el);
   return {
     el, timed: phase === 'live', count: (t, q) => respCount(t, q.id),
     update(t, q, now) {
-      head.setText(q.text);
+      head.setText(q.text); media.set(t.img?.[q.id]);
       if (rows) paintBars(rows, q, tally(t, q), 'quiz', ansOf(t, q));
       else {
         optEls.forEach((s, i) => { s.textContent = optLabel(q, i); });
@@ -1153,7 +1225,8 @@ function QuizScene(q, phase) {
 function CloudScene(q) {
   const head = sceneHead(q); const box = h('div', { class: 'cloud' }); const hidden = hiddenNote();
   const empty = h('div', { class: 'hidden-note', hidden: true }, icon('cloud'), h('b', null, 'รอคำตอบแรก'), h('span', null, 'คำที่ตอบซ้ำกันจะตัวใหญ่ขึ้น'));
-  const el = h('div', { class: 'scene' }, head.el, h('div', { style: { display: 'grid', minHeight: '0' } }, box, hidden.el, empty));
+  const media = qMedia(h('div', { style: { display: 'grid', minHeight: '0' } }, box, hidden.el, empty));
+  const el = h('div', { class: 'scene' }, head.el, media.el);
   const spans = new Map(); let words = []; let sig = ''; let timer = 0; let ctx = null;
   function layout() {
     const W = box.clientWidth, H = box.clientHeight; if (!W || !H) return;
@@ -1202,7 +1275,7 @@ function CloudScene(q) {
   return {
     el, count: (t, q) => respCount(t, q.id),
     update(t, q) {
-      head.setText(q.text);
+      head.setText(q.text); media.set(t.img?.[q.id]);
       box.hidden = !!q.hide; hidden.el.hidden = !q.hide; hidden.set(respCount(t, q.id));
       const w = cloudCounts(t, q); const s = w.map(x => x.k + ':' + x.n).join('|');
       if (s !== sig) { sig = s; words = w; schedule(); }
@@ -1215,12 +1288,13 @@ function CloudScene(q) {
 function OpenScene(q) {
   const head = sceneHead(q); const wall = h('div', { class: 'wall' }); const hidden = hiddenNote();
   const empty = h('div', { class: 'hidden-note', hidden: true }, icon('open'), h('b', null, 'รอคำตอบแรก'), h('span', null, 'คำตอบใหม่จะขึ้นด้านบนสุด'));
-  const el = h('div', { class: 'scene' }, head.el, h('div', { style: { display: 'grid', minHeight: '0' } }, wall, hidden.el, empty));
+  const media = qMedia(h('div', { style: { display: 'grid', minHeight: '0' } }, wall, hidden.el, empty));
+  const el = h('div', { class: 'scene' }, head.el, media.el);
   const cards = new Map();
   return {
     el, count: (t, q) => respCount(t, q.id),
     update(t, q) {
-      head.setText(q.text);
+      head.setText(q.text); media.set(t.img?.[q.id]);
       wall.hidden = !!q.hide; hidden.el.hidden = !q.hide; hidden.set(respCount(t, q.id));
       const list = openList(t, q).filter(e => !e.hidden).slice(0, 40); const keys = new Set(list.map(e => e.key));
       empty.hidden = !!q.hide || list.length > 0;
@@ -1293,12 +1367,16 @@ class Stage {
   constructor({ db, code, fit = false, preview = null, controls = false }) {
     Object.assign(this, { db, code, preview, controls });
     this.el = h('div', { class: 'stage ' + (fit ? 'fit' : 'full') });
-    this.rail = h('div', { class: 'rail' }); this.body = h('div', { style: { display: 'grid', minHeight: '0' } });
-    this.cnt = h('span', { class: 'cnt' }); this.foot = h('div', { class: 'foot' }, this.cnt,
-      h('span', null, controls ? h('span', { class: 'keys' }, h('span', { class: 'kbd' }, '→'), 'ถัดไป ', h('span', { class: 'kbd' }, '←'), 'ก่อนหน้า ', h('span', { class: 'kbd' }, 'H'), 'ซ่อนผล ', h('span', { class: 'kbd' }, 'L'), 'อันดับ ', h('span', { class: 'kbd' }, 'Q'), 'Q&A ', h('span', { class: 'kbd' }, 'F'), 'เต็มจอ  ') : null, 'Powerpointboy Live'));
-    this.tmTxt = h('span'); this.tmEl = h('div', { class: 'st-timer', hidden: true, role: 'timer' }, icon('clock'), this.tmTxt);
-    this.el.append(h('div', { class: 'stage-inner' }, this.rail, this.body, this.foot, this.tmEl));
-    this.key = ''; this.scene = null; this.railSig = '';
+    this.topL = h('div', { class: 'tl' }); this.topR = h('div', { class: 'tr' }); this.top = h('div', { class: 'st-top' }, this.topL, this.topR);
+    this.body = h('div', { class: 'st-body' });
+    this.foot = h('div', { class: 'foot' },
+      h('span', null, controls ? h('span', { class: 'keys' }, h('span', { class: 'kbd' }, '→'), 'ถัดไป ', h('span', { class: 'kbd' }, '←'), 'ก่อนหน้า ', h('span', { class: 'kbd' }, 'H'), 'ซ่อนผล ', h('span', { class: 'kbd' }, 'L'), 'อันดับ ', h('span', { class: 'kbd' }, 'Q'), 'Q&A ', h('span', { class: 'kbd' }, 'F'), 'เต็มจอ ', h('span', { class: 'kbd' }, 'Esc'), 'ออก') : null),
+      h('span', null, 'Powerpointboy Live'));
+    this.tmTxt = h('span', { class: 'tm-num' });
+    this.tmEl = h('div', { class: 'st-timer', hidden: true, role: 'timer' }, icon('clock'), this.tmTxt,
+      controls ? h('button', { class: 'btn sm tm-x', type: 'button', onclick: () => write(db, code, { 'meta/timer/big': null }) }, icon('x'), 'ปิดหน้าจับเวลา') : null);
+    this.el.append(h('div', { class: 'stage-inner' }, this.top, h('div', { class: 'st-card' }, this.body), this.foot, this.tmEl));
+    this.key = ''; this.scene = null; this.topSig = '';
     this.tick = setInterval(() => { this.renderTimer(); if (this.scene?.timed) this.render(); }, 200);
   }
   setPreview(p) { this.preview = p; this.render(); }
@@ -1306,7 +1384,7 @@ class Stage {
   render() {
     const t = this.t; if (!t?.meta) { if (this.key !== 'none') { this.key = 'none'; this.body.replaceChildren(h('div', { class: 'hidden-note' }, h('b', null, 'ไม่พบห้องนี้'))); } return; }
     const m = t.meta; const now = this.db.now(); let kind, q = null;
-    applyTheme(this.el, m);
+    applyRoomTheme(m);
     if (this.preview) { kind = ['join', 'qa', 'board'].includes(this.preview) ? this.preview : 'q'; if (kind === 'q') { q = getQ(t, this.preview); if (!q) kind = 'join'; } }
     else { kind = m.mode || 'join'; if (kind === 'q') { q = getQ(t, m.active); if (!q) kind = 'join'; } }
     let key = kind; if (q) key += `:${q.id}:${q.t}:${q.t === 'quiz' ? quizPhase(q, now) : ''}:${asArr(q.opts).length}`;
@@ -1317,24 +1395,24 @@ class Stage {
       this.body.replaceChildren(this.scene.el); this.key = key;
     }
     this.scene.update(t, q, now);
-    this.rail.style.visibility = kind === 'join' ? 'hidden' : '';
-    const showQR = m.qr !== false; const rs = (m.title || '') + '|' + this.code + '|' + showQR;
-    if (rs !== this.railSig) {
-      this.railSig = rs;
-      this.rail.replaceChildren(
-        h('div', { class: 'ev' }, h('span', { class: 'brand', html: MARK, style: { fontSize: '1em' } }), h('span', null, m.title || '')),
-        h('div', { class: 'join' }, h('span', null, 'เข้าร่วมที่ ', h('b', null, siteLabel(this.code)), ' · รหัส ', h('span', { class: 'code' }, fmtCode(this.code))), showQR ? h('div', { class: 'qr', html: qrSvg(joinUrl(this.code)) }) : null));
+    const n = this.scene.count?.(t, q) ?? 0; const closed = kind === 'q' && q && q.closed && q.t !== 'quiz';
+    const ts = [kind, q?.t, m.title, n, closed].join('|');
+    if (ts !== this.topSig) {
+      this.topSig = ts;
+      this.topL.replaceChildren(...(kind === 'join' ? [h('span', { class: 'brand', html: MARK, style: { fontSize: '1em' } }), h('span', null, m.title || 'Powerpointboy Live')]
+        : kind === 'qa' ? [icon('qa'), h('span', null, 'Q&A')] : kind === 'board' ? [icon('podium'), h('span', null, 'อันดับ Quiz')]
+        : [icon(TYPES[q.t].icon), h('span', null, TYPES[q.t].name)]), ...(closed ? [h('span', { class: 'pill' }, icon('lock'), 'ปิดรับคำตอบแล้ว')] : []));
+      const who = kind === 'qa' ? 'คำถาม' : kind === 'join' ? 'คนในห้อง' : kind === 'board' ? 'ผู้เล่น' : 'คนตอบ';
+      this.topR.replaceChildren(...(kind === 'join' ? [] : [h('span', { class: 'jn' }, 'เข้าร่วมที่ ', h('b', null, siteLabel(this.code)), ' · ', h('b', null, '#' + fmtCode(this.code)))]),
+        h('span', { class: 'cnt', title: who }, icon('users'), fmtN(n)));
     }
-    const n = this.scene.count?.(t, q) ?? 0;
-    const label = kind === 'join' ? '' : kind === 'qa' ? `${fmtN(n)} คำถาม` : kind === 'board' ? `ผู้เล่น ${fmtN(n)} คน` : `ตอบแล้ว ${fmtN(n)} คน`;
-    this.cnt.replaceChildren(label ? icon('users') : '', label, kind === 'q' && q && (q.closed && q.t !== 'quiz') ? h('span', { class: 'pill', style: { marginLeft: '.6em' } }, icon('lock'), 'ปิดรับคำตอบแล้ว') : '');
     this.renderTimer();
   }
   renderTimer() {
     const tm = this.t?.meta?.timer;
-    if (!tm) { if (!this.tmEl.hidden) this.tmEl.hidden = true; return; }
+    if (!tm?.big) { if (!this.tmEl.hidden) this.tmEl.hidden = true; return; }
     const left = timerLeft(tm, this.db.now()); const txt = left > 0 ? fmtClock(left) : 'หมดเวลา';
-    const cls = 'st-timer' + (tm.big ? ' big' : '') + (left <= 0 ? ' done' : tm.end && left <= 10 ? ' low' : '') + (!tm.end && left > 0 ? ' paused' : '');
+    const cls = 'st-timer big' + (left <= 0 ? ' done' : tm.end && left <= 10 ? ' low' : '') + (!tm.end && left > 0 ? ' paused' : '');
     if (this.tmEl.className !== cls) this.tmEl.className = cls;
     this.tmEl.hidden = false; if (this.tmTxt.textContent !== txt) this.tmTxt.textContent = txt;
   }
@@ -1364,20 +1442,11 @@ class Phone {
     this.tabPoll = h('button', { type: 'button', onclick: () => this.setTab('poll') }, icon('mc'), 'คำถามสด');
     this.tabQa = h('button', { type: 'button', onclick: () => this.setTab('qa') }, icon('qa'), 'Q&A', this.qaBadge);
     this.tabs = h('nav', { class: 'pv-tabs' }, this.tabPoll, this.tabQa);
-    this.headTm = h('span', { class: 'pv-timer', hidden: true, role: 'timer' });
-    this.el = h('div', { class: 'pv' }, h('div', { class: 'pv-head' }, this.headT, h('div', { class: 'pv-head-r' }, this.headTm, this.headC)), this.body, this.tabs);
+    this.el = h('div', { class: 'pv' }, h('div', { class: 'pv-head' }, this.headT, this.headC), this.body, this.tabs);
     Object.assign(this, { tab: 'poll', key: '', live: null, draft: {}, sel: {}, editing: {}, qaSort: 'new', lastMode: undefined, lastActive: undefined, anon: false, timed: false });
-    this.timer = setInterval(() => { this.renderTimer(); if (this.timed) this.render(); }, 250);
+    this.timer = setInterval(() => { if (this.timed) this.render(); }, 250);
   }
-  set(t) { this.t = t; this.render(); this.renderTimer(); }
-  renderTimer() {
-    const tm = this.t?.meta?.timer;
-    if (!tm) { if (!this.headTm.hidden) this.headTm.hidden = true; return; }
-    const left = timerLeft(tm, this.db.now()); const txt = left > 0 ? fmtClock(left) : 'หมดเวลา';
-    const cls = 'pv-timer' + (left <= 0 ? ' done' : tm.end && left <= 10 ? ' low' : '');
-    if (this.headTm.className !== cls) this.headTm.className = cls; this.headTm.hidden = false;
-    if (this.headTm.dataset.t !== txt) { this.headTm.dataset.t = txt; this.headTm.replaceChildren(icon('clock'), txt); }
-  }
+  set(t) { this.t = t; this.render(); }
   setTab(tab) { this.tab = tab; this.key = ''; this.render(); }
   paint(key, build) {
     if (key !== this.key) { this.live = null; this.body.replaceChildren(...[build()].flat().filter(Boolean)); this.key = key; }
@@ -1388,7 +1457,7 @@ class Phone {
     const t = this.t; this.timed = false;
     if (!t?.meta) { this.tabs.hidden = true; this.headT.textContent = 'Powerpointboy Live'; this.headC.textContent = ''; return this.paint('none', () => h('div', { class: 'wait' }, h('b', null, 'ไม่พบห้องรหัสนี้'), h('span', null, 'ตรวจรหัสอีกครั้ง หรือสแกน QR บนจอ'))); }
     const m = t.meta; const me = t.ppl?.[this.pid];
-    applyTheme(this.el, m);
+    applyRoomTheme(m);
     if (this.lastSaved !== (m.title || '')) { this.lastSaved = m.title || ''; rememberLast(this.code, m.title); }
     this.headT.textContent = m.title || 'Powerpointboy Live'; this.headC.textContent = '#' + fmtCode(this.code);
     if (!me) { this.tabs.hidden = true; return this.paint('join', () => this.buildJoin(t)); }
@@ -1405,15 +1474,15 @@ class Phone {
     const scoreSig = t.__feed ? JSON.stringify(t.score?.[this.pid] ?? null) : '';
     if (m.mode === 'board') return this.paint('board:' + scoreSig, () => this.buildScore(true));
     if (!q) return this.paint('wait', () => h('div', { class: 'wait' }, h('div', { class: 'wait-art' }, h('i'), h('i'), h('i')), h('b', { style: { color: 'var(--ink)' } }, 'รอคำถามจากวิทยากร'), h('span', null, 'คำถามจะขึ้นที่นี่อัตโนมัติ ระหว่างนี้ส่งคำถามได้ที่แท็บ “Q&A”')));
-    const r = respMap(t, q.id)[this.pid];
-    if (q.t === 'mc') return this.paint(`mc:${q.id}:${JSON.stringify(r?.v ?? null)}:${q.closed ? 1 : 0}:${q.hide ? 1 : 0}:${asArr(q.opts).join('¦')}:${q.multi ? 1 : 0}:${q.text}:${this.editing[q.id] ? 1 : 0}`, () => this.buildMC(t, q, r));
+    const r = respMap(t, q.id)[this.pid]; const ik = t.img?.[q.id] ? ':i' + t.img[q.id].length : '';
+    if (q.t === 'mc') return this.paint(`mc${ik}:${q.id}:${JSON.stringify(r?.v ?? null)}:${q.closed ? 1 : 0}:${q.hide ? 1 : 0}:${asArr(q.opts).join('¦')}:${q.multi ? 1 : 0}:${q.text}:${this.editing[q.id] ? 1 : 0}`, () => this.buildMC(t, q, r));
     if (q.t === 'quiz') {
       const ph = quizPhase(q, this.db.now()); this.timed = ph === 'live';
-      return this.paint(`quiz:${q.id}:${ph}:${r ? r.v : '-'}:${me.n ? 1 : 0}:${q.start || 0}:${ansOf(t, q) ?? '?'}:${scoreSig}`, () => this.buildQuiz(t, q, r, ph, me));
+      return this.paint(`quiz${ik}:${q.id}:${ph}:${r ? r.v : '-'}:${me.n ? 1 : 0}:${q.start || 0}:${ansOf(t, q) ?? '?'}:${scoreSig}`, () => this.buildQuiz(t, q, r, ph, me));
     }
-    return this.paint(`${q.t}:${q.id}:${entries(r).length}:${q.closed ? 1 : 0}:${q.max || 0}:${q.text}`, () => this.buildText(t, q, r));
+    return this.paint(`${q.t}${ik}:${q.id}:${entries(r).length}:${q.closed ? 1 : 0}:${q.max || 0}:${q.text}`, () => this.buildText(t, q, r));
   }
-  kindHead(q) { return [h('div', { class: 'pv-kind' }, icon(TYPES[q.t].icon), TYPES[q.t].th), h('div', { class: 'pv-q' }, q.text || 'คำถาม')]; }
+  kindHead(q) { const src = this.t?.img?.[q.id]; return [h('div', { class: 'pv-kind' }, icon(TYPES[q.t].icon), TYPES[q.t].th), h('div', { class: 'pv-q' }, q.text || 'คำถาม'), src ? h('img', { class: 'pv-img', src, alt: 'รูปประกอบคำถาม' }) : null]; }
   buildJoin(t) {
     const inp = h('input', { class: 'input', id: 'pv-name-' + this.pid, maxLength: 30, placeholder: 'ชื่อเล่นของคุณ', autocomplete: 'nickname', value: this.draft.name || '' });
     inp.addEventListener('input', () => { this.draft.name = inp.value; });
@@ -1788,14 +1857,16 @@ const hexRGB = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16));
 const mixHex = (a, b, w) => '#' + hexRGB(a).map((v, i) => Math.round(v * (1 - w) + hexRGB(b)[i] * w).toString(16).padStart(2, '0')).join('');
 const lum = x => { const [r, g, b] = hexRGB(x).map(v => v / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * b; };
 function themeOf(meta) { const th = meta?.theme; if (!th || !HEX.test(th.a || '')) return null; return { a: th.a, s: HEX.test(th.s || '') ? th.s : mixHex(th.a, '#000000', .65) }; }
-function applyTheme(el, meta) {
-  const th = themeOf(meta); const sig = th ? th.a + th.s : '';
-  if (el.__th === sig) return; el.__th = sig;
-  el.classList.toggle('themed', !!th);
-  if (!th) { ['--th-a', '--th-s', '--th-on'].forEach(p => el.style.removeProperty(p)); return; }
-  const L = lum(th.a); const onWhite = 1.05 / (L + .05), onInk = (L + .05) / (lum('#13213B') + .05);
-  el.style.setProperty('--th-a', th.a); el.style.setProperty('--th-s', th.s); el.style.setProperty('--th-on', onWhite >= onInk ? '#FFFFFF' : '#13213B');
+const onColor = hex => { const L = lum(hex); return 1.05 / (L + .05) >= (L + .05) / (lum('#13213B') + .05) ? '#FFFFFF' : '#13213B'; };
+// ธีมของห้อง: ใส่ไว้ที่ body ทั้งหน้า (แผงควบคุม จอนำเสนอ มือถือผู้เรียน และ pop-up) · หน้าที่ไม่ใช่ห้องจะล้างออก
+const ROOM_VARS = ['--th-a', '--th-s', '--th-on', '--room-l', '--on-room-l'];
+function applyRoomTheme(meta) {
+  const th = themeOf(meta) || { a: THEMES[0].a, s: THEMES[0].s }; const b = document.body; const sig = th.a + th.s;
+  if (b.__th === sig) return; b.__th = sig; b.classList.add('themed');
+  const room = mixHex(th.a, '#ffffff', .18);
+  [['--th-a', th.a], ['--th-s', th.s], ['--th-on', onColor(th.a)], ['--room-l', room], ['--on-room-l', onColor(room)]].forEach(([k, v]) => b.style.setProperty(k, v));
 }
+function clearRoomTheme() { const b = document.body; if (!b.__th) return; b.__th = ''; b.classList.remove('themed'); ROOM_VARS.forEach(k => b.style.removeProperty(k)); }
 
 /* ---------------- pop-up กลางจอ ---------------- */
 function openModal(title, body, { wide = false, onClose } = {}) {
@@ -1859,18 +1930,17 @@ class ToolsPanel {
     this.custom = h('input', { class: 'input', id: 'tm-custom', type: 'number', min: '0.5', max: '180', step: '0.5', placeholder: 'นาที', 'aria-label': 'ตั้งเวลาเอง (นาที)' });
     this.custom.addEventListener('keydown', e => { if (e.key === 'Enter') this.setCustom(); });
     this.tmGo = h('button', { class: 'btn primary', type: 'button', onclick: () => this.startPause() }, icon('play'), 'เริ่ม');
-    this.bigTg = h('input', { type: 'checkbox', id: 'tm-big' }); this.bigTg.addEventListener('change', () => this.patchTimer({ big: this.bigTg.checked || null }));
+    this.fsBtn = h('button', { class: 'btn navy', type: 'button', onclick: () => this.toggleFull() }, icon('full'), 'แสดงเต็มจอ');
     const snd = h('input', { type: 'checkbox', id: 'tm-snd', checked: this.sound }); snd.addEventListener('change', () => { this.sound = snd.checked; LS.set('ppb:beep', this.sound); if (this.sound) unlockAudio(); });
     this.tmCtl = h('div', { class: 'row', style: { gap: '6px' } }, this.tmGo,
       h('button', { class: 'btn', type: 'button', onclick: () => this.addMinute() }, '+1 นาที'),
       h('button', { class: 'btn ghost', type: 'button', onclick: () => this.resetTimer() }, icon('refresh'), 'รีเซ็ต'),
-      h('button', { class: 'btn ghost', type: 'button', onclick: () => this.clearTimer() }, icon('x'), 'เอาออกจากจอ'));
+      h('button', { class: 'btn ghost', type: 'button', onclick: () => this.clearTimer() }, icon('x'), 'ล้าง'));
     const timerSec = h('section', { class: 'tool-sec' },
       h('h3', null, icon('clock'), 'จับเวลา'), this.tmBig, this.tmState,
       h('div', { class: 'chips' }, preset(60, '1 นาที'), preset(180, '3 นาที'), preset(300, '5 นาที'), preset(600, '10 นาที'), preset(900, '15 นาที')),
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.custom, h('button', { class: 'btn', type: 'button', onclick: () => this.setCustom() }, 'ตั้งเวลา')),
-      this.tmCtl,
-      h('label', { class: 'toggle', for: 'tm-big' }, this.bigTg, 'ขึ้นจอแบบตัวใหญ่เต็มจอ'),
+      this.tmCtl, this.fsBtn,
       h('label', { class: 'toggle', for: 'tm-snd' }, snd, 'เสียงเตือนเมื่อหมดเวลา (ดังจากเครื่องนี้)'));
     // เพลง
     this.ytBox = h('div', { class: 'yt-box', hidden: true }, this.ytSlot = h('div'));
@@ -1888,12 +1958,33 @@ class ToolsPanel {
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.linkIn, h('button', { class: 'btn', type: 'button', onclick: () => this.addTrack() }, icon('plus'), 'เพิ่ม')),
       this.listEl,
       h('p', { class: 'hint' }, 'เพลงดังจากเครื่องที่เปิดหน้านี้ ต่อลำโพงห้องกับเครื่องนี้ · รายการเพลงบันทึกไว้ในบัญชี ใช้ได้ทุกห้อง'));
-    this.el.append(
-      h('div', { class: 'tools-head' }, h('b', null, icon('sliders'), 'เครื่องมือ'), h('span', { class: 'spacer' }), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'ซ่อนเครื่องมือ', title: 'ซ่อน (เพลงและเวลายังเดินต่อ)', onclick: () => this.toggle(false) }, icon('down'))),
-      h('div', { class: 'tools-body' }, timerSec, musicSec));
+    this.head = h('div', { class: 'tools-head', title: 'ลากเพื่อย้ายหน้าต่าง' }, h('span', { class: 'grip', 'aria-hidden': 'true' }), h('b', null, icon('sliders'), 'เครื่องมือ'), h('span', { class: 'spacer' }), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'ซ่อนเครื่องมือ', title: 'ซ่อน (เพลงและเวลายังเดินต่อ)', onclick: () => this.toggle(false) }, icon('x')));
+    this.el.append(this.head, h('div', { class: 'tools-body' }, timerSec, musicSec));
+    this.head.addEventListener('pointerdown', e => this.dragStart(e));
+    this.onResize = () => { if (this.pos) this.place(this.pos.x, this.pos.y); }; addEventListener('resize', this.onResize);
+    const saved = LS.get('ppb:toolsPos'); if (saved) requestAnimationFrame(() => this.place(saved.x, saved.y));
     this.offMusic = this.db.listenMusic ? this.db.listenMusic(list => { this.tracks = list; this.renderTracks(); }) : null;
     this.renderTracks();
     this.tick = setInterval(() => this.renderTimer(), 250);
+  }
+  // ลากหน้าต่างไปวางตรงไหนก็ได้ จำตำแหน่งไว้ในเครื่องนี้
+  dragStart(e) {
+    if (e.button !== 0 || e.target.closest('button, input, a')) return;
+    const r = this.el.getBoundingClientRect(); const dx = e.clientX - r.left, dy = e.clientY - r.top;
+    this.el.classList.add('dragging'); try { this.head.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+    const move = ev => this.place(ev.clientX - dx, ev.clientY - dy);
+    const up = () => { this.head.removeEventListener('pointermove', move); this.head.removeEventListener('pointerup', up); this.head.removeEventListener('pointercancel', up); this.el.classList.remove('dragging'); if (this.pos) LS.set('ppb:toolsPos', this.pos); };
+    this.head.addEventListener('pointermove', move); this.head.addEventListener('pointerup', up); this.head.addEventListener('pointercancel', up); e.preventDefault();
+  }
+  place(x, y) {
+    const r = this.el.getBoundingClientRect(); const W = document.documentElement.clientWidth, H = innerHeight;
+    x = Math.max(8, Math.min(W - r.width - 8, x)); y = Math.max(8, Math.min(H - Math.min(r.height, H - 16) - 8, y));
+    this.pos = { x: Math.round(x), y: Math.round(y) }; Object.assign(this.el.style, { left: this.pos.x + 'px', top: this.pos.y + 'px', right: 'auto', bottom: 'auto' });
+  }
+  toggleFull() {
+    const tm = this.tm; if (!tm) return toast('ตั้งเวลาก่อน แล้วค่อยกดแสดงเต็มจอ');
+    const on = !tm.big; this.patchTimer({ big: on || null });
+    if (on && !this.host.presenter) { this.host.presenter = new Presenter(this.host); this.host.presenter.full(); }
   }
   toggle(force) {
     this.open = force ?? !this.open; this.el.classList.toggle('closed', !this.open);
@@ -1920,11 +2011,11 @@ class ToolsPanel {
     const txt = tm ? (left > 0 ? fmtClock(left) : 'หมดเวลา') : '0:00';
     if (this.tmBig.textContent !== txt) this.tmBig.textContent = txt;
     this.tmBig.classList.toggle('done', !!tm && left <= 0); this.tmBig.classList.toggle('low', !!tm?.end && left > 0 && left <= 10);
-    const state = !tm ? 'ยังไม่ได้ตั้งเวลา · กดเลือกเวลาด้านล่าง เวลาจะขึ้นจอทันที' : left <= 0 ? 'หมดเวลาแล้ว' : tm.end ? 'กำลังเดิน · แสดงบนจอและมือถือผู้เรียน' : 'หยุดชั่วคราว';
+    const state = !tm ? 'ยังไม่ได้ตั้งเวลา · เลือกเวลาด้านล่าง' : left <= 0 ? 'หมดเวลาแล้ว' : tm.end ? (tm.big ? 'กำลังเดิน · แสดงเต็มจอ' : 'กำลังเดิน · กด “แสดงเวลาเต็มจอ” เพื่อขึ้นจอ') : 'หยุดชั่วคราว';
     if (this.tmState.textContent !== state) this.tmState.textContent = state;
     const goSig = tm?.end && left > 0 ? 'pause' : 'play';
     if (this.tmGo.dataset.s !== goSig) { this.tmGo.dataset.s = goSig; this.tmGo.replaceChildren(icon(goSig), goSig === 'pause' ? 'หยุด' : 'เริ่ม'); }
-    if (document.activeElement !== this.bigTg) this.bigTg.checked = !!tm?.big;
+    const fs = tm?.big ? 'off' : 'on'; if (this.fsBtn.dataset.s !== fs) { this.fsBtn.dataset.s = fs; this.fsBtn.replaceChildren(icon(fs === 'off' ? 'x' : 'full'), fs === 'off' ? 'ปิดหน้าจับเวลาเต็มจอ' : 'แสดงเวลาเต็มจอ'); }
     if (tm?.end && left <= 0 && this.beeped !== String(tm.end)) { this.beeped = String(tm.end); if (this.sound) beep(); }
     this.host.syncToolsBtn(tm ? txt : '');
   }
@@ -1974,7 +2065,7 @@ class ToolsPanel {
   setPlaying(on) { this.playing = on; this.playBtn.disabled = !this.player; this.playBtn.replaceChildren(icon(on ? 'pause' : 'play'), on ? 'หยุดเพลง' : 'เล่น'); this.renderTracks(); this.host.syncToolsBtn(); }
   togglePlay() { if (!this.player) { if (this.tracks[0]) this.play(this.tracks[0]); return; } try { if (this.playing) this.player.pauseVideo(); else this.player.playVideo(); } catch { /* ignore */ } }
   stop() { try { this.player?.stopVideo(); } catch { /* ignore */ } this.cur = null; this.setPlaying(false); this.nowEl.hidden = true; }
-  destroy() { clearInterval(this.tick); this.offMusic?.(); try { this.player?.destroy(); } catch { /* ignore */ } this.el.remove(); }
+  destroy() { clearInterval(this.tick); this.offMusic?.(); removeEventListener('resize', this.onResize); try { this.player?.destroy(); } catch { /* ignore */ } this.el.remove(); }
 }
 
 /* ---------------- นำเสนอเต็มจอในแท็บเดียวกัน ---------------- */
@@ -1982,13 +2073,16 @@ class Presenter {
   constructor(host) {
     this.host = host; const { db, code } = host;
     this.stage = new Stage({ db, code, controls: true });
-    const nav = d => host.t && Act.nav(db, code, host.t, d);
+    const hideTimer = () => { if (host.t?.meta?.timer?.big) write(db, code, { 'meta/timer/big': null }); };
+    const nav = d => { if (!host.t) return; hideTimer(); Act.nav(db, code, host.t, d); };
     this.stage.el.append(h('div', { class: 'float-back row', style: { gap: '6px' } },
       h('button', { class: 'btn sm', type: 'button', onclick: () => this.close() }, icon('back'), 'กลับแผงควบคุม'),
       h('button', { class: 'btn sm', type: 'button', 'aria-label': 'ก่อนหน้า', onclick: () => nav(-1) }, icon('left')),
       h('button', { class: 'btn sm', type: 'button', 'aria-label': 'ถัดไป', onclick: () => nav(1) }, icon('right')),
-      h('button', { class: 'btn sm', type: 'button', onclick: () => this.full() }, icon('full'), 'เต็มจอ')));
+      h('button', { class: 'btn sm', type: 'button', onclick: () => this.full() }, icon('full'), 'เต็มจอ'),
+      host.tools ? h('button', { class: 'btn sm', type: 'button', onclick: () => host.tools.toggle() }, icon('sliders'), 'เครื่องมือ') : null));
     this.el = h('div', { class: 'presenter', role: 'dialog', 'aria-label': 'โหมดนำเสนอ' }, this.stage.el);
+    host.tools?.toggle(false);
     let idle; this.onMove = () => { this.stage.el.classList.add('awake'); clearTimeout(idle); idle = setTimeout(() => this.stage.el.classList.remove('awake'), 2500); };
     const keys = stageKeys(() => host.t, db, code, () => this.full());
     this.onKey = e => {
@@ -1996,6 +2090,7 @@ class Presenter {
       if (e.target.closest?.('input, textarea, select')) return;
       if (e.key === 'm' || e.key === 'M') return host.tools?.togglePlay();
       if (e.key === 't' || e.key === 'T') return host.tools?.startPause();
+      if (['ArrowRight', 'ArrowLeft', 'PageDown', 'PageUp', ' ', 'Enter', 'Backspace', 'j', 'J', 'q', 'Q', 'l', 'L'].includes(e.key)) hideTimer();
       keys(e);
     };
     this.onFs = () => { if (document.fullscreenElement) this.wasFull = true; else if (this.wasFull) this.close(); };
@@ -2010,6 +2105,7 @@ class Presenter {
   set(t) { this.stage.set(t); }
   close() {
     if (this.closed) return; this.closed = true;
+    if (this.host.t?.meta?.timer?.big) write(this.host.db, this.host.code, { 'meta/timer/big': null });
     removeEventListener('mousemove', this.onMove); removeEventListener('keydown', this.onKey, true); document.removeEventListener('fullscreenchange', this.onFs);
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     this.stage.destroy(); this.el.remove(); document.body.classList.remove('presenting');
@@ -2017,6 +2113,17 @@ class Presenter {
   }
 }
 
+// ย่อรูปในเครื่องก่อนเก็บ (กว้างสุด 1600px) เก็บเป็นข้อความ data URL ใน img/{qid} มือถือโหลดเฉพาะรูปของคำถามที่ขึ้นจอ
+async function shrinkImage(file, max = 1600, quality = .82) {
+  let src = await createImageBitmap(file).catch(() => null);
+  if (!src) src = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = URL.createObjectURL(file); });
+  const w0 = src.width, h0 = src.height; const k = Math.min(1, max / Math.max(w0, h0));
+  const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w0 * k)); c.height = Math.max(1, Math.round(h0 * k));
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(src, 0, 0, c.width, c.height);
+  let url = c.toDataURL('image/webp', quality); if (!url.startsWith('data:image/webp')) url = c.toDataURL('image/jpeg', quality);
+  if (url.length > 900000) url = c.toDataURL('image/jpeg', .68);
+  return url;
+}
 class HostView {
   constructor(root, code, db) {
     Object.assign(this, { root, code, db, sel: null, t: null, editorKey: '', sideSig: '', ctrlSig: '', modSig: '', picking: false });
@@ -2043,6 +2150,8 @@ class HostView {
     this.ctrl.append(h('div', { class: 'panel-head' }, h('h3', null, icon('monitor'), 'ภาพบนจอ'), h('div', { class: 'row', style: { gap: '12px' } }, h('label', { class: 'toggle sm', for: 'qr-tg', title: 'แสดง QR code บนจอนำเสนอ' }, this.qrTg, 'QR บนจอ'), this.status)), h('div', { class: 'preview-frame' }, this.stage.el), this.ctrlBtns, this.mod);
     root.append(...[modeBar(code === 'demo' ? 'host-demo' : 'host', code), h('div', { class: 'host' }, this.top, this.side, h('main', { class: 'host-main' }, this.edit, this.ctrl))].filter(Boolean));
     this.tools = new ToolsPanel(this); root.append(this.tools.el);
+    this.onPaste = e => { const f = [...(e.clipboardData?.files || [])].find(x => x.type.startsWith('image/')); const q = getQ(this.t, this.sel); if (!f || !q || document.querySelector('dialog[open]')) return; e.preventDefault(); this.attachImage(q.id, f); };
+    document.addEventListener('paste', this.onPaste);
     this.agent = db.kind === 'firebase' ? new Agent(db, code) : null;
     this.unsub = db.listen(code, t => { this.agent?.set(t); this.set(t); });
   }
@@ -2070,6 +2179,7 @@ class HostView {
   }
   goLive(sel = this.sel) {
     const t = this.t; if (!t?.meta) return; const m = t.meta, db = this.db, code = this.code;
+    if (m.timer?.big) write(db, code, { 'meta/timer/big': null });
     if (sel === 'join') { if (m.mode !== 'join' || m.active) Act.offscreen(db, code); }
     else if (sel === 'qa') { if (m.mode !== 'qa') Act.mode(db, code, 'qa'); }
     else { const q = getQ(t, sel); if (q && !(m.active === q.id && (m.mode === 'q' || m.mode === 'board'))) Act.activate(db, code, q); }
@@ -2079,6 +2189,14 @@ class HostView {
     if (!this.presenter) this.presenter = new Presenter(this);
     if (!document.fullscreenElement) this.presenter.full();
     this.goLive(sel);
+  }
+  async attachImage(id, file) {
+    if (!file || !/^image\//.test(file.type)) return toast('ไฟล์นี้ไม่ใช่รูป', 'bad');
+    toast('กำลังแนบรูป…');
+    try {
+      const url = await shrinkImage(file); if (url.length > 1900000) return toast('รูปใหญ่เกินไป ลองรูปที่เล็กลง', 'bad');
+      if (await write(this.db, this.code, { [`img/${id}`]: url })) toast('แนบรูปแล้ว');
+    } catch (e) { console.error(e); toast('แนบรูปไม่สำเร็จ', 'bad'); }
   }
   openScreenTab() { this.goLive(); const w = window.open('#screen-' + this.code, '_blank'); if (!w) go('#screen-' + this.code); }
   addModal() {
@@ -2100,7 +2218,7 @@ class HostView {
     }));
     const picker = h('input', { type: 'color', id: 'theme-custom', 'aria-label': 'เลือกสีเอง' }); picker.value = curA;
     picker.addEventListener('input', () => { clearTimeout(pend); const v = picker.value; pend = setTimeout(() => setTheme({ a: v, s: mixHex(v, '#000000', .65) }), 250); });
-    const dlg = openModal('ธีมสีของห้อง', [h('p', { class: 'muted' }, 'ใช้กับจอนำเสนอและมือถือผู้เรียนในห้องนี้ เปลี่ยนระหว่างคลาสได้ ผู้เรียนเห็นทันที'), grid,
+    const dlg = openModal('ธีมสีของห้อง', [h('p', { class: 'muted' }, 'เปลี่ยนสีทั้งห้อง: หน้าแผงควบคุม จอนำเสนอ และมือถือผู้เรียน เปลี่ยนระหว่างคลาสได้ ผู้เรียนเห็นทันที'), grid,
       h('label', { class: 'custom-color', for: 'theme-custom' }, picker, h('span', null, h('b', null, 'เลือกสีเอง'), h('small', { class: 'hint' }, 'สีเข้มอ่านง่ายกว่าบนจอโปรเจกเตอร์')))]);
   }
   select(id) { this.sel = id; this.picking = false; this.editorKey = ''; this.sideSig = ''; this.set(this.t); }
@@ -2135,7 +2253,7 @@ class HostView {
   }
   renderEditor(t) {
     const id = this.sel; const q = getQ(t, id);
-    const key = id === 'join' || id === 'qa' ? id + ':' + (t.meta.qaOn === false ? 0 : 1) : `${id}:${q.t}:${asArr(q.opts).length}:${ansOf(t, q)}:${q.multi}:${q.limit}:${q.max}:${respCount(t, id) ? 1 : 0}`;
+    const key = id === 'join' || id === 'qa' ? id + ':' + (t.meta.qaOn === false ? 0 : 1) : `${id}:${q.t}:${asArr(q.opts).length}:${ansOf(t, q)}:${q.multi}:${q.limit}:${q.max}:${respCount(t, id) ? 1 : 0}:${t.img?.[id]?.length || 0}`;
     if (key === this.editorKey || this.edit.contains(document.activeElement) && document.activeElement.matches('input:not([type=checkbox]), textarea')) return;
     this.editorKey = key; const db = this.db, code = this.code;
     if (id === 'join') {
@@ -2155,6 +2273,14 @@ class HostView {
     const ta = h('textarea', { class: 'textarea', id: 'ed-text', maxLength: 200, rows: 3, placeholder: 'พิมพ์คำถาม', value: q.text || '' });
     ta.addEventListener('input', () => upd('text', ta.value)); ta.addEventListener('blur', () => upd.flush('text', ta.value));
     const parts = [h('div', null, h('label', { class: 'label', for: 'ed-text' }, 'คำถาม'), ta)];
+    const fileIn = h('input', { type: 'file', accept: 'image/*', hidden: true, 'aria-label': 'เลือกรูปประกอบ' });
+    fileIn.addEventListener('change', () => { const f = fileIn.files?.[0]; fileIn.value = ''; if (f) this.attachImage(id, f); });
+    const imgSrc = t.img?.[id];
+    const drop = el => { el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('over'); }); el.addEventListener('dragleave', () => el.classList.remove('over')); el.addEventListener('drop', e => { e.preventDefault(); el.classList.remove('over'); const f = [...(e.dataTransfer?.files || [])].find(x => x.type.startsWith('image/')); if (f) this.attachImage(id, f); }); return el; };
+    parts.push(h('div', null, h('div', { class: 'label' }, 'รูปประกอบคำถาม'), fileIn,
+      imgSrc ? drop(h('div', { class: 'img-prev' }, h('img', { src: imgSrc, alt: 'รูปประกอบคำถาม' }),
+        h('div', { class: 'row', style: { gap: '6px' } }, h('button', { class: 'btn sm', type: 'button', onclick: () => fileIn.click() }, icon('image'), 'เปลี่ยนรูป'), h('button', { class: 'btn ghost sm danger', type: 'button', onclick: () => write(db, code, { [`img/${id}`]: null }) }, icon('trash'), 'ลบรูป'))))
+        : drop(h('button', { class: 'img-drop', type: 'button', onclick: () => fileIn.click() }, icon('image'), h('b', null, 'แนบรูป'), h('small', null, 'คลิกเลือกไฟล์ ลากรูปมาวาง หรือกด Ctrl/⌘+V วางรูปที่ copy ไว้')))));
     const hasRes = respCount(t, id) > 0;
     if (q.t === 'mc' || q.t === 'quiz') {
       const opts = asArr(q.opts).slice(); const quiz = q.t === 'quiz';
@@ -2186,11 +2312,11 @@ class HostView {
     }
     const delBox = h('span', { class: 'confirm' });
     const askDel = () => delBox.replaceChildren(h('span', { class: 'muted' }, 'ลบคำถามนี้และคำตอบทั้งหมด?'),
-      h('button', { class: 'btn danger solid sm', type: 'button', onclick: () => { const u = { [`qs/${id}`]: null, [`res/${id}`]: null, [`keys/${id}`]: null, [`agg/${id}`]: null }; if (t.meta.active === id) Object.assign(u, { 'meta/active': null, 'meta/mode': 'join', 'meta/ts': TS }); this.sel = null; write(db, code, u); } }, 'ลบ'),
+      h('button', { class: 'btn danger solid sm', type: 'button', onclick: () => { const u = { [`qs/${id}`]: null, [`res/${id}`]: null, [`keys/${id}`]: null, [`agg/${id}`]: null, [`img/${id}`]: null }; if (t.meta.active === id) Object.assign(u, { 'meta/active': null, 'meta/mode': 'join', 'meta/ts': TS }); this.sel = null; write(db, code, u); } }, 'ลบ'),
       h('button', { class: 'btn sm', type: 'button', onclick: resetDel }, 'ยกเลิก'));
     const resetDel = () => delBox.replaceChildren(h('button', { class: 'btn ghost sm danger', type: 'button', onclick: askDel }, icon('trash'), 'ลบ'));
     resetDel();
-    const dup = () => { const src = getQ(this.t, id); const nid = rid(); const { id: _x, start, end, hid, closed, hide, ans, ...rest } = src; write(db, code, { [`qs/${nid}`]: { ...rest, text: (src.text || '') + ' (สำเนา)', ord: (src.ord || 0) + 0.01 }, ...(src.t === 'quiz' ? { [`keys/${nid}`]: ansOf(this.t, src) ?? 0 } : {}) }).then(() => this.select(nid)); };
+    const dup = () => { const src = getQ(this.t, id); const nid = rid(); const { id: _x, start, end, hid, closed, hide, ans, ...rest } = src; write(db, code, { [`qs/${nid}`]: { ...rest, text: (src.text || '') + ' (สำเนา)', ord: (src.ord || 0) + 0.01 }, ...(src.t === 'quiz' ? { [`keys/${nid}`]: ansOf(this.t, src) ?? 0 } : {}), ...(this.t.img?.[id] ? { [`img/${nid}`]: this.t.img[id] } : {}) }).then(() => this.select(nid)); };
     this.edit.replaceChildren(h('div', { class: 'panel-head' }, h('h3', null, h('span', { class: TYPES[q.t].cls }, icon(TYPES[q.t].icon)), TYPES[q.t].name),
       h('div', { class: 'row', style: { gap: '4px' } }, h('button', { class: 'btn ghost sm', type: 'button', onclick: dup }, icon('copy'), 'ทำสำเนา'), delBox)), ...parts);
   }
@@ -2251,7 +2377,7 @@ class HostView {
       rows.length ? h('div', { class: 'modlist' }, rows.map(r => h('div', { class: 'moditem' + (hid[r.key] ? ' off' : '') }, h('span', { style: { minWidth: '0', overflowWrap: 'anywhere' } }, r.text, cloud ? h('span', { class: 'faint' }, ` ×${r.n}`) : null),
         h('button', { class: 'icon-btn', type: 'button', title: hid[r.key] ? 'แสดง' : 'ซ่อน', 'aria-label': hid[r.key] ? 'แสดงบนจอ' : 'ซ่อนจากจอ', onclick: () => write(db, code, { [`qs/${q.id}/hid/${r.key}`]: hid[r.key] ? null : true }) }, icon(hid[r.key] ? 'eye' : 'eyeOff'))))) : h('div', { class: 'empty' }, 'ยังไม่มีคำตอบ'));
   }
-  destroy() { this.unsub?.(); this.stage.destroy(); this.agent?.destroy(); this.presenter?.close(); this.tools?.destroy(); }
+  destroy() { this.unsub?.(); this.stage.destroy(); this.agent?.destroy(); this.presenter?.close(); this.tools?.destroy(); document.removeEventListener('paste', this.onPaste); }
 }
 
 class ScreenView {
@@ -2455,7 +2581,7 @@ function parseRoute() {
 function go(hash) { if (location.hash === hash) return route(); try { location.hash = hash; } catch { /* sandboxed */ } if (location.hash !== hash) { forced = hash; route(); } }
 async function route() {
   current?.destroy?.(); current = null;
-  const r = parseRoute();
+  const r = parseRoute(); clearRoomTheme();
   // หน้าผู้เรียน (ราก) มีแค่หน้าใส่รหัสกับหน้าตอบคำถาม ที่เหลือย้ายไปหลังบ้าน /admin/
   if (PATH_ADMIN && !IS_ADMIN_PATH && ['admin', 'host', 'screen', 'demo'].includes(r.v)) { location.replace(adminHref(r.v === 'admin' ? '' : location.hash)); return; }
   const root = $('#app'); root.className = 'app'; root.replaceChildren(); scrollTo(0, 0);
