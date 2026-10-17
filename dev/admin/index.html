@@ -106,7 +106,7 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .toggle input:checked { background: var(--brand); }
 .toggle input:checked::after { transform: translateX(1em); }
 
-.toast-wrap { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 100; pointer-events: none; width: max-content; max-width: calc(100% - 32px); }
+.toast-wrap { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 1000; pointer-events: none; width: max-content; max-width: calc(100% - 32px); }
 .toast { background: var(--ink); color: var(--surface); padding: .6em 1em; border-radius: var(--r-sm); font-size: .92em; box-shadow: var(--shadow); animation: toastIn .2s ease-out; }
 .toast.bad { background: var(--bad); color: #fff; }
 @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } }
@@ -126,7 +126,7 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .seg .on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(19,33,59,.12); }
 
 /* ---------- home ---------- */
-.home { width: 100%; max-width: 1040px; margin: 0 auto; padding: 40px 16px 64px; display: grid; gap: 28px; align-content: start; }
+.home { width: 100%; max-width: 1100px; margin: 0 auto; padding: 48px clamp(16px, 5vw, 72px) 72px; display: grid; gap: 28px; align-content: start; }
 .home-hero { display: grid; gap: 10px; }
 .home-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -.02em; }
 .home-hero p { color: var(--ink-2); max-width: 60ch; font-size: 1.05em; }
@@ -142,15 +142,15 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .roomlist a:hover { background: var(--navy-soft); }
 
 /* ---------- host ---------- */
-.host { flex: 1; display: grid; grid-template-columns: 290px minmax(0, 1fr); grid-template-rows: auto 1fr; min-height: 0; }
-.host-top { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.host { flex: 1; width: 100%; max-width: 1440px; margin: 0 auto; padding: 28px clamp(16px, 4.5vw, 64px) 56px; display: grid; grid-template-columns: 280px minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 20px; align-items: start; }
+.host-top { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
 .host-top .title-input { border: 1px solid transparent; background: transparent; font-family: var(--f-display); font-weight: 600; font-size: 1.1em; padding: .25em .5em; border-radius: var(--r-sm); min-width: 0; flex: 1 1 180px; max-width: 420px; }
 .host-top .title-input:hover { border-color: var(--line); }
 .host-top .title-input:focus { outline: none; border-color: var(--brand); background: var(--surface); }
 .code-chip { display: inline-flex; align-items: center; gap: .5em; padding: .35em .75em; border-radius: var(--r-sm); background: var(--navy-soft); color: var(--navy); font-family: var(--f-mono); font-weight: 600; border: 0; letter-spacing: .06em; }
 .host-top .spacer { flex: 1; }
 .host-top .stat { display: inline-flex; align-items: center; gap: .4em; color: var(--ink-2); font-size: .9em; white-space: nowrap; }
-.host-side { border-right: 1px solid var(--line); background: var(--surface); padding: 14px 12px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; min-height: 0; }
+.host-side { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); padding: 14px 12px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; position: sticky; top: 16px; max-height: calc(100dvh - 32px); }
 .side-label { font-size: .75em; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); padding: 8px 8px 4px; }
 .qitem { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 10px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; text-align: left; background: transparent; width: 100%; }
 .qitem:hover { background: var(--surface-2); }
@@ -171,7 +171,7 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 :root[data-theme="dark"] .t-mc, :root[data-theme="dark"] .t-cloud, :root[data-theme="dark"] .t-open, :root[data-theme="dark"] .t-quiz, :root[data-theme="dark"] .t-qa { filter: brightness(1.6); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) :is(.t-mc, .t-cloud, .t-open, .t-quiz, .t-qa) { filter: brightness(1.6); } }
 
-.host-main { min-height: 0; overflow-y: auto; padding: 20px; display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 20px; align-content: start; }
+.host-main { min-width: 0; display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 20px; align-content: start; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 16px; align-content: start; min-width: 0; }
 .panel-head { display: flex; align-items: center; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
 .panel-head h3 { font-size: 1em; display: flex; align-items: center; gap: .5em; }
@@ -202,9 +202,8 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
   .host-main { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 760px) {
-  .host { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto 1fr; }
-  .host-side { border-right: 0; border-bottom: 1px solid var(--line); max-height: 300px; }
-  .host-main { padding: 16px; }
+  .host { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto 1fr; padding: 12px 12px 40px; gap: 12px; }
+  .host-side { position: static; max-height: 300px; }
 }
 
 /* ---------- stage (projector) ---------- */
@@ -450,7 +449,7 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 
 /* ---------- หน้าผู้เรียน (ใส่รหัสห้อง) ---------- */
 .app.land-root { min-height: 100%; }
-.landing { flex: 1; width: 100%; max-width: 1080px; margin: 0 auto; padding: 18px 16px 20px; display: flex; flex-direction: column; }
+.landing { flex: 1; width: 100%; max-width: 1160px; margin: 0 auto; padding: 24px clamp(16px, 5vw, 72px) 24px; display: flex; flex-direction: column; }
 .land-top { display: flex; align-items: center; font-size: 1.05rem; }
 .land-hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 7vh 0 9vh; }
 .land-bar { display: flex; align-items: center; gap: 12px 22px; width: min(100%, 700px); padding: 10px 10px 10px 32px; border-radius: 999px; background: #1B3A6B; color: #fff; box-shadow: 0 14px 34px -16px rgba(19, 33, 59, .55); }
@@ -494,6 +493,113 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .pub-link { padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--navy); font-weight: 600; overflow-wrap: anywhere; }
 .hint a, .land-foot a { text-underline-offset: 2px; }
 .hint a { color: var(--navy); font-weight: 500; }
+
+/* ---------- มือถือผู้เรียนบนจอใหญ่: คอลัมน์กลางจอ ---------- */
+@media (min-width: 700px) {
+  .app.full > .pv { width: min(100% - 48px, 560px); margin: 28px auto; height: auto; flex: 1; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
+}
+
+/* ---------- ค้นหาห้อง ---------- */
+.search-box { display: flex; align-items: center; gap: 8px; min-width: min(100%, 300px); padding: 0 12px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink-3); }
+.search-box:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+.search-box .input { border: 0; box-shadow: none; padding: .55em 0; background: transparent; flex: 1; min-width: 0; }
+.search-box .input:focus { box-shadow: none; }
+
+/* ---------- ธีมสีห้อง ---------- */
+.themed { --brand: var(--th-a); --brand-ink: color-mix(in srgb, var(--th-a) 72%, #000); --brand-soft: color-mix(in srgb, var(--th-a) 12%, #fff); --on-brand: var(--th-on); --bar: var(--th-s); --navy: var(--th-s); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .themed { --brand-ink: color-mix(in srgb, var(--th-a) 60%, #fff); --brand-soft: color-mix(in srgb, var(--th-a) 22%, #121D31); --bar: color-mix(in srgb, var(--th-s) 35%, #fff); --navy: color-mix(in srgb, var(--th-s) 35%, #fff); } }
+:root[data-theme="dark"] .themed { --brand-ink: color-mix(in srgb, var(--th-a) 60%, #fff); --brand-soft: color-mix(in srgb, var(--th-a) 22%, #121D31); --bar: color-mix(in srgb, var(--th-s) 35%, #fff); --navy: color-mix(in srgb, var(--th-s) 35%, #fff); }
+.pv.themed .pv-head { box-shadow: inset 0 3px 0 var(--brand); }
+.theme-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--line); flex: none; }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: left; font-weight: 500; font-size: .92em; }
+.swatch:hover { border-color: var(--ink-3); }
+.swatch.on { border-color: var(--a); box-shadow: 0 0 0 2px color-mix(in srgb, var(--a) 35%, transparent); }
+.swatch i { width: 30px; height: 30px; border-radius: 8px; flex: none; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--a) 0 62%, var(--s) 62% 100%); }
+.swatch i svg.i { width: 18px; height: 18px; stroke-width: 2.6; }
+.custom-color { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 10px; cursor: pointer; }
+.custom-color input[type=color] { width: 42px; height: 34px; border: 0; padding: 0; background: none; cursor: pointer; }
+.custom-color span { display: grid; gap: 2px; }
+
+/* ---------- pop-up กลางจอ ---------- */
+.modal { border: 0; padding: 0; margin: auto; width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 48px); border-radius: 18px; background: var(--surface); color: var(--ink); box-shadow: 0 30px 80px -24px rgba(5, 12, 26, .55); overflow: auto; }
+.modal.wide { width: min(760px, calc(100% - 32px)); }
+.modal::backdrop { background: rgba(11, 19, 34, .55); backdrop-filter: blur(3px); }
+.modal[open] { animation: modalIn .18s ease-out; }
+@keyframes modalIn { from { opacity: 0; transform: translateY(10px) scale(.98); } }
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 22px 4px; }
+.modal-head h2 { font-size: 1.25rem; font-weight: 700; }
+.modal-body { padding: 12px 22px 24px; display: grid; gap: 16px; }
+.typegrid.big { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px; padding: 0; }
+.typecard.big { flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px; transition: border-color .15s, transform .1s, box-shadow .15s; }
+.typecard.big:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.typecard.big .tc-ic { width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; background: var(--surface-2); flex: none; }
+.typecard.big .tc-ic svg { width: 24px; height: 24px; }
+.typecard.big .tc-tx { display: grid; gap: 2px; }
+.typecard.big .tc-tx b { font-family: var(--f-display); font-size: 1.05em; font-weight: 600; color: var(--ink); }
+.typecard.big .tc-tx small { color: var(--ink-2); font-size: .88em; font-weight: 400; line-height: 1.4; }
+
+/* ---------- ปุ่มบนแถบบนของห้อง ---------- */
+.split { display: inline-flex; }
+.split > .btn:first-child:not(:last-child) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.split > .btn:last-child:not(:first-child) { border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: 1px solid color-mix(in srgb, var(--surface) 35%, transparent); padding-inline: .6em; }
+.host-top .btn.on { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-ink); }
+.tools-info { font-size: .85em; padding: 0 .45em; border-radius: 99px; background: var(--brand); color: var(--on-brand); }
+.toggle.sm { font-size: .85em; gap: 6px; }
+
+/* ---------- หน้าต่างเครื่องมือ ---------- */
+.tools { position: fixed; right: clamp(12px, 3vw, 36px); bottom: clamp(12px, 3vw, 36px); z-index: 60; width: min(370px, calc(100% - 24px)); max-height: min(80dvh, 720px); display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 60px -18px rgba(19, 33, 59, .5); transition: transform .25s ease, opacity .2s; }
+.tools.closed { transform: translateY(calc(100% + 60px)); opacity: 0; pointer-events: none; }
+.tools-head { display: flex; align-items: center; gap: 8px; padding: 10px 10px 10px 16px; border-bottom: 1px solid var(--line); }
+.tools-head b { display: inline-flex; align-items: center; gap: .5em; font-family: var(--f-display); font-weight: 600; }
+.tools-head .spacer { flex: 1; }
+.tools-body { overflow-y: auto; padding: 14px 16px 16px; display: grid; gap: 18px; }
+.tool-sec { display: grid; gap: 10px; }
+.tool-sec + .tool-sec { padding-top: 16px; border-top: 1px solid var(--line); }
+.tool-sec h3 { display: flex; align-items: center; gap: .5em; font-size: .95em; }
+.tm-big { font-size: 2.8rem; font-weight: 600; text-align: center; line-height: 1.1; letter-spacing: .02em; padding: 6px 0 0; }
+.tm-big.low { color: var(--brand); }
+.tm-big.done { color: var(--bad); animation: pulse 1s infinite; font-size: 2rem; font-family: var(--f-display); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); border-radius: 99px; padding: .3em .85em; font-size: .88em; font-weight: 500; }
+.chip:hover { border-color: var(--brand); color: var(--brand-ink); }
+.tools .input[type=number] { width: 90px; flex: none; }
+.yt-box { aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000; }
+.yt-box > * { width: 100%; height: 100%; border: 0; display: block; }
+.now { font-size: .88em; font-weight: 500; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn.on { border-color: var(--brand); color: var(--brand-ink); background: var(--brand-soft); }
+.vol-wrap { color: var(--ink-3); flex: 1; min-width: 110px; }
+.vol { flex: 1; min-width: 0; accent-color: var(--brand); }
+.tracks { display: grid; gap: 6px; }
+.track { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px; align-items: center; padding: 4px 6px; border-radius: 8px; background: var(--surface-2); }
+.track.on { background: var(--brand-soft); }
+.track .tt { font-size: .88em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- ตัวจับเวลาบนจอ / มือถือ ---------- */
+.st-timer { position: absolute; top: 1.15em; left: 50%; transform: translateX(-50%); z-index: 4; display: inline-flex; align-items: center; gap: .35em; padding: .25em .8em; border-radius: 99px; background: var(--surface); border: .06em solid var(--line); box-shadow: var(--shadow); font-family: var(--f-mono); font-weight: 600; font-size: 1.3em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.st-timer.low { background: var(--brand); color: var(--on-brand); border-color: transparent; }
+.st-timer.done { background: var(--bad); color: #fff; border-color: transparent; font-family: var(--f-display); animation: pulse 1s infinite; }
+.st-timer.paused { opacity: .75; }
+.st-timer.big { inset: 0; transform: none; border-radius: 0; border: 0; box-shadow: none; flex-direction: column; justify-content: center; gap: .05em; font-size: 9em; background: color-mix(in srgb, var(--surface) 96%, transparent); color: var(--ink); animation: none; z-index: 6; }
+.st-timer.big svg.i { width: .28em; height: .28em; color: var(--brand); }
+.st-timer.big.low { color: var(--brand); background: color-mix(in srgb, var(--surface) 96%, transparent); }
+.st-timer.big.done { color: var(--bad); font-size: 6em; background: color-mix(in srgb, var(--surface) 96%, transparent); }
+.pv-head-r { display: flex; align-items: center; gap: 8px; flex: none; }
+.pv-timer { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 99px; background: var(--surface-2); color: var(--ink); font-family: var(--f-mono); font-weight: 600; font-size: .82em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pv-timer svg.i { width: 14px; height: 14px; }
+.pv-timer.low { background: var(--brand); color: var(--on-brand); }
+.pv-timer.done { background: var(--bad-soft); color: var(--bad); font-family: var(--f-body); }
+
+/* ---------- QR ปิดได้ ---------- */
+.joinslide.noqr { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+.joinslide.noqr .big { justify-items: center; }
+.joinslide.noqr .code { font-size: 5em; }
+
+/* ---------- โหมดนำเสนอเต็มจอ ---------- */
+.presenter { position: fixed; inset: 0; z-index: 90; display: flex; background: var(--surface); }
+.presenter > .stage { flex: 1; height: 100%; }
+body.presenting { overflow: hidden; }
+.fs-hint { position: absolute; left: 50%; bottom: 3.2em; transform: translateX(-50%); z-index: 7; display: inline-flex; align-items: center; gap: .5em; padding: .6em 1.1em; border: 0; border-radius: 99px; background: var(--ink); color: var(--surface); font-size: 15px; font-weight: 500; box-shadow: var(--shadow); animation: toastIn .3s ease-out; }
 
 </style>
 </head>
@@ -580,6 +686,12 @@ const ICONS = {
   sliders: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
   home: '<path d="M3 11 12 4l9 7M5 10v10h14V10"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  pause: '<rect x="6.5" y="5" width="3.5" height="14" rx="1"/><rect x="14" y="5" width="3.5" height="14" rx="1"/>',
+  music: '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
+  palette: '<path d="M12 3a9 9 0 1 0 0 18c1 0 1.7-.8 1.7-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5c0-4-4-7.2-9-7.2z"/><circle cx="7.5" cy="11.5" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15.2" cy="8.2" r="1"/>',
+  repeat: '<path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/>',
+  volume: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
 };
 function icon(name) {
   const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -711,6 +823,11 @@ class LocalBackend {
   listenMyRooms(cb) { cb(myRooms().filter(r => r.code !== 'demo')); return () => {}; }
   async getMyRoom(code) { return myRooms().find(r => r.code === code) || null; }
   async saveMyRoom(code, data) { saveRoom({ code, ...data }); }
+  listenMusic(cb) { this._mcb = cb; cb(LS.get('ppb:music', [])); return () => { this._mcb = null; }; }
+  _music(list) { LS.set('ppb:music', list); this._mcb?.(list); }
+  async addMusic(m) { const id = 'm' + Date.now().toString(36) + rid(4); this._music([...LS.get('ppb:music', []), { id, ...m }]); return id; }
+  async updMusic(id, d) { this._music(LS.get('ppb:music', []).map(x => x.id === id ? { ...x, ...d } : x)); }
+  async delMusic(id) { this._music(LS.get('ppb:music', []).filter(x => x.id !== id)); }
   async deleteRoom(code) { await this.replace(code, null); try { localStorage.removeItem(this._key(code)); } catch { /* ignore */ } LS.set('ppb:rooms', myRooms().filter(r => r.code !== code)); return 'deleted'; }
 }
 
@@ -777,6 +894,11 @@ class FirebaseBackend {
   listenMyRooms(cb) { if (!this.user) { cb([]); return () => {}; } return this.D.onValue(this.ref(`users/${this.user.uid}/rooms`), s => cb(Object.entries(s.val() || {}).map(([code, r]) => ({ code, ...r })).sort((a, b) => (b.at || 0) - (a.at || 0))), err => { console.error(err); cb([]); }); }
   async getMyRoom(code) { try { await this.auth(); if (!this.user) return null; return (await this.D.get(this.ref(`users/${this.user.uid}/rooms/${code}`))).val(); } catch { return null; } }
   async saveMyRoom(code, data) { if (!this.user) return; const u = {}; for (const [k, v] of Object.entries(data)) u[`users/${this.user.uid}/rooms/${code}/${k}`] = v; return this.updateRoot(u).catch(e => console.warn('save room list', e)); }
+  // รายการเพลง YouTube ของผู้จัด ใช้ร่วมกันทุกห้อง
+  listenMusic(cb) { if (!this.user) { cb([]); return () => {}; } return this.D.onValue(this.ref(`users/${this.user.uid}/music`), s => cb(Object.entries(s.val() || {}).map(([id, m]) => ({ id, ...m })).sort((a, b) => (a.at || 0) - (b.at || 0))), err => { console.error(err); cb([]); }); }
+  async addMusic(m) { const u = await this.need(); const id = 'm' + Date.now().toString(36) + rid(4); await this.updateRoot({ [`users/${u.uid}/music/${id}`]: m }); return id; }
+  async updMusic(id, d) { const u = await this.need(); const x = {}; for (const [k, v] of Object.entries(d)) x[`users/${u.uid}/music/${id}/${k}`] = v; return this.updateRoot(x).catch(e => console.warn(e)); }
+  async delMusic(id) { const u = await this.need(); return this.updateRoot({ [`users/${u.uid}/music/${id}`]: null }); }
   async deleteRoom(code) {
     const u = await this.need();
     try { await this.updateRoot({ [`events/${code}`]: null, [`pins/${code}`]: null, [`owners/${code}/${u.uid}`]: null, [`users/${u.uid}/rooms/${code}`]: null }); return 'deleted'; }
@@ -1138,7 +1260,7 @@ function BoardScene() {
 
 function QAScene() {
   const feat = h('div', { class: 'qa-feature', hidden: true }); const list = h('div', { class: 'qa-list' });
-  const empty = h('div', { class: 'hidden-note', hidden: true }, icon('qa'), h('b', null, 'ยังไม่มีคำถาม'), h('span', null, 'เปิดแท็บ “ถาม-ตอบ” บนมือถือเพื่อส่งคำถามและกดโหวต'));
+  const empty = h('div', { class: 'hidden-note', hidden: true }, icon('qa'), h('b', null, 'ยังไม่มีคำถาม'), h('span', null, 'เปิดแท็บ “Q&A” บนมือถือเพื่อส่งคำถามและกดโหวต'));
   const head = h('div', { class: 'st-head' }, h('div', { class: 'st-type' }, icon('qa'), 'Q&A'), h('div', { class: 'st-q' }, 'ถามวิทยากรได้เลย'));
   const el = h('div', { class: 'scene' }, head, h('div', { class: 'qa-st' }, feat, list, empty));
   let sig = '';
@@ -1156,14 +1278,15 @@ function QAScene() {
 
 function JoinScene(code) {
   const title = h('div', { class: 'title' }); const people = h('span');
-  const el = h('div', { class: 'scene', style: { gridTemplateRows: 'minmax(0,1fr)' } },
-    h('div', { class: 'joinslide' },
+  const qr = h('div', { class: 'qrbig', html: qrSvg(joinUrl(code)) });
+  const slide = h('div', { class: 'joinslide' },
       h('div', { class: 'big' }, title,
         h('div', { class: 'eyebrow' }, 'สแกน QR หรือเปิดเว็บ'), h('div', { class: 'url' }, siteLabel(code)),
         h('div', { class: 'eyebrow' }, 'แล้วใส่รหัสห้อง'), h('div', { class: 'code' }, fmtCode(code)),
         h('div', { class: 'people' }, icon('users'), people)),
-      h('div', { class: 'qrbig', html: qrSvg(joinUrl(code)) })));
-  return { el, count: pplCount, update(t) { title.textContent = t.meta.title || ''; people.textContent = `เข้าร่วมแล้ว ${fmtN(pplCount(t))} คน`; } };
+      qr);
+  const el = h('div', { class: 'scene', style: { gridTemplateRows: 'minmax(0,1fr)' } }, slide);
+  return { el, count: pplCount, update(t) { title.textContent = t.meta.title || ''; people.textContent = `เข้าร่วมแล้ว ${fmtN(pplCount(t))} คน`; const off = t.meta.qr === false; qr.hidden = off; slide.classList.toggle('noqr', off); } };
 }
 
 class Stage {
@@ -1173,15 +1296,17 @@ class Stage {
     this.rail = h('div', { class: 'rail' }); this.body = h('div', { style: { display: 'grid', minHeight: '0' } });
     this.cnt = h('span', { class: 'cnt' }); this.foot = h('div', { class: 'foot' }, this.cnt,
       h('span', null, controls ? h('span', { class: 'keys' }, h('span', { class: 'kbd' }, '→'), 'ถัดไป ', h('span', { class: 'kbd' }, '←'), 'ก่อนหน้า ', h('span', { class: 'kbd' }, 'H'), 'ซ่อนผล ', h('span', { class: 'kbd' }, 'L'), 'อันดับ ', h('span', { class: 'kbd' }, 'Q'), 'Q&A ', h('span', { class: 'kbd' }, 'F'), 'เต็มจอ  ') : null, 'Powerpointboy Live'));
-    this.el.append(h('div', { class: 'stage-inner' }, this.rail, this.body, this.foot));
+    this.tmTxt = h('span'); this.tmEl = h('div', { class: 'st-timer', hidden: true, role: 'timer' }, icon('clock'), this.tmTxt);
+    this.el.append(h('div', { class: 'stage-inner' }, this.rail, this.body, this.foot, this.tmEl));
     this.key = ''; this.scene = null; this.railSig = '';
-    this.tick = setInterval(() => { if (this.scene?.timed) this.render(); }, 200);
+    this.tick = setInterval(() => { this.renderTimer(); if (this.scene?.timed) this.render(); }, 200);
   }
   setPreview(p) { this.preview = p; this.render(); }
   set(t) { this.t = t; this.render(); }
   render() {
     const t = this.t; if (!t?.meta) { if (this.key !== 'none') { this.key = 'none'; this.body.replaceChildren(h('div', { class: 'hidden-note' }, h('b', null, 'ไม่พบห้องนี้'))); } return; }
     const m = t.meta; const now = this.db.now(); let kind, q = null;
+    applyTheme(this.el, m);
     if (this.preview) { kind = ['join', 'qa', 'board'].includes(this.preview) ? this.preview : 'q'; if (kind === 'q') { q = getQ(t, this.preview); if (!q) kind = 'join'; } }
     else { kind = m.mode || 'join'; if (kind === 'q') { q = getQ(t, m.active); if (!q) kind = 'join'; } }
     let key = kind; if (q) key += `:${q.id}:${q.t}:${q.t === 'quiz' ? quizPhase(q, now) : ''}:${asArr(q.opts).length}`;
@@ -1193,16 +1318,25 @@ class Stage {
     }
     this.scene.update(t, q, now);
     this.rail.style.visibility = kind === 'join' ? 'hidden' : '';
-    const rs = (m.title || '') + '|' + this.code;
+    const showQR = m.qr !== false; const rs = (m.title || '') + '|' + this.code + '|' + showQR;
     if (rs !== this.railSig) {
       this.railSig = rs;
       this.rail.replaceChildren(
         h('div', { class: 'ev' }, h('span', { class: 'brand', html: MARK, style: { fontSize: '1em' } }), h('span', null, m.title || '')),
-        h('div', { class: 'join' }, h('span', null, 'เข้าร่วมที่ ', h('b', null, siteLabel(this.code)), ' · รหัส ', h('span', { class: 'code' }, fmtCode(this.code))), h('div', { class: 'qr', html: qrSvg(joinUrl(this.code)) })));
+        h('div', { class: 'join' }, h('span', null, 'เข้าร่วมที่ ', h('b', null, siteLabel(this.code)), ' · รหัส ', h('span', { class: 'code' }, fmtCode(this.code))), showQR ? h('div', { class: 'qr', html: qrSvg(joinUrl(this.code)) }) : null));
     }
     const n = this.scene.count?.(t, q) ?? 0;
     const label = kind === 'join' ? '' : kind === 'qa' ? `${fmtN(n)} คำถาม` : kind === 'board' ? `ผู้เล่น ${fmtN(n)} คน` : `ตอบแล้ว ${fmtN(n)} คน`;
     this.cnt.replaceChildren(label ? icon('users') : '', label, kind === 'q' && q && (q.closed && q.t !== 'quiz') ? h('span', { class: 'pill', style: { marginLeft: '.6em' } }, icon('lock'), 'ปิดรับคำตอบแล้ว') : '');
+    this.renderTimer();
+  }
+  renderTimer() {
+    const tm = this.t?.meta?.timer;
+    if (!tm) { if (!this.tmEl.hidden) this.tmEl.hidden = true; return; }
+    const left = timerLeft(tm, this.db.now()); const txt = left > 0 ? fmtClock(left) : 'หมดเวลา';
+    const cls = 'st-timer' + (tm.big ? ' big' : '') + (left <= 0 ? ' done' : tm.end && left <= 10 ? ' low' : '') + (!tm.end && left > 0 ? ' paused' : '');
+    if (this.tmEl.className !== cls) this.tmEl.className = cls;
+    this.tmEl.hidden = false; if (this.tmTxt.textContent !== txt) this.tmTxt.textContent = txt;
   }
   destroy() { clearInterval(this.tick); this.scene?.destroy?.(); }
 }
@@ -1228,13 +1362,22 @@ class Phone {
     this.body = h('div', { class: 'pv-body' });
     this.qaBadge = h('span', { class: 'badge', hidden: true });
     this.tabPoll = h('button', { type: 'button', onclick: () => this.setTab('poll') }, icon('mc'), 'คำถามสด');
-    this.tabQa = h('button', { type: 'button', onclick: () => this.setTab('qa') }, icon('qa'), 'ถาม-ตอบ', this.qaBadge);
+    this.tabQa = h('button', { type: 'button', onclick: () => this.setTab('qa') }, icon('qa'), 'Q&A', this.qaBadge);
     this.tabs = h('nav', { class: 'pv-tabs' }, this.tabPoll, this.tabQa);
-    this.el = h('div', { class: 'pv' }, h('div', { class: 'pv-head' }, this.headT, this.headC), this.body, this.tabs);
-    Object.assign(this, { tab: 'poll', key: '', live: null, draft: {}, sel: {}, editing: {}, qaSort: 'top', lastMode: undefined, lastActive: undefined, anon: false, timed: false });
-    this.timer = setInterval(() => { if (this.timed) this.render(); }, 250);
+    this.headTm = h('span', { class: 'pv-timer', hidden: true, role: 'timer' });
+    this.el = h('div', { class: 'pv' }, h('div', { class: 'pv-head' }, this.headT, h('div', { class: 'pv-head-r' }, this.headTm, this.headC)), this.body, this.tabs);
+    Object.assign(this, { tab: 'poll', key: '', live: null, draft: {}, sel: {}, editing: {}, qaSort: 'new', lastMode: undefined, lastActive: undefined, anon: false, timed: false });
+    this.timer = setInterval(() => { this.renderTimer(); if (this.timed) this.render(); }, 250);
   }
-  set(t) { this.t = t; this.render(); }
+  set(t) { this.t = t; this.render(); this.renderTimer(); }
+  renderTimer() {
+    const tm = this.t?.meta?.timer;
+    if (!tm) { if (!this.headTm.hidden) this.headTm.hidden = true; return; }
+    const left = timerLeft(tm, this.db.now()); const txt = left > 0 ? fmtClock(left) : 'หมดเวลา';
+    const cls = 'pv-timer' + (left <= 0 ? ' done' : tm.end && left <= 10 ? ' low' : '');
+    if (this.headTm.className !== cls) this.headTm.className = cls; this.headTm.hidden = false;
+    if (this.headTm.dataset.t !== txt) { this.headTm.dataset.t = txt; this.headTm.replaceChildren(icon('clock'), txt); }
+  }
   setTab(tab) { this.tab = tab; this.key = ''; this.render(); }
   paint(key, build) {
     if (key !== this.key) { this.live = null; this.body.replaceChildren(...[build()].flat().filter(Boolean)); this.key = key; }
@@ -1245,6 +1388,7 @@ class Phone {
     const t = this.t; this.timed = false;
     if (!t?.meta) { this.tabs.hidden = true; this.headT.textContent = 'Powerpointboy Live'; this.headC.textContent = ''; return this.paint('none', () => h('div', { class: 'wait' }, h('b', null, 'ไม่พบห้องรหัสนี้'), h('span', null, 'ตรวจรหัสอีกครั้ง หรือสแกน QR บนจอ'))); }
     const m = t.meta; const me = t.ppl?.[this.pid];
+    applyTheme(this.el, m);
     if (this.lastSaved !== (m.title || '')) { this.lastSaved = m.title || ''; rememberLast(this.code, m.title); }
     this.headT.textContent = m.title || 'Powerpointboy Live'; this.headC.textContent = '#' + fmtCode(this.code);
     if (!me) { this.tabs.hidden = true; return this.paint('join', () => this.buildJoin(t)); }
@@ -1260,7 +1404,7 @@ class Phone {
     const q = (m.mode === 'q' || m.mode === 'board') ? getQ(t, m.active) : null;
     const scoreSig = t.__feed ? JSON.stringify(t.score?.[this.pid] ?? null) : '';
     if (m.mode === 'board') return this.paint('board:' + scoreSig, () => this.buildScore(true));
-    if (!q) return this.paint('wait', () => h('div', { class: 'wait' }, h('div', { class: 'wait-art' }, h('i'), h('i'), h('i')), h('b', { style: { color: 'var(--ink)' } }, 'รอคำถามจากวิทยากร'), h('span', null, 'คำถามจะขึ้นที่นี่อัตโนมัติ ระหว่างนี้ส่งคำถามได้ที่แท็บ “ถาม-ตอบ”')));
+    if (!q) return this.paint('wait', () => h('div', { class: 'wait' }, h('div', { class: 'wait-art' }, h('i'), h('i'), h('i')), h('b', { style: { color: 'var(--ink)' } }, 'รอคำถามจากวิทยากร'), h('span', null, 'คำถามจะขึ้นที่นี่อัตโนมัติ ระหว่างนี้ส่งคำถามได้ที่แท็บ “Q&A”')));
     const r = respMap(t, q.id)[this.pid];
     if (q.t === 'mc') return this.paint(`mc:${q.id}:${JSON.stringify(r?.v ?? null)}:${q.closed ? 1 : 0}:${q.hide ? 1 : 0}:${asArr(q.opts).join('¦')}:${q.multi ? 1 : 0}:${q.text}:${this.editing[q.id] ? 1 : 0}`, () => this.buildMC(t, q, r));
     if (q.t === 'quiz') {
@@ -1412,7 +1556,7 @@ class Phone {
       }) : [h('div', { class: 'empty' }, icon('qa'), 'ยังไม่มีคำถาม เป็นคนแรกที่ถามได้เลย')]));
     };
     const sorter = h('div', { class: 'sorter' }, h('span', null, 'คำถามทั้งหมด'), h('div', { class: 'seg' },
-      ...[['top', 'ยอดนิยม'], ['new', 'ล่าสุด']].map(([k, l]) => h('button', { type: 'button', class: this.qaSort === k ? 'on' : '', onclick: e => { this.qaSort = k; [...e.target.parentNode.children].forEach(b => b.classList.toggle('on', b === e.target)); sig = ''; this.live(); } }, l))));
+      ...[['new', 'ล่าสุด'], ['top', 'ยอดนิยม']].map(([k, l]) => h('button', { type: 'button', class: this.qaSort === k ? 'on' : '', onclick: e => { this.qaSort = k; [...e.target.parentNode.children].forEach(b => b.classList.toggle('on', b === e.target)); sig = ''; this.live(); } }, l))));
     if (!canAsk) return [h('div', { class: 'pv-card center' }, icon('lock'), h('b', null, 'วิทยากรปิดรับคำถามชั่วคราว'), h('span', { class: 'muted', style: { fontSize: '.9em' } }, 'ยังกดโหวตคำถามที่มีอยู่ได้')), sorter, listEl];
     const id = 'pv-qa-' + this.pid;
     const ta = h('textarea', { class: 'textarea', id, maxLength: 200, rows: 3, placeholder: 'พิมพ์คำถามถึงวิทยากร', value: this.draft.qa || '' });
@@ -1427,7 +1571,7 @@ class Phone {
       const ok = await this.send({ [`qa/${rid()}`]: { text: text.slice(0, 200), by: this.pub, n: anon.checked ? '' : (me.n || ''), at: TS } });
       if (ok) { ta.value = ''; this.draft.qa = ''; this.qaSort = 'new'; this.key = ''; this.render(); toast('ส่งคำถามแล้ว'); } else btn.disabled = false;
     });
-    return [h('div', { class: 'pv-card' }, h('label', { class: 'label', for: id, style: { margin: 0 } }, 'ถามวิทยากร'), ta,
+    return [h('div', { class: 'pv-card' }, h('label', { class: 'label', for: id, style: { margin: 0 } }, 'Q&A'), ta,
       h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' } }, h('label', { class: 'toggle', for: anon.id }, anon, 'ไม่แสดงชื่อ'), counter), btn), sorter, listEl];
   }
   destroy() { clearInterval(this.timer); }
@@ -1550,6 +1694,8 @@ class HomeView {
     const pubUrl = PATH_ADMIN ? siteBase() : null;
     this.roomsBody = h('div', null, h('p', { class: 'hint' }, 'กำลังโหลด…'));
     this.roomCount = h('span', { class: 'pill', hidden: true });
+    this.search = h('input', { class: 'input search-in', id: 'room-search', type: 'search', placeholder: 'ค้นหาชื่อห้องหรือรหัส', autocomplete: 'off', 'aria-label': 'ค้นหาห้อง', value: this.query || '' });
+    this.search.addEventListener('input', () => { this.query = this.search.value; if (this.rooms) this.renderRooms(this.rooms); });
     this.main.replaceChildren(
       h('div', { class: 'home-top' },
         h('div', { class: 'home-hero' }, h('h1', null, 'Powerpointboy ', h('span', { style: { color: 'var(--brand)' } }, 'Live')),
@@ -1558,7 +1704,7 @@ class HomeView {
       h('div', { class: 'home-grid' },
         h('section', { class: 'card' }, h('h2', null, 'สร้างห้องใหม่'),
           h('label', { class: 'label', for: 'new-title', style: { marginBottom: '-8px' } }, 'ชื่อคลาสหรือหัวข้อ'), this.titleIn, this.createBtn,
-          h('p', { class: 'hint' }, IS_LIVE ? 'ได้รหัสห้องและ PIN ผู้จัด ห้องผูกกับบัญชีนี้ เปิดจากเครื่องไหนก็ได้' : 'ตอนนี้ยังไม่ได้ต่อ Firebase ห้องจะซิงก์ได้เฉพาะแท็บในเบราว์เซอร์นี้')),
+          h('p', { class: 'hint' }, IS_LIVE ? 'ได้รหัสห้อง 6 หลัก ห้องผูกกับบัญชีนี้ เปิดจากเครื่องไหนก็ได้' : 'ตอนนี้ยังไม่ได้ต่อ Firebase ห้องจะซิงก์ได้เฉพาะแท็บในเบราว์เซอร์นี้')),
         h('section', { class: 'card' }, h('h2', null, 'หน้าผู้เรียน'),
           h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'ผู้เรียนเปิดลิงก์นี้แล้วใส่รหัสห้อง 6 หลัก หรือสแกน QR บนจอนำเสนอ'),
           h('div', { class: 'pub-link mono' }, siteLabel('x')),
@@ -1566,12 +1712,16 @@ class HomeView {
             h('button', { class: 'btn', type: 'button', onclick: () => copyText(pubUrl || siteBase()) }, icon('copy'), 'คัดลอกลิงก์'),
             h('a', { class: 'btn', href: pubUrl || '#home', target: pubUrl ? '_blank' : null, rel: 'noopener' }, 'เปิดหน้า', pubUrl ? icon('ext') : null))),
         h('section', { class: 'card' }, h('h2', null, 'ลองห้องเรียนจำลอง'), h('p', { class: 'muted', style: { fontSize: '.92em' } }, 'เห็นจอนำเสนอกับมือถือผู้เรียน 3 เครื่องในหน้าเดียว มีคำถามตัวอย่างครบทุกแบบ'), h('a', { class: 'btn', href: '#demo' }, icon('users'), 'เปิดห้องเรียนจำลอง')),
-        h('section', { class: 'card rooms-card' }, h('div', { class: 'panel-head' }, h('h2', null, 'ห้องของฉัน'), this.roomCount), this.roomsBody)));
+        h('section', { class: 'card rooms-card' }, h('div', { class: 'panel-head' }, h('h2', { class: 'row', style: { gap: '8px' } }, 'ห้องของฉัน', this.roomCount), h('label', { class: 'search-box' }, icon('search'), this.search)), this.roomsBody)));
     this.offRooms = this.db.listenMyRooms(list => this.renderRooms(list));
   }
-  renderRooms(list) {
-    this.roomCount.textContent = `${list.length} ห้อง`; this.roomCount.hidden = !list.length;
-    if (!list.length) return this.roomsBody.replaceChildren(h('p', { class: 'hint' }, 'ห้องที่คุณสร้างจะอยู่ตรงนี้'));
+  renderRooms(all) {
+    this.rooms = all;
+    this.roomCount.textContent = `${all.length} ห้อง`; this.roomCount.hidden = !all.length;
+    if (!all.length) return this.roomsBody.replaceChildren(h('p', { class: 'hint' }, 'ห้องที่คุณสร้างจะอยู่ตรงนี้'));
+    const q = (this.query || '').trim().toLowerCase(); const qd = q.replace(/\s/g, '');
+    const list = q ? all.filter(r => (r.title || '').toLowerCase().includes(q) || (qd && /^\d+$/.test(qd) && r.code.includes(qd))) : all;
+    if (!list.length) return this.roomsBody.replaceChildren(h('p', { class: 'hint' }, `ไม่พบห้องที่ตรงกับ “${this.query.trim()}”`));
     this.roomsBody.replaceChildren(h('div', { class: 'roomlist' }, list.map(r => {
       const acts = h('div', { class: 'acts' });
       const row = h('div', { class: 'room-row' },
@@ -1621,6 +1771,252 @@ class ClaimView {
   }
 }
 
+/* ---------------- ธีมสีห้อง ---------------- */
+const THEMES = [
+  { k: 'orange', name: 'ส้ม Powerpointboy', a: '#FF6B00', s: '#1B3A6B' },
+  { k: 'blue', name: 'น้ำเงิน', a: '#2563EB', s: '#172554' },
+  { k: 'teal', name: 'ฟ้าน้ำทะเล', a: '#0891B2', s: '#083344' },
+  { k: 'green', name: 'เขียว', a: '#16A34A', s: '#14532D' },
+  { k: 'purple', name: 'ม่วง', a: '#7C3AED', s: '#2E1065' },
+  { k: 'pink', name: 'ชมพู', a: '#DB2777', s: '#500724' },
+  { k: 'red', name: 'แดง', a: '#DC2626', s: '#450A0A' },
+  { k: 'gold', name: 'ทอง', a: '#CA8A04', s: '#422006' },
+  { k: 'slate', name: 'เทาเข้ม', a: '#334155', s: '#0F172A' },
+];
+const HEX = /^#[0-9a-f]{6}$/i;
+const hexRGB = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16));
+const mixHex = (a, b, w) => '#' + hexRGB(a).map((v, i) => Math.round(v * (1 - w) + hexRGB(b)[i] * w).toString(16).padStart(2, '0')).join('');
+const lum = x => { const [r, g, b] = hexRGB(x).map(v => v / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * b; };
+function themeOf(meta) { const th = meta?.theme; if (!th || !HEX.test(th.a || '')) return null; return { a: th.a, s: HEX.test(th.s || '') ? th.s : mixHex(th.a, '#000000', .65) }; }
+function applyTheme(el, meta) {
+  const th = themeOf(meta); const sig = th ? th.a + th.s : '';
+  if (el.__th === sig) return; el.__th = sig;
+  el.classList.toggle('themed', !!th);
+  if (!th) { ['--th-a', '--th-s', '--th-on'].forEach(p => el.style.removeProperty(p)); return; }
+  const L = lum(th.a); const onWhite = 1.05 / (L + .05), onInk = (L + .05) / (lum('#13213B') + .05);
+  el.style.setProperty('--th-a', th.a); el.style.setProperty('--th-s', th.s); el.style.setProperty('--th-on', onWhite >= onInk ? '#FFFFFF' : '#13213B');
+}
+
+/* ---------------- pop-up กลางจอ ---------------- */
+function openModal(title, body, { wide = false, onClose } = {}) {
+  const dlg = h('dialog', { class: 'modal' + (wide ? ' wide' : ''), 'aria-label': title });
+  dlg.append(h('div', { class: 'modal-in' },
+    h('div', { class: 'modal-head' }, h('h2', null, title), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'ปิด', onclick: () => dlg.close() }, icon('x'))),
+    h('div', { class: 'modal-body' }, body)));
+  dlg.addEventListener('close', () => { dlg.remove(); onClose?.(); });
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+  document.body.append(dlg);
+  if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  return dlg;
+}
+
+/* ---------------- จับเวลา ---------------- */
+const timerLeft = (tm, now) => !tm ? 0 : tm.end ? Math.max(0, (tm.end - now) / 1000) : Math.max(0, tm.left ?? tm.dur ?? 0);
+const fmtClock = s => { s = Math.ceil(s); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+let audioCtx = null;
+function unlockAudio() { try { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); audioCtx.resume?.(); } catch { /* no audio */ } }
+function beep() {
+  if (!audioCtx) return;
+  try {
+    const t0 = audioCtx.currentTime;
+    [0, .35, .7].forEach(d => { const o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.type = 'sine'; o.frequency.value = 880; g.gain.setValueAtTime(.0001, t0 + d); g.gain.exponentialRampToValueAtTime(.35, t0 + d + .02); g.gain.exponentialRampToValueAtTime(.0001, t0 + d + .28); o.connect(g).connect(audioCtx.destination); o.start(t0 + d); o.stop(t0 + d + .3); });
+  } catch { /* ignore */ }
+}
+
+/* ---------------- เพลงจาก YouTube ---------------- */
+let ytP = null;
+function loadYT() {
+  if (window.YT?.Player) return Promise.resolve(window.YT);
+  if (!ytP) ytP = new Promise((res, rej) => {
+    const prev = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { try { prev?.(); } catch { /* ignore */ } res(window.YT); };
+    loadScript('https://www.youtube.com/iframe_api').catch(e => { ytP = null; rej(e); });
+    setTimeout(() => { if (!window.YT?.Player) { ytP = null; rej(new Error('yt timeout')); } }, 15000);
+  });
+  return ytP;
+}
+function ytParse(raw) {
+  const s = String(raw || '').trim(); if (/^[\w-]{11}$/.test(s)) return { v: s, list: null };
+  try {
+    const u = new URL(s); const host = u.hostname.replace(/^(www|m|music)\./, ''); let v = null;
+    if (host === 'youtu.be') v = u.pathname.slice(1).split('/')[0];
+    else if (/(^|\.)youtube(-nocookie)?\.com$/.test(host)) v = u.searchParams.get('v') || (u.pathname.match(/^\/(?:embed|shorts|live|v)\/([\w-]{11})/) || [])[1] || null;
+    else return null;
+    if (v && !/^[\w-]{11}$/.test(v)) v = null;
+    let list = u.searchParams.get('list'); if (list && !/^[\w-]{10,64}$/.test(list)) list = null;
+    return v || list ? { v, list } : null;
+  } catch { return null; }
+}
+const musicName = m => m?.title || (m?.v ? 'YouTube · ' + m.v : 'YouTube playlist');
+
+class ToolsPanel {
+  constructor(host) {
+    Object.assign(this, { host, db: host.db, code: host.code, open: false, tracks: [], cur: null, player: null, playing: false, beeped: '' });
+    this.loop = LS.get('ppb:loop', true); this.sound = LS.get('ppb:beep', true); this.vol = LS.get('ppb:vol', 70);
+    this.el = h('aside', { class: 'tools closed', 'aria-label': 'เครื่องมือ: จับเวลาและเพลง', inert: '' });
+    // จับเวลา
+    this.tmBig = h('div', { class: 'tm-big mono' }, '0:00'); this.tmState = h('div', { class: 'hint', style: { textAlign: 'center' } }, 'ยังไม่ได้ตั้งเวลา');
+    const preset = (sec, label) => h('button', { class: 'chip', type: 'button', onclick: () => this.setTimer(sec) }, label);
+    this.custom = h('input', { class: 'input', id: 'tm-custom', type: 'number', min: '0.5', max: '180', step: '0.5', placeholder: 'นาที', 'aria-label': 'ตั้งเวลาเอง (นาที)' });
+    this.custom.addEventListener('keydown', e => { if (e.key === 'Enter') this.setCustom(); });
+    this.tmGo = h('button', { class: 'btn primary', type: 'button', onclick: () => this.startPause() }, icon('play'), 'เริ่ม');
+    this.bigTg = h('input', { type: 'checkbox', id: 'tm-big' }); this.bigTg.addEventListener('change', () => this.patchTimer({ big: this.bigTg.checked || null }));
+    const snd = h('input', { type: 'checkbox', id: 'tm-snd', checked: this.sound }); snd.addEventListener('change', () => { this.sound = snd.checked; LS.set('ppb:beep', this.sound); if (this.sound) unlockAudio(); });
+    this.tmCtl = h('div', { class: 'row', style: { gap: '6px' } }, this.tmGo,
+      h('button', { class: 'btn', type: 'button', onclick: () => this.addMinute() }, '+1 นาที'),
+      h('button', { class: 'btn ghost', type: 'button', onclick: () => this.resetTimer() }, icon('refresh'), 'รีเซ็ต'),
+      h('button', { class: 'btn ghost', type: 'button', onclick: () => this.clearTimer() }, icon('x'), 'เอาออกจากจอ'));
+    const timerSec = h('section', { class: 'tool-sec' },
+      h('h3', null, icon('clock'), 'จับเวลา'), this.tmBig, this.tmState,
+      h('div', { class: 'chips' }, preset(60, '1 นาที'), preset(180, '3 นาที'), preset(300, '5 นาที'), preset(600, '10 นาที'), preset(900, '15 นาที')),
+      h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.custom, h('button', { class: 'btn', type: 'button', onclick: () => this.setCustom() }, 'ตั้งเวลา')),
+      this.tmCtl,
+      h('label', { class: 'toggle', for: 'tm-big' }, this.bigTg, 'ขึ้นจอแบบตัวใหญ่เต็มจอ'),
+      h('label', { class: 'toggle', for: 'tm-snd' }, snd, 'เสียงเตือนเมื่อหมดเวลา (ดังจากเครื่องนี้)'));
+    // เพลง
+    this.ytBox = h('div', { class: 'yt-box', hidden: true }, this.ytSlot = h('div'));
+    this.nowEl = h('div', { class: 'now', hidden: true });
+    this.playBtn = h('button', { class: 'btn primary', type: 'button', disabled: true, onclick: () => this.togglePlay() }, icon('play'), 'เล่น');
+    this.loopBtn = h('button', { class: 'btn' + (this.loop ? ' on' : ''), type: 'button', 'aria-pressed': String(this.loop), title: 'เล่นซ้ำเพลงนี้', onclick: () => { this.loop = !this.loop; LS.set('ppb:loop', this.loop); this.loopBtn.classList.toggle('on', this.loop); this.loopBtn.setAttribute('aria-pressed', String(this.loop)); } }, icon('repeat'), 'วนซ้ำ');
+    this.volIn = h('input', { type: 'range', min: '0', max: '100', step: '5', class: 'vol', 'aria-label': 'ระดับเสียง' }); this.volIn.value = this.vol;
+    this.volIn.addEventListener('input', () => { this.vol = Number(this.volIn.value); LS.set('ppb:vol', this.vol); try { this.player?.setVolume(this.vol); } catch { /* ignore */ } });
+    this.linkIn = h('input', { class: 'input', id: 'yt-link', placeholder: 'วางลิงก์ YouTube', autocomplete: 'off' });
+    this.linkIn.addEventListener('keydown', e => { if (e.key === 'Enter') this.addTrack(); });
+    this.listEl = h('div', { class: 'tracks' });
+    const musicSec = h('section', { class: 'tool-sec' },
+      h('h3', null, icon('music'), 'เพลง'), this.ytBox, this.nowEl,
+      h('div', { class: 'row', style: { gap: '6px' } }, this.playBtn, this.loopBtn, h('span', { class: 'row vol-wrap', style: { gap: '4px' } }, icon('volume'), this.volIn)),
+      h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.linkIn, h('button', { class: 'btn', type: 'button', onclick: () => this.addTrack() }, icon('plus'), 'เพิ่ม')),
+      this.listEl,
+      h('p', { class: 'hint' }, 'เพลงดังจากเครื่องที่เปิดหน้านี้ ต่อลำโพงห้องกับเครื่องนี้ · รายการเพลงบันทึกไว้ในบัญชี ใช้ได้ทุกห้อง'));
+    this.el.append(
+      h('div', { class: 'tools-head' }, h('b', null, icon('sliders'), 'เครื่องมือ'), h('span', { class: 'spacer' }), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'ซ่อนเครื่องมือ', title: 'ซ่อน (เพลงและเวลายังเดินต่อ)', onclick: () => this.toggle(false) }, icon('down'))),
+      h('div', { class: 'tools-body' }, timerSec, musicSec));
+    this.offMusic = this.db.listenMusic ? this.db.listenMusic(list => { this.tracks = list; this.renderTracks(); }) : null;
+    this.renderTracks();
+    this.tick = setInterval(() => this.renderTimer(), 250);
+  }
+  toggle(force) {
+    this.open = force ?? !this.open; this.el.classList.toggle('closed', !this.open);
+    if (this.open) this.el.removeAttribute('inert'); else this.el.setAttribute('inert', '');
+    this.host.syncToolsBtn();
+  }
+  set(t) { this.t = t; this.renderTimer(); }
+  get tm() { return this.t?.meta?.timer || null; }
+  writeTimer(v) { return write(this.db, this.code, { 'meta/timer': v }); }
+  patchTimer(p) { const tm = this.tm; if (!tm) return; const u = {}; for (const [k, v] of Object.entries(p)) u['meta/timer/' + k] = v; return write(this.db, this.code, u); }
+  setTimer(sec) { unlockAudio(); const now = this.db.now(); return this.writeTimer({ dur: sec, left: null, end: now + sec * 1000, big: this.tm?.big || null }); }
+  setCustom() { const m = Number(this.custom.value); if (!(m > 0) || m > 180) return toast('ใส่จำนวนนาที 0.5–180'); this.custom.value = ''; this.setTimer(Math.round(m * 60)); }
+  startPause() {
+    unlockAudio(); const tm = this.tm; const now = this.db.now(); if (!tm) return this.setTimer(300);
+    if (tm.end) return this.patchTimer({ left: Math.max(0, (tm.end - now) / 1000), end: null });
+    const left = timerLeft(tm, now); if (left <= 0) return this.setTimer(tm.dur || 300);
+    return this.patchTimer({ end: now + left * 1000, left: null });
+  }
+  addMinute() { const tm = this.tm; if (!tm) return this.setTimer(60); return tm.end ? this.patchTimer({ end: tm.end + 60000, dur: (tm.dur || 0) + 60 }) : this.patchTimer({ left: timerLeft(tm, this.db.now()) + 60, dur: (tm.dur || 0) + 60 }); }
+  resetTimer() { const tm = this.tm; if (!tm) return; return this.patchTimer({ end: null, left: tm.dur || 0 }); }
+  clearTimer() { return this.writeTimer(null); }
+  renderTimer() {
+    const tm = this.tm; const now = this.db.now(); const left = timerLeft(tm, now);
+    const txt = tm ? (left > 0 ? fmtClock(left) : 'หมดเวลา') : '0:00';
+    if (this.tmBig.textContent !== txt) this.tmBig.textContent = txt;
+    this.tmBig.classList.toggle('done', !!tm && left <= 0); this.tmBig.classList.toggle('low', !!tm?.end && left > 0 && left <= 10);
+    const state = !tm ? 'ยังไม่ได้ตั้งเวลา · กดเลือกเวลาด้านล่าง เวลาจะขึ้นจอทันที' : left <= 0 ? 'หมดเวลาแล้ว' : tm.end ? 'กำลังเดิน · แสดงบนจอและมือถือผู้เรียน' : 'หยุดชั่วคราว';
+    if (this.tmState.textContent !== state) this.tmState.textContent = state;
+    const goSig = tm?.end && left > 0 ? 'pause' : 'play';
+    if (this.tmGo.dataset.s !== goSig) { this.tmGo.dataset.s = goSig; this.tmGo.replaceChildren(icon(goSig), goSig === 'pause' ? 'หยุด' : 'เริ่ม'); }
+    if (document.activeElement !== this.bigTg) this.bigTg.checked = !!tm?.big;
+    if (tm?.end && left <= 0 && this.beeped !== String(tm.end)) { this.beeped = String(tm.end); if (this.sound) beep(); }
+    this.host.syncToolsBtn(tm ? txt : '');
+  }
+  async addTrack() {
+    const p = ytParse(this.linkIn.value); if (!p) return toast('ลิงก์นี้ไม่ใช่ลิงก์ YouTube', 'bad');
+    if (!this.db.addMusic) return toast('บันทึกรายการเพลงไม่ได้', 'bad');
+    const id = await this.db.addMusic({ v: p.v || null, list: p.list || null, title: '', at: Date.now() }).catch(e => { console.error(e); toast('บันทึกเพลงไม่สำเร็จ', 'bad'); return null; });
+    if (!id) return; this.linkIn.value = '';
+    this.play({ id, v: p.v, list: p.list, title: '' });
+  }
+  renderTracks() {
+    if (!this.tracks.length) return this.listEl.replaceChildren(h('p', { class: 'hint' }, 'ยังไม่มีเพลง วางลิงก์ YouTube ด้านบนแล้วกดเพิ่ม'));
+    this.listEl.replaceChildren(...this.tracks.map(m => h('div', { class: 'track' + (this.cur?.id === m.id ? ' on' : '') },
+      h('button', { class: 'icon-btn', type: 'button', 'aria-label': `เล่น ${musicName(m)}`, onclick: () => this.play(m) }, icon(this.cur?.id === m.id && this.playing ? 'pause' : 'play')),
+      h('span', { class: 'tt', title: musicName(m) }, musicName(m)),
+      h('button', { class: 'icon-btn', type: 'button', 'aria-label': `ลบ ${musicName(m)}`, onclick: () => { if (this.cur?.id === m.id) this.stop(); this.db.delMusic?.(m.id); } }, icon('trash')))));
+  }
+  async play(m) {
+    if (this.cur?.id === m.id && this.player) return this.togglePlay();
+    this.cur = m; this.renderTracks(); this.ytBox.hidden = false; this.nowEl.hidden = false; this.nowEl.textContent = 'กำลังโหลด… ' + musicName(m);
+    let YT; try { YT = await loadYT(); } catch { this.nowEl.textContent = 'โหลดตัวเล่น YouTube ไม่ได้ ตรวจอินเทอร์เน็ต'; return; }
+    const cue = () => { try { if (m.list && !m.v) this.player.loadPlaylist({ list: m.list, listType: 'playlist' }); else this.player.loadVideoById(m.v); this.player.setVolume(this.vol); } catch (e) { console.warn(e); } };
+    if (this.player) return cue();
+    const slot = h('div'); this.ytSlot.replaceWith(slot); this.ytSlot = slot;
+    this.player = new YT.Player(slot, {
+      width: '100%', height: '100%', host: 'https://www.youtube-nocookie.com',
+      playerVars: { playsinline: 1, rel: 0, modestbranding: 1, autoplay: 1, ...(m.list && !m.v ? { listType: 'playlist', list: m.list } : {}) },
+      videoId: m.v || undefined,
+      events: {
+        onReady: () => { try { this.player.setVolume(this.vol); this.player.playVideo(); } catch { /* ignore */ } this.playBtn.disabled = false; },
+        onStateChange: e => this.onState(e.data),
+        onError: e => { const c = e.data; this.nowEl.textContent = c === 101 || c === 150 ? 'เจ้าของวิดีโอไม่อนุญาตให้เล่นนอก YouTube ลองเพลงอื่น' : c === 2 ? 'ลิงก์วิดีโอไม่ถูกต้อง' : 'เล่นวิดีโอนี้ไม่ได้'; this.setPlaying(false); },
+      },
+    });
+  }
+  onState(s) {
+    const YTS = window.YT?.PlayerState || {}; if (s === YTS.PLAYING) {
+      this.setPlaying(true);
+      try { const d = this.player.getVideoData(); if (d?.title) { this.nowEl.textContent = d.title; if (this.cur && !this.cur.title) { this.cur.title = d.title; this.db.updMusic?.(this.cur.id, { title: d.title.slice(0, 120) }); } } } catch { /* ignore */ }
+    } else if (s === YTS.PAUSED) this.setPlaying(false);
+    else if (s === YTS.ENDED) {
+      if (this.loop && this.cur?.v && !this.cur.list) { try { this.player.seekTo(0); this.player.playVideo(); } catch { /* ignore */ } return; }
+      const i = this.tracks.findIndex(x => x.id === this.cur?.id); const next = this.tracks[i + 1];
+      if (next && !this.loop) { this.cur = null; this.play(next); } else this.setPlaying(false);
+    }
+  }
+  setPlaying(on) { this.playing = on; this.playBtn.disabled = !this.player; this.playBtn.replaceChildren(icon(on ? 'pause' : 'play'), on ? 'หยุดเพลง' : 'เล่น'); this.renderTracks(); this.host.syncToolsBtn(); }
+  togglePlay() { if (!this.player) { if (this.tracks[0]) this.play(this.tracks[0]); return; } try { if (this.playing) this.player.pauseVideo(); else this.player.playVideo(); } catch { /* ignore */ } }
+  stop() { try { this.player?.stopVideo(); } catch { /* ignore */ } this.cur = null; this.setPlaying(false); this.nowEl.hidden = true; }
+  destroy() { clearInterval(this.tick); this.offMusic?.(); try { this.player?.destroy(); } catch { /* ignore */ } this.el.remove(); }
+}
+
+/* ---------------- นำเสนอเต็มจอในแท็บเดียวกัน ---------------- */
+class Presenter {
+  constructor(host) {
+    this.host = host; const { db, code } = host;
+    this.stage = new Stage({ db, code, controls: true });
+    const nav = d => host.t && Act.nav(db, code, host.t, d);
+    this.stage.el.append(h('div', { class: 'float-back row', style: { gap: '6px' } },
+      h('button', { class: 'btn sm', type: 'button', onclick: () => this.close() }, icon('back'), 'กลับแผงควบคุม'),
+      h('button', { class: 'btn sm', type: 'button', 'aria-label': 'ก่อนหน้า', onclick: () => nav(-1) }, icon('left')),
+      h('button', { class: 'btn sm', type: 'button', 'aria-label': 'ถัดไป', onclick: () => nav(1) }, icon('right')),
+      h('button', { class: 'btn sm', type: 'button', onclick: () => this.full() }, icon('full'), 'เต็มจอ')));
+    this.el = h('div', { class: 'presenter', role: 'dialog', 'aria-label': 'โหมดนำเสนอ' }, this.stage.el);
+    let idle; this.onMove = () => { this.stage.el.classList.add('awake'); clearTimeout(idle); idle = setTimeout(() => this.stage.el.classList.remove('awake'), 2500); };
+    const keys = stageKeys(() => host.t, db, code, () => this.full());
+    this.onKey = e => {
+      if (e.key === 'Escape' && !document.fullscreenElement) { e.preventDefault(); return this.close(); }
+      if (e.target.closest?.('input, textarea, select')) return;
+      if (e.key === 'm' || e.key === 'M') return host.tools?.togglePlay();
+      if (e.key === 't' || e.key === 'T') return host.tools?.startPause();
+      keys(e);
+    };
+    this.onFs = () => { if (document.fullscreenElement) this.wasFull = true; else if (this.wasFull) this.close(); };
+    addEventListener('mousemove', this.onMove); addEventListener('keydown', this.onKey, true); document.addEventListener('fullscreenchange', this.onFs);
+    document.body.append(this.el); document.body.classList.add('presenting'); this.onMove();
+    if (host.t) this.stage.set(host.t);
+  }
+  full() {
+    if (document.fullscreenElement) return document.exitFullscreen().catch(() => {});
+    const p = document.documentElement.requestFullscreen?.(); p?.catch?.(() => toast('เบราว์เซอร์นี้เปิดเต็มจอไม่ได้ กด F11 แทนได้'));
+  }
+  set(t) { this.stage.set(t); }
+  close() {
+    if (this.closed) return; this.closed = true;
+    removeEventListener('mousemove', this.onMove); removeEventListener('keydown', this.onKey, true); document.removeEventListener('fullscreenchange', this.onFs);
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    this.stage.destroy(); this.el.remove(); document.body.classList.remove('presenting');
+    if (this.host.presenter === this) this.host.presenter = null;
+  }
+}
+
 class HostView {
   constructor(root, code, db) {
     Object.assign(this, { root, code, db, sel: null, t: null, editorKey: '', sideSig: '', ctrlSig: '', modSig: '', picking: false });
@@ -1631,15 +2027,22 @@ class HostView {
     this.top = h('header', { class: 'host-top' }, IS_LIVE && code !== 'demo' ? brand() : null, this.titleIn,
       h('button', { class: 'code-chip', type: 'button', title: 'คัดลอกลิงก์ผู้เข้าร่วม', onclick: () => copyText(joinUrl(code)) }, icon('link'), fmtCode(code)),
       this.people, h('span', { class: 'spacer' }),
+      h('button', { class: 'btn sm', type: 'button', title: 'ธีมสีของจอและมือถือผู้เรียน', onclick: () => this.themeModal() }, this.themeDot = h('span', { class: 'theme-dot' }), 'ธีมสี'),
+      this.toolsBtn = h('button', { class: 'btn sm', type: 'button', 'aria-expanded': 'false', title: 'จับเวลาและเล่นเพลง', onclick: () => this.tools.toggle() }, icon('sliders'), 'เครื่องมือ', this.toolsInfo = h('span', { class: 'tools-info mono', hidden: true })),
       h('button', { class: 'btn sm', type: 'button', onclick: () => exportXlsx(this.t, code) }, icon('download'), 'Excel'),
-      h('a', { class: 'btn navy sm', href: '#screen-' + code, target: IN_FRAME ? null : '_blank', rel: 'noopener' }, icon('monitor'), 'เปิดจอนำเสนอ', IN_FRAME ? null : icon('ext')));
+      h('span', { class: 'split' },
+        h('button', { class: 'btn navy sm', type: 'button', title: 'เริ่มจากหน้าที่เลือกอยู่ แล้วขึ้นเต็มจอ', onclick: () => this.present() }, icon('monitor'), 'เปิดจอนำเสนอ'),
+        IN_FRAME ? null : h('button', { class: 'btn navy sm', type: 'button', title: 'เปิดจอนำเสนอในแท็บใหม่ (ใช้เมื่อต่อจอแยก)', 'aria-label': 'เปิดจอนำเสนอในแท็บใหม่', onclick: () => this.openScreenTab() }, icon('ext'))));
     this.side = h('aside', { class: 'host-side', 'aria-label': 'รายการคำถาม' });
     this.edit = h('section', { class: 'panel', 'aria-label': 'แก้ไขคำถาม' });
     this.ctrl = h('section', { class: 'panel', 'aria-label': 'ภาพบนจอและการควบคุม' });
     this.stage = new Stage({ db, code, fit: true });
     this.ctrlBtns = h('div', { class: 'ctrlbar' }); this.status = h('div'); this.mod = h('div', { style: { display: 'grid', gap: '10px' } });
-    this.ctrl.append(h('div', { class: 'panel-head' }, h('h3', null, icon('monitor'), 'ภาพบนจอ'), this.status), h('div', { class: 'preview-frame' }, this.stage.el), this.ctrlBtns, this.mod);
+    this.qrTg = h('input', { type: 'checkbox', id: 'qr-tg', checked: true });
+    this.qrTg.addEventListener('change', () => write(db, code, { 'meta/qr': this.qrTg.checked ? null : false }));
+    this.ctrl.append(h('div', { class: 'panel-head' }, h('h3', null, icon('monitor'), 'ภาพบนจอ'), h('div', { class: 'row', style: { gap: '12px' } }, h('label', { class: 'toggle sm', for: 'qr-tg', title: 'แสดง QR code บนจอนำเสนอ' }, this.qrTg, 'QR บนจอ'), this.status)), h('div', { class: 'preview-frame' }, this.stage.el), this.ctrlBtns, this.mod);
     root.append(...[modeBar(code === 'demo' ? 'host-demo' : 'host', code), h('div', { class: 'host' }, this.top, this.side, h('main', { class: 'host-main' }, this.edit, this.ctrl))].filter(Boolean));
+    this.tools = new ToolsPanel(this); root.append(this.tools.el);
     this.agent = db.kind === 'firebase' ? new Agent(db, code) : null;
     this.unsub = db.listen(code, t => { this.agent?.set(t); this.set(t); });
   }
@@ -1654,6 +2057,51 @@ class HostView {
     if (t.meta.title && t.meta.title !== this.syncedTitle && this.code !== 'demo') { this.syncedTitle = t.meta.title; rememberRoom(this.db, this.code, { title: t.meta.title }); }
     this.renderSide(t, qs); this.renderEditor(t); this.renderCtrl(t);
     this.stage.preview = this.sel; this.stage.set(t);
+    this.themeDot.style.background = themeOf(t.meta)?.a || '#FF6B00';
+    if (document.activeElement !== this.qrTg) this.qrTg.checked = t.meta.qr !== false;
+    this.tools?.set(t); this.presenter?.set(t);
+  }
+  syncToolsBtn(txt) {
+    if (txt !== undefined) this.toolsTxt = txt;
+    const open = !!this.tools?.open, playing = !!this.tools?.playing; const sig = [open, this.toolsTxt, playing].join('|');
+    if (sig === this.toolsSig || !this.toolsBtn) return; this.toolsSig = sig;
+    this.toolsBtn.classList.toggle('on', open); this.toolsBtn.setAttribute('aria-expanded', String(open));
+    const bits = [this.toolsTxt || null, playing ? '♪' : null].filter(Boolean); this.toolsInfo.hidden = !bits.length; this.toolsInfo.textContent = bits.join(' ');
+  }
+  goLive(sel = this.sel) {
+    const t = this.t; if (!t?.meta) return; const m = t.meta, db = this.db, code = this.code;
+    if (sel === 'join') { if (m.mode !== 'join' || m.active) Act.offscreen(db, code); }
+    else if (sel === 'qa') { if (m.mode !== 'qa') Act.mode(db, code, 'qa'); }
+    else { const q = getQ(t, sel); if (q && !(m.active === q.id && (m.mode === 'q' || m.mode === 'board'))) Act.activate(db, code, q); }
+  }
+  present(sel = this.sel) {
+    if (!this.t?.meta) return;
+    if (!this.presenter) this.presenter = new Presenter(this);
+    if (!document.fullscreenElement) this.presenter.full();
+    this.goLive(sel);
+  }
+  openScreenTab() { this.goLive(); const w = window.open('#screen-' + this.code, '_blank'); if (!w) go('#screen-' + this.code); }
+  addModal() {
+    const card = (ic, cls, name, desc, fn) => h('button', { class: 'typecard big', type: 'button', onclick: () => { dlg.close(); fn(); } }, h('span', { class: 'tc-ic ' + cls }, icon(ic)), h('span', { class: 'tc-tx' }, h('b', null, name), h('small', null, desc)));
+    const dlg = openModal('เพิ่มคำถาม', h('div', { class: 'typegrid big' },
+      card('mc', 't-mc', 'Multiple choice', 'โหวตเลือกคำตอบ ผลขึ้นเป็นกราฟแท่ง', () => this.addQ('mc')),
+      card('cloud', 't-cloud', 'Word cloud', 'พิมพ์คำสั้น ๆ คำที่ตอบซ้ำจะตัวใหญ่ขึ้น', () => this.addQ('cloud')),
+      card('open', 't-open', 'Open text', 'รับคำตอบเป็นข้อความ ขึ้นจอเป็นการ์ด', () => this.addQ('open')),
+      card('quiz', 't-quiz', 'Quiz', 'แข่งตอบเร็ว มีเฉลย คะแนน และอันดับ', () => this.addQ('quiz')),
+      card('qa', 't-qa', 'Q&A', 'ผู้เรียนส่งคำถามและโหวตคำถามที่อยากรู้', () => this.select('qa'))), { wide: true });
+  }
+  themeModal() {
+    const curA = (themeOf(this.t?.meta)?.a || '#FF6B00').toLowerCase();
+    const setTheme = th => write(this.db, this.code, { 'meta/theme': th && th.a.toLowerCase() !== '#ff6b00' ? th : null });
+    let pend = 0;
+    const grid = h('div', { class: 'swatches' }, THEMES.map(th => {
+      const on = th.a.toLowerCase() === curA;
+      return h('button', { class: 'swatch' + (on ? ' on' : ''), type: 'button', 'aria-pressed': String(on), style: `--a:${th.a};--s:${th.s}`, onclick: () => { clearTimeout(pend); setTheme(th.k === 'orange' ? null : { a: th.a, s: th.s }); dlg.close(); } }, h('i', null, on ? icon('check') : null), h('span', null, th.name));
+    }));
+    const picker = h('input', { type: 'color', id: 'theme-custom', 'aria-label': 'เลือกสีเอง' }); picker.value = curA;
+    picker.addEventListener('input', () => { clearTimeout(pend); const v = picker.value; pend = setTimeout(() => setTheme({ a: v, s: mixHex(v, '#000000', .65) }), 250); });
+    const dlg = openModal('ธีมสีของห้อง', [h('p', { class: 'muted' }, 'ใช้กับจอนำเสนอและมือถือผู้เรียนในห้องนี้ เปลี่ยนระหว่างคลาสได้ ผู้เรียนเห็นทันที'), grid,
+      h('label', { class: 'custom-color', for: 'theme-custom' }, picker, h('span', null, h('b', null, 'เลือกสีเอง'), h('small', { class: 'hint' }, 'สีเข้มอ่านง่ายกว่าบนจอโปรเจกเตอร์')))]);
   }
   select(id) { this.sel = id; this.picking = false; this.editorKey = ''; this.sideSig = ''; this.set(this.t); }
   renderSide(t, qs) {
@@ -1668,14 +2116,12 @@ class HostView {
       h('span', { style: { minWidth: '0' } }, h('div', { class: 'qt' + (q.text ? '' : ' faint') }, q.text || 'ยังไม่ได้พิมพ์คำถาม'),
         h('div', { class: 'qmeta' }, onScreen(q.id) ? h('span', { class: 'pill live' }, 'บนจอ') : null, `${TYPES[q.t].name} · ${fmtN(respCount(t, q.id))} คำตอบ`, q.closed && q.t !== 'quiz' ? icon('lock') : null)),
       h('span', { class: 'ord' }, h('button', { type: 'button', 'aria-label': 'เลื่อนขึ้น', disabled: i === 0, onclick: e => { e.stopPropagation(); this.move(qs, i, -1); } }, icon('up')), h('button', { type: 'button', 'aria-label': 'เลื่อนลง', disabled: i === qs.length - 1, onclick: e => { e.stopPropagation(); this.move(qs, i, 1); } }, icon('down')))));
-    const picker = this.picking ? h('div', { class: 'typegrid' }, ...Object.entries(TYPES).map(([k, ty]) => h('button', { class: 'typecard', type: 'button', onclick: () => this.addQ(k) }, h('span', { class: ty.cls }, icon(ty.icon)), ty.name)),
-      h('button', { class: 'typecard', type: 'button', onclick: () => this.select('qa') }, h('span', { class: 't-qa' }, icon('qa')), 'Q&A')) : null;
     this.side.replaceChildren(
       h('div', { class: 'side-label' }, 'ทั้งห้อง'),
       fixed('join', 'qr', 't-mc', 'หน้าเข้าร่วม (QR)', `${fmtN(pplCount(t))} คนในห้อง`),
-      fixed('qa', 'qa', 't-qa', 'Q&A ถามวิทยากร', `${fmtN(qaList(t).length)} คำถาม${t.meta.qaOn === false ? ' · ปิดรับ' : ''}`),
+      fixed('qa', 'qa', 't-qa', 'Q&A', `${fmtN(qaList(t).length)} คำถาม${t.meta.qaOn === false ? ' · ปิดรับ' : ''}`),
       h('div', { class: 'side-label', style: { marginTop: '6px' } }, `คำถาม (${qs.length})`), ...items,
-      h('button', { class: 'btn' + (qs.length ? '' : ' primary'), type: 'button', style: { marginTop: '6px' }, onclick: () => { this.picking = !this.picking; this.sideSig = ''; this.renderSide(this.t, qList(this.t)); } }, icon(this.picking ? 'x' : 'plus'), this.picking ? 'ปิด' : 'เพิ่มคำถาม'), ...(picker ? [picker] : []));
+      h('button', { class: 'btn' + (qs.length ? '' : ' primary'), type: 'button', style: { marginTop: '6px' }, onclick: () => this.addModal() }, icon('plus'), 'เพิ่มคำถาม'));
   }
   move(qs, i, d) { const a = qs[i], b = qs[i + d]; if (!b) return; write(this.db, this.code, { [`qs/${a.id}/ord`]: b.ord, [`qs/${b.id}/ord`]: a.ord }); }
   async addQ(type) {
@@ -1701,8 +2147,8 @@ class HostView {
     if (id === 'qa') {
       const tg = h('input', { type: 'checkbox', id: 'ed-qaon', checked: t.meta.qaOn !== false });
       tg.addEventListener('change', () => write(db, code, { 'meta/qaOn': tg.checked }));
-      return this.edit.replaceChildren(h('div', { class: 'panel-head' }, h('h3', null, h('span', { class: 't-qa' }, icon('qa')), 'Q&A ถามวิทยากร')),
-        h('p', { class: 'muted' }, 'ผู้เรียนส่งคำถามและกดโหวตได้ตลอดคลาสจากแท็บ “ถาม-ตอบ” กดดาวเพื่อขึ้นคำถามนั้นเป็นคำถามหลักบนจอ'),
+      return this.edit.replaceChildren(h('div', { class: 'panel-head' }, h('h3', null, h('span', { class: 't-qa' }, icon('qa')), 'Q&A')),
+        h('p', { class: 'muted' }, 'ผู้เรียนส่งคำถามและกดโหวตได้ตลอดคลาสจากแท็บ “Q&A” กดดาวเพื่อขึ้นคำถามนั้นเป็นคำถามหลักบนจอ'),
         h('label', { class: 'toggle', for: 'ed-qaon' }, tg, 'เปิดรับคำถามจากผู้เรียน'));
     }
     const upd = debounce((p, v) => write(db, code, { [`qs/${id}/${p}`]: v }), 350);
@@ -1756,12 +2202,12 @@ class HostView {
     if (sig !== this.ctrlSig) {
       this.ctrlSig = sig;
       this.status.replaceChildren(onScreen ? h('span', { class: 'pill live' }, 'อยู่บนจอตอนนี้') : h('span', { class: 'pill' }, 'ตัวอย่าง'));
-      const b = [];
-      if (id === 'join') b.push(onScreen ? h('span', { class: 'hint' }, 'หน้าเข้าร่วมอยู่บนจอ') : h('button', { class: 'btn primary', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('play'), 'แสดงบนจอ'));
-      else if (id === 'qa') b.push(onScreen ? h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('stop'), 'เอาลงจากจอ') : h('button', { class: 'btn primary', type: 'button', onclick: () => Act.mode(db, code, 'qa') }, icon('play'), 'แสดง Q&A บนจอ'));
+      const b = [h('button', { class: 'btn primary', type: 'button', title: 'ขึ้นจอให้ผู้เรียนเห็นพร้อมกัน แล้วเปิดโหมดนำเสนอเต็มจอ', onclick: () => this.present(id) }, icon('full'), q?.t === 'quiz' && ph === 'ready' ? 'เริ่ม Quiz เต็มจอ' : 'นำเสนอเต็มจอ')];
+      if (id === 'join') b.push(onScreen ? h('span', { class: 'hint' }, 'หน้าเข้าร่วมอยู่บนจอ') : h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('play'), 'แสดงบนจอ'));
+      else if (id === 'qa') b.push(onScreen ? h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('stop'), 'เอาลงจากจอ') : h('button', { class: 'btn', type: 'button', onclick: () => Act.mode(db, code, 'qa') }, icon('play'), 'แสดง Q&A บนจอ'));
       else if (q) {
         b.push(onScreen ? h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('stop'), 'เอาลงจากจอ')
-          : h('button', { class: 'btn primary', type: 'button', onclick: () => Act.activate(db, code, q) }, icon('play'), q.t === 'quiz' && ph === 'ready' ? 'เริ่ม Quiz บนจอ' : 'แสดงบนจอ'));
+          : h('button', { class: 'btn', type: 'button', onclick: () => Act.activate(db, code, q) }, icon('play'), q.t === 'quiz' && ph === 'ready' ? 'เริ่ม Quiz บนจอ' : 'แสดงบนจอ'));
         if (q.t === 'quiz') {
           if (ph === 'live') b.push(h('button', { class: 'btn', type: 'button', onclick: () => write(db, code, { [`qs/${id}/end`]: TS }) }, icon('clock'), 'จบเวลาเลย'));
           if (ph === 'ended') b.push(h('button', { class: 'btn', type: 'button', onclick: async () => { if (m.active !== id) await Act.activate(db, code, q); Act.mode(db, code, 'board'); } }, icon('podium'), 'แสดงอันดับ'),
@@ -1805,7 +2251,7 @@ class HostView {
       rows.length ? h('div', { class: 'modlist' }, rows.map(r => h('div', { class: 'moditem' + (hid[r.key] ? ' off' : '') }, h('span', { style: { minWidth: '0', overflowWrap: 'anywhere' } }, r.text, cloud ? h('span', { class: 'faint' }, ` ×${r.n}`) : null),
         h('button', { class: 'icon-btn', type: 'button', title: hid[r.key] ? 'แสดง' : 'ซ่อน', 'aria-label': hid[r.key] ? 'แสดงบนจอ' : 'ซ่อนจากจอ', onclick: () => write(db, code, { [`qs/${q.id}/hid/${r.key}`]: hid[r.key] ? null : true }) }, icon(hid[r.key] ? 'eye' : 'eyeOff'))))) : h('div', { class: 'empty' }, 'ยังไม่มีคำตอบ'));
   }
-  destroy() { this.unsub?.(); this.stage.destroy(); this.agent?.destroy(); }
+  destroy() { this.unsub?.(); this.stage.destroy(); this.agent?.destroy(); this.presenter?.close(); this.tools?.destroy(); }
 }
 
 class ScreenView {
@@ -1817,6 +2263,13 @@ class ScreenView {
       h('a', { class: 'btn sm', href: code === 'demo' ? '#demo' : '#host-' + code }, icon('back'), code === 'demo' ? 'ห้องเรียนจำลอง' : 'แผงควบคุม'),
       h('button', { class: 'btn sm', type: 'button', onclick: full }, icon('full'), 'เต็มจอ'));
     this.stage.el.append(back); root.append(this.stage.el);
+    if (canControl && !IN_FRAME && document.fullscreenEnabled && !document.fullscreenElement) {
+      const hint = h('button', { class: 'fs-hint', type: 'button' }, icon('full'), 'คลิกที่จอเพื่อแสดงเต็มจอ');
+      const goFs = e => { if (e.target.closest?.('.float-back')) return; done(); if (!document.fullscreenElement) full(); };
+      const done = () => { hint.remove(); this.stage.el.removeEventListener('pointerdown', goFs); };
+      this.stage.el.append(hint); this.stage.el.addEventListener('pointerdown', goFs); setTimeout(done, 12000);
+      document.addEventListener('fullscreenchange', done, { once: true });
+    }
     let idle; this.onMove = () => { this.stage.el.classList.add('awake'); clearTimeout(idle); idle = setTimeout(() => this.stage.el.classList.remove('awake'), 2500); };
     addEventListener('mousemove', this.onMove); this.onMove();
     this.onKey = canControl ? stageKeys(() => this.t, db, code, full) : null; if (this.onKey) addEventListener('keydown', this.onKey);
