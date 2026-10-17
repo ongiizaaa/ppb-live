@@ -1438,7 +1438,7 @@ class HostView {
       fixed('join', 'qr', 't-mc', 'หน้าเข้าร่วม (QR)', `${fmtN(pplCount(t))} คนในห้อง`),
       fixed('qa', 'qa', 't-qa', 'Q&A ถามวิทยากร', `${fmtN(qaList(t).length)} คำถาม${t.meta.qaOn === false ? ' · ปิดรับ' : ''}`),
       h('div', { class: 'side-label', style: { marginTop: '6px' } }, `คำถาม (${qs.length})`), ...items,
-      h('button', { class: 'btn' + (qs.length ? '' : ' primary'), type: 'button', style: { marginTop: '6px' }, onclick: () => { this.picking = !this.picking; this.sideSig = ''; this.renderSide(this.t, qList(this.t)); } }, icon(this.picking ? 'x' : 'plus'), this.picking ? 'ปิด' : 'เพิ่มคำถาม'), picker);
+      h('button', { class: 'btn' + (qs.length ? '' : ' primary'), type: 'button', style: { marginTop: '6px' }, onclick: () => { this.picking = !this.picking; this.sideSig = ''; this.renderSide(this.t, qList(this.t)); } }, icon(this.picking ? 'x' : 'plus'), this.picking ? 'ปิด' : 'เพิ่มคำถาม'), ...(picker ? [picker] : []));
   }
   move(qs, i, d) { const a = qs[i], b = qs[i + d]; if (!b) return; write(this.db, this.code, { [`qs/${a.id}/ord`]: b.ord, [`qs/${b.id}/ord`]: a.ord }); }
   async addQ(type) {
