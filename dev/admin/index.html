@@ -805,6 +805,200 @@ body { font-size: 17.25px; }
 @media (max-width: 1360px) { .host-top .btn .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
 @media (max-width: 1100px) { .host-top { flex-wrap: wrap; } }
 
+/* แจ้งว่ามีเวอร์ชันใหม่ (หน้าที่เปิดค้างไว้) */
+.v-banner { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 200; display: inline-flex; align-items: center; gap: 10px; padding: 8px 8px 8px 16px; border-radius: 99px; background: var(--ink); color: var(--surface); box-shadow: var(--shadow); font-size: .92em; animation: toastIn .3s ease-out; }
+.v-banner svg.i { width: 18px; height: 18px; }
+.v-banner .btn { background: var(--brand); color: var(--on-brand); border-color: transparent; }
+
+/* =====================================================================
+   ลิงก์เอกสาร: แผงควบคุม
+   ===================================================================== */
+.t-links, .qitem .ticon.t-links { color: #4F46E5; }
+.k-doc { --kc: #EA580C; } .k-hw { --kc: #16A34A; } .k-link { --kc: #4F46E5; }
+.link-toggle { padding: 12px 14px; border-radius: 14px; background: var(--surface-2); }
+.link-toggle.on { background: color-mix(in srgb, var(--good, #16A34A) 12%, var(--surface)); }
+.link-toggle span { display: grid; gap: 1px; } .link-toggle small { color: var(--ink-3); font-size: .8em; font-weight: 400; }
+.link-rows { display: grid; gap: 10px; }
+.link-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; grid-template-areas: "ic sel acts" "ic t t" "ic u u" "ic note note"; gap: 6px 10px; align-items: center; padding: 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.link-row > .ic { grid-area: ic; align-self: start; }
+.link-row > .select { grid-area: sel; width: 100%; max-width: 200px; min-width: 0; }
+.link-row > .input { width: 100%; min-width: 0; }
+.link-row > .input:not(.mono) { grid-area: t; }
+.link-row > .input.mono { grid-area: u; font-size: .82em; }
+.link-row > .input.bad { border-color: var(--bad); }
+.link-row > .link-note { grid-area: note; }
+.link-row > .link-acts { grid-area: acts; }
+.link-row > .ic, .pv-link > .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--kc) 14%, var(--surface)); color: var(--kc); flex: none; }
+.link-row > .ic svg, .pv-link > .ic svg { width: 21px; height: 21px; }
+.link-fields { display: grid; gap: 6px; min-width: 0; }
+.link-top { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 6px; }
+.link-fields .input.mono { font-size: .82em; }
+.link-fields .input.bad { border-color: var(--bad); }
+.link-note { font-size: .75em; color: var(--ink-3); min-height: 1em; }
+.link-acts { display: flex; gap: 2px; }
+.link-empty { display: flex; align-items: center; gap: 10px; padding: 18px; border: 1.5px dashed var(--line); border-radius: 14px; color: var(--ink-3); }
+.link-adds { gap: 8px; flex-wrap: wrap; }
+.links-preview { width: min(100%, 340px); padding: 14px; border-radius: 22px; background: var(--surface); box-shadow: 0 14px 34px -22px rgba(19, 33, 59, .5); border: 1px solid var(--line); }
+.links-preview.off { opacity: .55; filter: grayscale(.5); }
+
+/* =====================================================================
+   หน้าผู้เรียน (ดีไซน์ใหม่): พื้นสีอ่อนตามธีม การ์ดขาวมุมโค้ง กระเบื้องคำตอบสีสด
+   ===================================================================== */
+.pv { --pv-r: 22px; --pv-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 14px 34px -20px rgba(19, 33, 59, .28);
+  background: radial-gradient(120% 60% at 0% 0%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 60%), radial-gradient(90% 50% at 100% 10%, color-mix(in srgb, var(--brand) 9%, transparent), transparent 60%), var(--bg); }
+body.themed:has(.app.full > .pv) { background: var(--bg); }
+body.themed .pv { background: radial-gradient(120% 60% at 0% 0%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 60%), radial-gradient(90% 50% at 100% 10%, color-mix(in srgb, var(--brand) 9%, transparent), transparent 60%), var(--bg); }
+body.themed .pv .pv-head, .pv .pv-head { background: transparent; border-bottom: 0; color: var(--ink); padding: 14px 16px 10px; padding-top: max(14px, env(safe-area-inset-top, 0px)); justify-content: flex-start; }
+.pv .pv-head .t { flex: 1; font-size: 1.02em; font-weight: 700; }
+.pv-chip, body.themed .pv .pv-head .c { display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 99px; background: var(--surface); color: var(--ink-2); box-shadow: var(--pv-shadow); font-family: var(--f-mono); font-size: .78em; font-weight: 600; opacity: 1; white-space: nowrap; }
+.pts-chip { color: var(--brand-ink); font-family: var(--f-display); }
+.pts-chip svg.i { width: 15px; height: 15px; }
+body.themed .pv .pv-body, .pv .pv-body { background: transparent; margin: 0; border-radius: 0; padding: 6px 16px 18px; gap: 14px; }
+.pv .pv-card, body.themed .pv .pv-card { border: 0; border-radius: var(--pv-r); box-shadow: var(--pv-shadow); padding: 18px; background: var(--surface); }
+.pv .pv-card.center { padding: 26px 18px; }
+.pv .btn { border-radius: 14px; }
+.pv .btn.primary.lg, .pv .btn.primary.block { border-radius: 99px; min-height: 52px; font-size: 1.02em; gap: 10px; box-shadow: 0 12px 24px -14px color-mix(in srgb, var(--brand) 80%, transparent); }
+.pv .btn.primary.lg svg.i { width: 20px; height: 20px; }
+.pv .input, .pv .textarea { border-radius: 14px; background: var(--surface-2); border-color: transparent; }
+.pv .input:focus, .pv .textarea:focus { background: var(--surface); border-color: var(--brand); }
+
+/* แท็บล่างแบบลอย */
+body.themed .pv .pv-tabs, .pv .pv-tabs { margin: 0 12px max(12px, env(safe-area-inset-bottom, 0px)); padding: 6px; border: 0; border-radius: 22px; background: var(--surface); box-shadow: 0 10px 30px -14px rgba(19, 33, 59, .35); gap: 6px; }
+.pv .pv-tabs button { flex-direction: row; display: flex; justify-content: center; align-items: center; gap: 8px; padding: 11px 8px; border-radius: 16px; font-size: .86em; color: var(--ink-3); }
+.pv .pv-tabs button svg { width: 20px; height: 20px; }
+.pv .pv-tabs button.on { background: var(--brand-soft); color: var(--brand-ink); font-weight: 600; }
+.pv .pv-tabs .badge { position: static; margin-left: 2px; }
+
+/* การ์ดทักทาย (แบบหน้าแรกของแอปเรียน) */
+.pv-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 6px; min-height: 150px; padding: 20px 6px 0 20px; border-radius: 26px; color: var(--ink);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 22%, var(--surface)) 0%, color-mix(in srgb, var(--brand) 9%, var(--surface)) 55%, var(--surface) 100%); box-shadow: var(--pv-shadow); isolation: isolate; }
+.pv-hero::before, .pv-hero::after { content: ''; position: absolute; z-index: -1; border-radius: 50%; background: color-mix(in srgb, var(--brand) 18%, transparent); }
+.pv-hero::before { width: 180px; height: 180px; right: -40px; top: -60px; }
+.pv-hero::after { width: 90px; height: 90px; right: 110px; bottom: -50px; background: color-mix(in srgb, var(--brand) 12%, transparent); }
+.hero-tx { display: grid; gap: 6px; align-self: center; padding-bottom: 20px; min-width: 0; }
+.hero-hi { font-family: var(--f-display); font-weight: 700; font-size: 1.45em; line-height: 1.2; letter-spacing: -.01em; }
+.hero-hi em { font-style: normal; color: var(--brand-ink); }
+.hero-tx b { font-family: var(--f-display); font-size: 1.02em; font-weight: 600; }
+.hero-tx span { color: var(--ink-2); font-size: .9em; line-height: 1.45; text-wrap: pretty; }
+.hero-av { width: 112px; margin-bottom: -2px; filter: drop-shadow(0 10px 14px rgba(19, 33, 59, .18)); }
+@media (prefers-reduced-motion: no-preference) { .hero-av { animation: avIn .5s cubic-bezier(.2,.8,.2,1) both, avBob 3.2s ease-in-out .6s infinite; } }
+.join-card { gap: 12px; }
+.lobby-tips ul { margin: 6px 0 0; padding-left: 1.2em; display: grid; gap: 6px; color: var(--ink-2); font-size: .92em; }
+
+/* ทางลัดใต้การ์ดทักทาย */
+.pv-tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.pv-tips .tip { display: grid; gap: 4px; align-content: start; justify-items: start; padding: 14px; border: 0; border-radius: 18px; background: var(--surface); box-shadow: var(--pv-shadow); text-align: left; color: var(--ink); font: inherit; }
+button.tip { cursor: pointer; transition: transform .12s; } button.tip:hover { transform: translateY(-2px); }
+.pv-tips { grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); }
+.pv-tips .tip .ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 4px; background: color-mix(in srgb, var(--tc) 15%, var(--surface)); color: var(--tc); }
+.pv-tips .tip .ic svg { width: 20px; height: 20px; }
+.pv-tips .tip small { color: var(--ink-3); font-size: .78em; line-height: 1.35; }
+.pv-tips .t1 { --tc: #3B82F6; } .pv-tips .t2 { --tc: #E11D48; } .pv-tips .t3 { --tc: #16A34A; }
+
+/* การ์ดคำถาม */
+.pv-qcard { display: grid; gap: 8px; padding: 18px; border-radius: var(--pv-r); background: var(--surface); box-shadow: var(--pv-shadow); }
+.pv .pv-kind { justify-self: start; padding: 4px 10px; border-radius: 99px; background: color-mix(in srgb, currentColor 12%, transparent); letter-spacing: .02em; text-transform: none; font-size: .76em; }
+.pv-qcard { color: var(--ink); }
+.pv-qcard[data-t=mc] .pv-kind { color: #2F7D4F; } .pv-qcard[data-t=cloud] .pv-kind { color: #7C4DBF; } .pv-qcard[data-t=open] .pv-kind { color: #1F7A8C; } .pv-qcard[data-t=quiz] .pv-kind { color: #B36A00; }
+.pv .pv-q { font-size: 1.25em; font-weight: 700; line-height: 1.35; }
+.pv-qcard .pv-img { border: 0; background: var(--surface-2); }
+
+/* กระเบื้องคำตอบสีสด */
+.qbtns > :nth-child(6n+1) { --c: #3B82F6; } .qbtns > :nth-child(6n+2) { --c: #EF4444; } .qbtns > :nth-child(6n+3) { --c: #16A34A; }
+.qbtns > :nth-child(6n+4) { --c: #F59E0B; } .qbtns > :nth-child(6n+5) { --c: #8B5CF6; } .qbtns > :nth-child(6n+6) { --c: #0EA5E9; }
+.pv .qbtns { gap: 10px; }
+.pv .opt, .pv .qbtn { border: 0; border-radius: 18px; padding: 14px 16px; background: color-mix(in srgb, var(--c, var(--brand)) 11%, var(--surface)); box-shadow: inset 0 0 0 2px transparent, 0 1px 2px rgba(19, 33, 59, .05); font-weight: 600; color: var(--ink); transition: transform .12s, box-shadow .15s, background .15s; }
+.pv .opt:hover, .pv .qbtn:hover:not(:disabled) { transform: translateY(-1px); background: color-mix(in srgb, var(--c, var(--brand)) 16%, var(--surface)); }
+.pv .opt .dot { width: 26px; height: 26px; border-color: var(--c, var(--brand)); background: var(--surface); }
+.pv .opt.on { background: color-mix(in srgb, var(--c, var(--brand)) 20%, var(--surface)); box-shadow: inset 0 0 0 2px var(--c, var(--brand)); border: 0; }
+.pv .opt.on .dot { border-color: var(--c, var(--brand)); background: var(--c, var(--brand)); }
+.pv .opt.on .dot::after { background: #fff; }
+.pv .opt.multi.on .dot::after { border-color: #fff; background: transparent; }
+.pv .qbtn { padding: 16px; font-size: 1.04em; }
+.pv .qbtn .let { width: 38px; height: 38px; border-radius: 12px; background: var(--c, var(--navy)); color: #fff; box-shadow: 0 6px 12px -6px var(--c, var(--navy)); }
+.pv .qbtn:active { box-shadow: inset 0 0 0 2px var(--c, var(--brand)); }
+.pv .qbtn:disabled { opacity: .55; transform: none; }
+.pv .tbar { height: 10px; border-radius: 99px; } .pv .tbar i { border-radius: 99px; }
+.pv .mini-bars .mb .trk { height: 10px; border-radius: 99px; } .pv .mini-bars .mb .trk i { border-radius: 99px; }
+.score-card .score-ic { width: 54px; height: 54px; border-radius: 18px; display: grid; place-items: center; background: color-mix(in srgb, var(--brand) 15%, var(--surface)); color: var(--brand-ink); }
+.score-card .score-ic svg { width: 28px; height: 28px; }
+.pv .score-card.big { background: linear-gradient(160deg, color-mix(in srgb, var(--brand) 14%, var(--surface)), var(--surface) 70%); }
+
+/* ปุ่ม "เอกสาร" มุมซ้ายบน + ลิ้นชักลิงก์ (มือถือ) */
+.pv-links-btn { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 7px 12px 7px 10px; border: 0; border-radius: 99px; background: var(--brand); color: var(--on-brand); font-weight: 600; font-size: .84em; box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--brand) 90%, transparent); }
+.pv-links-btn[hidden] { display: none; }
+.pv-links-btn svg.i { width: 17px; height: 17px; }
+.pv-links-btn b { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; background: color-mix(in srgb, var(--on-brand) 25%, transparent); font-size: .85em; }
+.pv-links-btn.ping { animation: ping 1.2s ease-out 2; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand) 60%, transparent); } 100% { box-shadow: 0 0 0 14px transparent; } }
+.pv-links { position: absolute; z-index: 40; inset: 0 auto 0 0; width: min(86%, 340px); display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--surface); border-radius: 0 26px 26px 0; box-shadow: 18px 0 40px -20px rgba(19, 33, 59, .45); transform: translateX(-105%); visibility: hidden; transition: transform .28s cubic-bezier(.2,.8,.2,1), visibility 0s linear .28s; }
+.pv.links-open .pv-links { transform: none; visibility: visible; transition: transform .28s cubic-bezier(.2,.8,.2,1); }
+.pv-links-back { position: absolute; z-index: 39; inset: 0; background: rgba(11, 19, 34, .38); opacity: 0; pointer-events: none; transition: opacity .25s; }
+.pv.links-open .pv-links-back { opacity: 1; pointer-events: auto; }
+.pv-links-head { display: flex; align-items: center; gap: 8px; padding: 18px 14px 10px 18px; font-family: var(--f-display); }
+.pv-links-head > svg.i { color: var(--brand); }
+.pv-links-head b { flex: 1; }
+.pv-links-list { display: grid; gap: 8px; align-content: start; overflow-y: auto; padding: 4px 12px 16px; }
+.pv-link { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 12px 10px 10px; border-radius: 16px; background: var(--surface); color: var(--ink); text-decoration: none; box-shadow: inset 0 0 0 1px var(--line); transition: background .12s, transform .12s; }
+.pv-link:hover { background: color-mix(in srgb, var(--kc) 7%, var(--surface)); transform: translateY(-1px); }
+.pv-link .tx { display: grid; gap: 1px; min-width: 0; }
+.pv-link .tx b { font-size: .95em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv-link .tx small { font-size: .74em; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv-link > svg.i { width: 16px; height: 16px; color: var(--ink-3); }
+.pv-links-note { margin: 4px 4px 0; font-size: .74em; color: var(--ink-3); }
+.pv-brand, .pv-me { display: none; }
+
+/* จอกว้าง (โน้ตบุ๊ก/แท็บเล็ตแนวนอน): แถบซ้ายแบบแอปเรียน */
+@media (min-width: 960px) {
+  body.themed:has(.app.full > .pv) { background: radial-gradient(70% 60% at 0% 0%, color-mix(in srgb, var(--brand) 14%, transparent), transparent 70%), radial-gradient(60% 50% at 100% 0%, color-mix(in srgb, var(--brand) 8%, transparent), transparent 70%), var(--bg); }
+  body.themed .app.full > .pv, .app.full > .pv { width: min(100% - 48px, 1180px); margin: 22px auto 26px; height: auto; flex: 1; min-height: 0; border: 0; border-radius: 0; box-shadow: none; overflow: visible; background: transparent;
+    grid-template-columns: 280px minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr) auto; column-gap: 26px;
+    grid-template-areas: "brand head" "nav body" "links body" "fill body" "me body"; }
+  .app.full > .pv::before { content: ''; grid-column: 1; grid-row: 1 / -1; background: var(--surface); border-radius: 28px; box-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 20px 50px -30px rgba(19, 33, 59, .35); }
+  .app.full > .pv > * { position: relative; }
+  .app.full > .pv .pv-brand { grid-area: brand; display: grid; gap: 4px; padding: 26px 24px 18px; border-bottom: 1px solid var(--line); margin: 0 18px; padding-left: 6px; padding-right: 6px; }
+  .app.full > .pv .pv-brand .brand { font-size: 1.12rem; }
+  .app.full > .pv .pv-brand small { color: var(--ink-3); font-size: .78em; padding-left: calc(1.75em + .55em); }
+  .app.full > .pv .pv-head { grid-area: head; padding: 18px 4px 12px; }
+  .app.full > .pv .pv-head .t { font-size: 1.5em; letter-spacing: -.01em; }
+  .app.full > .pv .pv-links-btn { display: none; }
+  .app.full > .pv .pv-body { grid-area: body; overflow-y: auto; padding: 4px 4px 28px; gap: 16px; align-content: start; }
+  .app.full > .pv .pv-tabs { grid-area: nav; display: grid; grid-template-columns: 1fr; margin: 14px 14px 0; padding: 0; background: transparent; box-shadow: none; gap: 4px; }
+  .app.full > .pv .pv-tabs[hidden] { display: none; }
+  .app.full > .pv .pv-tabs button { justify-content: flex-start; padding: 12px 14px; font-size: .95em; color: var(--ink-2); }
+  .app.full > .pv .pv-tabs button:hover { background: var(--surface-2); }
+  .app.full > .pv .pv-tabs button.on { background: var(--brand-soft); color: var(--brand-ink); }
+  .app.full > .pv .pv-links { grid-area: links; position: relative; inset: auto; width: auto; transform: none; visibility: visible; border-radius: 0; box-shadow: none; background: transparent; z-index: auto; margin-top: 10px; transition: none; }
+  .app.full > .pv:not(.has-links) .pv-links { display: none; }
+  .app.full > .pv .pv-links-head { padding: 12px 18px 6px 28px; font-size: .78em; text-transform: none; color: var(--ink-3); font-weight: 600; letter-spacing: .02em; }
+  .app.full > .pv .pv-links-head > svg.i { width: 16px; height: 16px; }
+  .app.full > .pv .pv-links-x, .app.full > .pv .pv-links-back { display: none; }
+  .app.full > .pv .pv-links-list { padding: 2px 14px 8px; overflow: visible; }
+  .app.full > .pv .pv-link { box-shadow: none; background: transparent; padding: 8px 10px; }
+  .app.full > .pv .pv-link:hover { background: var(--surface-2); }
+  .app.full > .pv .pv-me:not([hidden]) { grid-area: me; display: flex; align-items: center; gap: 12px; margin: 12px 14px 14px; padding: 12px 14px; border-radius: 18px; background: var(--surface-2); }
+  .pv-me-av { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--brand); color: var(--on-brand); font-family: var(--f-display); font-weight: 700; font-size: 1.05em; }
+  .pv-me-tx { display: grid; min-width: 0; } .pv-me-tx b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .pv-me-tx small { color: var(--ink-3); font-size: .78em; }
+  .app.full > .pv .pv-hero { min-height: 230px; padding: 30px 20px 0 34px; border-radius: 30px; }
+  .app.full > .pv .hero-hi { font-size: 2.2em; }
+  .app.full > .pv .hero-tx { gap: 8px; max-width: 46ch; }
+  .app.full > .pv .hero-tx b { font-size: 1.15em; }
+  .app.full > .pv .hero-av { width: 190px; }
+  .app.full > .pv .pv-hero::before { width: 320px; height: 320px; right: -60px; top: -120px; }
+  .app.full > .pv .qbtns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app.full > .pv .pv-qcard { padding: 24px 26px; }
+  .app.full > .pv .pv-q { font-size: 1.5em; }
+  .app.full > .pv .join-card, .app.full > .pv .lobby-tips { max-width: 520px; }
+}
+
+@media (min-width: 960px) {
+  .app.full > .pv .pv-link .tx b { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.3; }
+}
+.device .pv .pv-tabs { margin: 0 8px 8px; padding: 4px; border-radius: 16px; }
+.device .pv .pv-tabs button { font-size: .74em; gap: 4px; padding: 8px 4px; white-space: nowrap; border-radius: 12px; }
+.device .pv .pv-tabs button svg { width: 17px; height: 17px; }
+.device .pv-hero { min-height: 120px; padding: 14px 4px 0 14px; } .device .hero-av { width: 86px; } .device .hero-hi { font-size: 1.2em; }
+
 </style>
 </head>
 <body>
@@ -833,6 +1027,7 @@ const FIREBASE_CONFIG = {
 };
 const FIREBASE_VERSION = '10.12.2';
 const CHANNEL = 'dev'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
+const BUILD = 1792316795425; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 const SUGGESTED_SITE = 'live.powerpointboy.com';
 const ADMIN_EMAIL = 'twish.ong@gmail.com'; // บัญชีเดียวที่เข้าหลังบ้านได้ (กฎใน Firebase ล็อกไว้ที่อีเมลนี้เหมือนกัน)
@@ -896,6 +1091,9 @@ const ICONS = {
   music: '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
   palette: '<path d="M12 3a9 9 0 1 0 0 18c1 0 1.7-.8 1.7-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5c0-4-4-7.2-9-7.2z"/><circle cx="7.5" cy="11.5" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15.2" cy="8.2" r="1"/>',
   repeat: '<path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/>',
+  clip: '<path d="m20.5 11.5-8.3 8.3a5.2 5.2 0 0 1-7.4-7.4l8.6-8.6a3.5 3.5 0 0 1 5 5l-8.6 8.6a1.8 1.8 0 0 1-2.5-2.5l7.9-7.9"/>',
+  doc: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9.5 14.5 12 17l2.5-2.5"/>',
+  upload: '<path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 15v4a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4"/>',
   pin: '<path d="M9 3.5h6l-1 6.5 3.2 3V15H6.8v-2L10 10z"/><path d="M12 15v6"/>',
   mini: '<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>',
   volume: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
@@ -1132,8 +1330,8 @@ class FirebaseBackend {
 class PhoneFeed {
   constructor(db, code, pid, cb) {
     Object.assign(this, { db, code, pid, cb, offs: {}, got: new Set(), active: undefined, queued: false });
-    this.t = { __feed: true, meta: null, qs: {}, ppl: {}, res: {}, agg: {}, score: {}, qa: {}, img: {} };
-    this.sub('meta', 'meta', v => { this.t.meta = v; this.retarget(); });
+    this.t = { __feed: true, meta: null, qs: {}, ppl: {}, res: {}, agg: {}, score: {}, qa: {}, img: {}, links: {} };
+    this.sub('meta', 'meta', v => { this.t.meta = v; this.retarget(); this.syncLinks(); });
     this.sub('qs', 'qs', v => { this.t.qs = v || {}; });
     this.sub('ppl', `ppl/${pid}`, v => { this.t.ppl = v ? { [pid]: v } : {}; });
     this.sub('score', `score/${pid}`, v => { this.t.score = v ? { [pid]: v } : {}; });
@@ -1148,6 +1346,7 @@ class PhoneFeed {
     this.sub('res', `res/${a}/${this.pid}`, v => { this.t.res = v ? { [a]: { [this.pid]: v } } : {}; });
     this.sub('agg', `agg/${a}`, v => { this.t.agg = v ? { [a]: v } : {}; });
   }
+  syncLinks() { const on = !!this.t.meta?.linksOn; if (on === !!this.offs.links) return; if (on) this.sub('links', 'links', v => { this.t.links = v || {}; }); else { this.unsub('links'); this.t.links = {}; } }
   setQA(on) { if (on === !!this.offs.qa) return; if (on) this.sub('qa', 'qa', v => { this.t.qa = v || {}; }); else { this.unsub('qa'); this.t.qa = {}; } }
   emit() {
     if (!this.got.has('meta')) return;
@@ -1218,6 +1417,36 @@ const ansList = a => a == null ? [] : Array.isArray(a) ? a : typeof a === 'objec
 // คนที่ออนไลน์อยู่จริง (มือถือเปิดหน้าห้องค้างไว้) · ห้องจำลองในเครื่องนับจากรายชื่อ
 const onlineIds = (t, db) => db?.kind === 'local' ? Object.keys(t?.ppl || {}) : Object.keys(t?.on || {}).filter(k => t?.ppl?.[k]);
 const roomCount = (t, db) => onlineIds(t, db).length;
+// ลิงก์เอกสาร/ส่งการบ้าน: เก็บที่ links/{id} {k, t, u, ord} ผู้เรียนอ่านได้เฉพาะตอน meta/linksOn = true
+const LINK_KINDS = {
+  doc: { th: 'เอกสาร', add: 'เอกสารประกอบ', def: 'เอกสารประกอบการเรียน', icon: 'doc', cls: 'k-doc' },
+  hw: { th: 'ส่งการบ้าน', add: 'ส่งการบ้าน', def: 'ส่งการบ้าน', icon: 'upload', cls: 'k-hw' },
+  link: { th: 'ลิงก์', add: 'ลิงก์อื่น', def: 'ลิงก์', icon: 'link', cls: 'k-link' },
+};
+const MAX_LINKS = 8;
+const linkList = t => Object.entries(t?.links || {}).map(([id, l]) => ({ id, ...l })).sort((a, b) => (a.ord || 0) - (b.ord || 0));
+const okUrl = u => /^https?:\/\/[^\s/]+\.[^\s]+$/i.test(String(u || '').trim());
+const normUrl = raw => { let s = String(raw || '').trim(); if (!s) return ''; if (!/^[a-z][\w+.-]*:/i.test(s)) s = 'https://' + s.replace(/^\/+/, ''); return /^https?:\/\//i.test(s) ? s.slice(0, 2000) : null; };
+const urlHost = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
+const shownLinks = t => t?.meta?.linksOn ? linkList(t).filter(l => okUrl(l.u)) : [];
+function linkCard(l, preview = false) {
+  const k = LINK_KINDS[l.k] || LINK_KINDS.link;
+  return h(preview ? 'div' : 'a', { class: 'pv-link ' + k.cls, ...(preview ? {} : { href: l.u, target: '_blank', rel: 'noopener noreferrer' }) },
+    h('span', { class: 'ic' }, icon(k.icon)), h('span', { class: 'tx' }, h('b', null, l.t || k.def), h('small', null, `${k.th} · ${urlHost(l.u)}`)), icon('ext'));
+}
+// เวอร์ชันแอป: แผงควบคุมเขียนเวอร์ชันของตัวเองลงห้อง (แยกเว็บจริง/dev) หน้าที่เปิดค้างไว้ด้วยเวอร์ชันเก่าจะโหลดใหม่เอง
+const VKEY = CHANNEL === 'dev' ? 'vdev' : 'v';
+function stampVersion(db, code, meta) { if (db.kind === 'firebase' && BUILD && code !== 'demo' && !(meta?.[VKEY] >= BUILD)) write(db, code, { ['meta/' + VKEY]: BUILD }); }
+let vBanner = null;
+function checkVersion(meta, auto) {
+  const v = meta?.[VKEY]; if (!BUILD || !(v > BUILD)) return;
+  const k = 'ppb:reload:' + v; let tried = false; try { tried = sessionStorage.getItem(k) === '1'; } catch { /* ignore */ }
+  const reload = () => { try { sessionStorage.setItem(k, '1'); } catch { /* ignore */ } location.replace(location.pathname + '?v=' + v + location.hash); };
+  if (auto && !tried) return reload();
+  if (vBanner) return;
+  vBanner = h('div', { class: 'v-banner', role: 'status' }, icon('refresh'), h('span', null, 'มีเวอร์ชันใหม่'), h('button', { class: 'btn sm', type: 'button', onclick: reload }, 'โหลดใหม่'));
+  document.body.append(vBanner);
+}
 const quizPlayers = (t, db) => onlineIds(t, db).filter(k => t.ppl?.[k]?.n);
 const ansOf = (t, q) => t?.keys?.[q.id] ?? q.ans;
 function quizPoints(q, r, ans) {
@@ -1677,18 +1906,38 @@ function stageKeys(getT, db, code, onFull) {
 class Phone {
   constructor({ db, code, pid, pub, onNeedQA }) {
     Object.assign(this, { db, code, pid, pub: pub || pid, onNeedQA });
-    this.headT = h('div', { class: 't' }); this.headC = h('div', { class: 'c' });
+    this.headT = h('div', { class: 't' }); this.headC = h('div', { class: 'c pv-chip' });
     this.body = h('div', { class: 'pv-body' });
     this.qaBadge = h('span', { class: 'badge', hidden: true });
     this.tabPoll = h('button', { type: 'button', onclick: () => this.setTab('poll') }, icon('mc'), 'คำถามสด');
     this.tabQa = h('button', { type: 'button', onclick: () => this.setTab('qa') }, icon('qa'), 'Q&A', this.qaBadge);
     this.tabs = h('nav', { class: 'pv-tabs' }, this.tabPoll, this.tabQa);
-    this.el = h('div', { class: 'pv' }, h('div', { class: 'pv-head' }, this.headT, this.headC), this.body, this.tabs);
+    // เอกสารและลิงก์: จอกว้างเป็นแถบซ้าย มือถือเป็นปุ่มมุมซ้ายบนที่เปิดลิ้นชักจากด้านซ้าย
+    this.linksN = h('b');
+    this.linksBtn = h('button', { class: 'pv-links-btn', type: 'button', hidden: true, 'aria-label': 'เอกสารและลิงก์', onclick: () => this.toggleLinks() }, icon('clip'), h('span', null, 'เอกสาร'), this.linksN);
+    this.linksList = h('div', { class: 'pv-links-list' });
+    this.linksEl = h('aside', { class: 'pv-links', 'aria-label': 'เอกสารและลิงก์' },
+      h('div', { class: 'pv-links-head' }, icon('clip'), h('b', null, 'เอกสารและลิงก์'), h('button', { class: 'icon-btn pv-links-x', type: 'button', 'aria-label': 'ปิด', onclick: () => this.toggleLinks(false) }, icon('x'))), this.linksList);
+    this.linksBack = h('div', { class: 'pv-links-back', onclick: () => this.toggleLinks(false) });
+    // จอกว้าง: แถบซ้ายมีโลโก้ เมนู ลิงก์ และการ์ดผู้เรียน
+    this.brandEl = h('div', { class: 'pv-brand' }, h('span', { class: 'brand', html: MARK }, h('span', null, 'Powerpointboy ', h('b', null, 'Live'))), h('small', null, 'ตอบสด · เรียนสนุก'));
+    this.meEl = h('div', { class: 'pv-me', hidden: true });
+    this.headPts = h('span', { class: 'pv-chip pts-chip', hidden: true });
+    this.el = h('div', { class: 'pv' }, this.brandEl, h('div', { class: 'pv-head' }, this.linksBtn, this.headT, h('div', { class: 'pv-head-r' }, this.headPts, this.headC)), this.body, this.tabs, this.linksBack, this.linksEl, this.meEl);
     Object.assign(this, { tab: 'poll', key: '', live: null, draft: {}, sel: {}, editing: {}, qaSort: 'new', lastMode: undefined, lastActive: undefined, anon: false, timed: false });
     this.timer = setInterval(() => { if (this.timed) this.render(); }, 250);
   }
   set(t) { this.t = t; this.render(); }
   setTab(tab) { this.tab = tab; this.key = ''; this.render(); }
+  toggleLinks(on) { this.linksOpen = on ?? !this.linksOpen; this.el.classList.toggle('links-open', !!this.linksOpen); }
+  renderLinks(t) {
+    const list = shownLinks(t); const sig = JSON.stringify(list.map(l => [l.id, l.k, l.t, l.u]));
+    if (sig === this.linksSig) return; const was = this.linksSig; this.linksSig = sig;
+    const has = list.length > 0; this.el.classList.toggle('has-links', has); this.linksBtn.hidden = !has; this.linksN.textContent = list.length;
+    if (!has) this.toggleLinks(false);
+    this.linksList.replaceChildren(...list.map(l => linkCard(l)), has ? h('p', { class: 'pv-links-note' }, 'เปิดในแท็บใหม่ กลับมาตอบคำถามต่อได้เลย') : null);
+    if (has && was !== undefined) { this.linksBtn.classList.remove('ping'); void this.linksBtn.offsetWidth; this.linksBtn.classList.add('ping'); if (was === '[]') toast('วิทยากรแชร์เอกสารและลิงก์แล้ว'); }
+  }
   paint(key, build) {
     if (key !== this.key) { this.live = null; this.body.replaceChildren(...[build()].flat().filter(Boolean)); this.key = key; }
     this.live?.();
@@ -1696,8 +1945,11 @@ class Phone {
   send(updates) { return write(this.db, this.code, updates); }
   render() {
     const t = this.t; this.timed = false;
+    this.renderLinks(t);
     if (!t?.meta) { this.tabs.hidden = true; this.headT.textContent = 'Powerpointboy Live'; this.headC.textContent = ''; return this.paint('none', () => h('div', { class: 'wait' }, avatar('confused', 'pv-av-lg'), h('b', null, 'ไม่พบห้องรหัสนี้'), h('span', null, 'ตรวจรหัสอีกครั้ง หรือสแกน QR บนจอ'))); }
     const m = t.meta; const me = t.ppl?.[this.pid];
+    if (this.pid) checkVersion(m, true);
+    this.renderMe(me);
     applyRoomTheme(m);
     if (this.lastSaved !== (m.title || '')) { this.lastSaved = m.title || ''; rememberLast(this.code, m.title); }
     this.headT.textContent = m.title || 'Powerpointboy Live'; this.headC.textContent = '#' + fmtCode(this.code);
@@ -1716,7 +1968,10 @@ class Phone {
     const q = (m.mode === 'q' || m.mode === 'board') ? getQ(t, m.active) : null;
     const scoreSig = t.__feed ? JSON.stringify(t.score?.[this.pid] ?? null) : '';
     if (m.mode === 'board') return this.paint('board:' + scoreSig, () => this.buildScore(true));
-    if (!q) return this.paint('wait', () => h('div', { class: 'wait' }, avatar('think', 'pv-av-lg') || h('div', { class: 'wait-art' }, h('i'), h('i'), h('i')), h('b', { style: { color: 'var(--ink)' } }, 'รอคำถามจากวิทยากร'), h('span', null, 'คำถามจะขึ้นที่นี่อัตโนมัติ ระหว่างนี้ส่งคำถามได้ที่แท็บ “Q&A”')));
+    if (!q) return this.paint('wait:' + (me.n || '') + ':' + shownLinks(t).length, () => [this.hero(me.n ? h('span', null, 'สวัสดี ', h('em', null, me.n), '! 👋') : 'สวัสดีครับ! 👋', 'รอคำถามจากวิทยากร', 'คำถามจะขึ้นที่นี่อัตโนมัติ ระหว่างนี้ส่งคำถามถึงวิทยากรได้ที่แท็บ “Q&A”', 'think'),
+      h('div', { class: 'pv-tips' }, h('div', { class: 'tip t1' }, h('span', { class: 'ic' }, icon('mc')), h('b', null, 'คำถามสด'), h('small', null, 'โหวต ตอบ และเล่น Quiz')),
+        h('button', { class: 'tip t2', type: 'button', onclick: () => this.setTab('qa') }, h('span', { class: 'ic' }, icon('qa')), h('b', null, 'Q&A'), h('small', null, 'ถามวิทยากรได้ ไม่ต้องบอกชื่อ')),
+        shownLinks(t).length ? h('button', { class: 'tip t3', type: 'button', onclick: () => this.toggleLinks(true) }, h('span', { class: 'ic' }, icon('clip')), h('b', null, 'เอกสาร'), h('small', null, `${shownLinks(t).length} ลิงก์จากวิทยากร`)) : null)]);
     const r = respMap(t, q.id)[this.pid]; const ik = t.img?.[q.id] ? ':i' + t.img[q.id].length : '';
     if (q.t === 'mc') return this.paint(`mc${ik}:${JSON.stringify(q.ans ?? null)}:${q.id}:${JSON.stringify(r?.v ?? null)}:${q.closed ? 1 : 0}:${q.hide ? 1 : 0}:${asArr(q.opts).join('¦')}:${q.multi ? 1 : 0}:${q.text}:${this.editing[q.id] ? 1 : 0}`, () => this.buildMC(t, q, r));
     if (q.t === 'quiz') {
@@ -1725,25 +1980,22 @@ class Phone {
     }
     return this.paint(`${q.t}${ik}:${q.id}:${entries(r).length}:${q.closed ? 1 : 0}:${q.max || 0}:${q.text}`, () => this.buildText(t, q, r));
   }
-  kindHead(q) { const src = this.t?.img?.[q.id]; return [h('div', { class: 'pv-kind' }, icon(TYPES[q.t].icon), TYPES[q.t].th), h('div', { class: 'pv-q' }, q.text || 'คำถาม'), src ? h('img', { class: 'pv-img', src, alt: 'รูปประกอบคำถาม' }) : null]; }
+  kindHead(q) { const src = this.t?.img?.[q.id]; return [h('div', { class: 'pv-qcard', 'data-t': q.t }, h('div', { class: 'pv-kind' }, icon(TYPES[q.t].icon), TYPES[q.t].th), h('div', { class: 'pv-q' }, q.text || 'คำถาม'), src ? h('img', { class: 'pv-img', src, alt: 'รูปประกอบคำถาม' }) : null)]; }
   buildJoin(t, quiz = false) {
     const inp = h('input', { class: 'input', id: 'pv-name-' + this.pid, maxLength: 30, placeholder: 'ชื่อเล่นของคุณ', autocomplete: 'nickname', value: this.draft.name || '' });
     inp.addEventListener('input', () => { this.draft.name = inp.value; });
     const go = anon => { const n = inp.value.trim().slice(0, 30); if (!anon && quiz && !n) { toast('พิมพ์ชื่อก่อนเข้า Quiz'); inp.focus(); return; } this.send({ [`ppl/${this.pid}`]: { n: anon ? '' : n, at: TS } }); };
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(false); });
-    return h('div', { class: 'pv-card center has-av', style: { gap: '14px' } }, avatar(quiz ? 'fire' : 'hello', 'pv-av-peek'),
-      h('div', { class: 'brand', html: MARK, style: { fontSize: '1.4em' } }),
-      h('div', { class: 'pv-q' }, quiz ? 'Quiz กำลังจะเริ่ม!' : (t.meta.title || 'Powerpointboy Live')),
-      h('p', { class: 'muted', style: { fontSize: '.92em' } }, quiz ? 'พิมพ์ชื่อเล่นเพื่อขึ้นตารางคะแนน' : 'ใส่ชื่อเล่นเพื่อร่วมตอบโพลและ Quiz ระหว่างคลาส'),
-      h('label', { class: 'label', for: inp.id, style: { justifySelf: 'start', marginBottom: '-8px' } }, 'ชื่อเล่น'), inp,
-      h('button', { class: 'btn primary block lg', type: 'button', onclick: () => go(false) }, quiz ? 'เข้า Quiz' : 'เข้าร่วม'),
-      quiz ? null : h('button', { class: 'btn ghost block', type: 'button', onclick: () => go(true) }, 'เข้าร่วมแบบไม่ระบุชื่อ'));
+    return [this.hero(quiz ? 'Quiz กำลังจะเริ่ม! 🔥' : 'ยินดีต้อนรับ! 👋', t.meta.title || 'Powerpointboy Live', quiz ? 'พิมพ์ชื่อเล่นเพื่อขึ้นตารางคะแนน ตอบถูกและเร็วได้คะแนนมาก' : 'ใส่ชื่อเล่นเพื่อร่วมตอบโพลและ Quiz ระหว่างคลาส', quiz ? 'fire' : 'hello'),
+      h('div', { class: 'pv-card join-card' },
+        h('label', { class: 'label', for: inp.id, style: { margin: 0 } }, 'ชื่อเล่นของคุณ'), inp,
+        h('button', { class: 'btn primary block lg', type: 'button', onclick: () => go(false) }, quiz ? 'เข้า Quiz' : 'เข้าร่วม', icon('arrow')),
+        quiz ? null : h('button', { class: 'btn ghost block', type: 'button', onclick: () => go(true) }, 'เข้าร่วมแบบไม่ระบุชื่อ'))];
   }
   buildLobby(t, me) {
     if (!me.n) return this.buildQuiz(t, getQ(t, t.meta.active) || { t: 'quiz' }, null, 'ready', me);
-    return h('div', { class: 'pv-card center lobby-me', style: { gap: '10px' } }, avatar('cheer', 'pv-av-lg'),
-      h('span', { class: 'muted' }, 'คุณอยู่ในห้องรอแล้ว'), h('div', { class: 'pts' }, me.n),
-      h('span', { class: 'muted', style: { fontSize: '.92em' } }, 'ดูชื่อตัวเองบนจอ แล้วรอวิทยากรกดเริ่ม Quiz'));
+    return [this.hero(h('span', null, 'พร้อมแล้ว ', h('em', null, me.n), '! 🎉'), 'คุณอยู่ในห้องรอแล้ว', 'ดูชื่อตัวเองบนจอ แล้วรอวิทยากรกดเริ่ม Quiz', 'cheer'),
+      h('div', { class: 'pv-card lobby-tips' }, h('b', null, 'กติกา Quiz'), h('ul', null, h('li', null, 'ตอบถูกได้คะแนน ยิ่งตอบเร็วยิ่งได้มาก (สูงสุด 1,000 ต่อข้อ)'), h('li', null, 'เลือกแล้วเปลี่ยนคำตอบไม่ได้'), h('li', null, 'ดูอันดับบนจอหลังจบแต่ละข้อ')))];
   }
   buildMC(t, q, r) {
     const opts = asArr(q.opts); const multi = !!q.multi; const editing = !!this.editing[q.id];
@@ -1825,7 +2077,7 @@ class Phone {
       const inp = h('input', { class: 'input', id: 'pv-qn-' + this.pid, maxLength: 30, placeholder: 'ชื่อเล่น', autocomplete: 'nickname' });
       const go = () => { const n = inp.value.trim(); if (n) this.send({ [`ppl/${this.pid}/n`]: n.slice(0, 30) }); };
       inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-      return h('div', { class: 'pv-card center', style: { gap: '12px' } }, avatar('fire', 'pv-av-lg') || icon('quiz'), h('b', null, 'Quiz กำลังจะเริ่ม'), h('span', { class: 'muted', style: { fontSize: '.92em' } }, 'ใส่ชื่อเล่นเพื่อขึ้นตารางคะแนน'), inp, h('button', { class: 'btn primary block', type: 'button', onclick: go }, 'ยืนยันชื่อ'));
+      return [this.hero('Quiz กำลังจะเริ่ม! 🔥', 'ใส่ชื่อเล่นก่อนนะ', 'ชื่อนี้จะขึ้นบนตารางคะแนนบนจอ', 'fire'), h('div', { class: 'pv-card join-card' }, h('label', { class: 'label', for: inp.id, style: { margin: 0 } }, 'ชื่อเล่นของคุณ'), inp, h('button', { class: 'btn primary block lg', type: 'button', onclick: go }, 'ยืนยันชื่อ', icon('arrow')))];
     }
     if (phase === 'count') {
       const num = h('div', { class: 'pv-count' });
@@ -1856,6 +2108,32 @@ class Phone {
         ok ? h('div', { class: 'pts' }, '+' + fmtN(pts)) : h('span', { class: 'muted' }, `คำตอบที่ถูกคือ ${LETTERS[ans]}. ${optLabel(q, ans)}`)),
       this.buildScore(false)];
   }
+  scoreInfo() {
+    let pts = 0, line = 'ยังไม่มีคะแนน', rank = 0;
+    if (this.t.__feed) {
+      const s = this.t.score?.[this.pid]; const now = this.db.now();
+      const ended = qList(this.t).filter(x => x.t === 'quiz' && quizPhase(x, now) === 'ended').length;
+      const cur = getQ(this.t, this.t.meta?.active); const answered = cur?.t === 'quiz' && !!respMap(this.t, cur.id)[this.pid];
+      const pending = s ? s.k !== ended : answered;
+      if (s) { pts = s.pts; rank = s.rank; line = `อันดับ ${s.rank} จาก ${s.of} คน`; }
+      if (pending) line = 'กำลังรวมคะแนน…';
+    } else {
+      const lb = leaderboard(this.t); const i = lb.findIndex(p => p.pid === this.pid);
+      if (i >= 0) { pts = lb[i].pts; rank = i + 1; line = `อันดับ ${i + 1} จาก ${lb.length} คน`; }
+    }
+    return { pts, line, rank };
+  }
+  renderMe(me) {
+    const s = me ? this.scoreInfo() : { pts: 0 }; const name = me?.n || '';
+    const sig = JSON.stringify([!!me, name, s.pts, s.rank]); if (sig === this.meSig) return; this.meSig = sig;
+    this.headPts.hidden = !(s.pts > 0); this.headPts.replaceChildren(icon('quiz'), fmtN(s.pts));
+    this.meEl.hidden = !me;
+    if (me) this.meEl.replaceChildren(h('span', { class: 'pv-me-av' }, (name.trim()[0] || '?').toUpperCase()),
+      h('span', { class: 'pv-me-tx' }, h('b', null, name || 'ผู้เรียน (ไม่ระบุชื่อ)'), h('small', null, s.pts > 0 ? `${fmtN(s.pts)} คะแนน${s.rank ? ' · อันดับ ' + s.rank : ''}` : 'ยังไม่มีคะแนน Quiz')));
+  }
+  hero(hi, title, sub, av) {
+    return h('div', { class: 'pv-hero' }, h('div', { class: 'hero-tx' }, h('div', { class: 'hero-hi' }, hi), title ? h('b', null, title) : null, sub ? h('span', null, sub) : null), avatar(av, 'hero-av'));
+  }
   buildScore(big) {
     let pts = 0, line = 'ยังไม่มีคะแนน';
     if (this.t.__feed) {
@@ -1869,8 +2147,8 @@ class Phone {
       const lb = leaderboard(this.t); const i = lb.findIndex(p => p.pid === this.pid);
       if (i >= 0) { pts = lb[i].pts; line = `อันดับ ${i + 1} จาก ${lb.length} คน`; }
     }
-    return h('div', { class: 'pv-card center', style: big ? {} : { padding: '16px' } },
-      big ? icon('podium') : null, h('span', { class: 'muted', style: { fontSize: '.9em' } }, 'คะแนนรวมของคุณ'),
+    return h('div', { class: 'pv-card center score-card' + (big ? ' big' : ''), style: big ? {} : { padding: '16px' } },
+      big ? h('span', { class: 'score-ic' }, icon('podium')) : null, h('span', { class: 'muted', style: { fontSize: '.9em' } }, 'คะแนนรวมของคุณ'),
       h('div', { class: 'pts' }, fmtN(pts)), h('span', { class: 'muted' }, line));
   }
   buildQA(t) {
@@ -2075,7 +2353,7 @@ function roomCopyData(src, title) {
   for (const [id, q] of Object.entries(src?.qs || {})) { const { start, end, closed, hide, hid, ans, ...rest } = q || {}; qs[id] = rest; }
   return {
     meta: { title, at: TS, mode: 'join', qaOn: m.qaOn !== false, ...(m.theme ? { theme: m.theme } : {}), ...(m.qr === false ? { qr: false } : {}), ...(CHANNEL === 'dev' ? { dev: true } : {}) },
-    ...(Object.keys(qs).length ? { qs } : {}), ...(src?.keys ? { keys: src.keys } : {}), ...(src?.img ? { img: src.img } : {}),
+    ...(Object.keys(qs).length ? { qs } : {}), ...(src?.keys ? { keys: src.keys } : {}), ...(src?.img ? { img: src.img } : {}), ...(src?.links ? { links: src.links } : {}),
   };
 }
 async function duplicateRoom(code, title) {
@@ -2600,14 +2878,16 @@ class HostView {
   set(t) {
     this.t = t;
     if (!t?.meta) { this.edit.replaceChildren(h('div', { class: 'empty' }, h('b', null, 'ไม่พบห้องนี้'), h('a', { href: '#admin' }, 'กลับหน้าแรก'))); return; }
+    if (!this.stamped) { this.stamped = true; stampVersion(this.db, this.code, t.meta); }
+    checkVersion(t.meta, false);
     if (document.activeElement !== this.titleIn) this.titleIn.value = t.meta.title || '';
     this.people.replaceChildren(icon('users'), `ออนไลน์ ${fmtN(roomCount(t, this.db))} คน`); this.people.title = `เคยเข้าห้องทั้งหมด ${fmtN(pplCount(t))} คน`;
     const qs = qList(t);
     if (!this.sel) this.sel = t.meta.active || qs[0]?.id || 'join';
-    if (!['join', 'qa'].includes(this.sel) && !t.qs?.[this.sel]) this.sel = qs[0]?.id || 'join';
+    if (!['join', 'qa', 'links'].includes(this.sel) && !t.qs?.[this.sel]) this.sel = qs[0]?.id || 'join';
     if (t.meta.title && t.meta.title !== this.syncedTitle && this.code !== 'demo') { this.syncedTitle = t.meta.title; rememberRoom(this.db, this.code, { title: t.meta.title }); }
     this.renderSide(t, qs); this.renderEditor(t); this.renderCtrl(t);
-    this.stage.preview = t.meta.mode === 'lobby' && t.meta.active === this.sel ? 'lobby' : this.sel; this.stage.set(t);
+    this.stage.preview = this.sel === 'links' ? null : t.meta.mode === 'lobby' && t.meta.active === this.sel ? 'lobby' : this.sel; this.stage.set(t);
     this.themeDot.style.background = themeOf(t.meta)?.a || '#FF6B00';
     if (document.activeElement !== this.qrTg) this.qrTg.checked = t.meta.qr !== false;
     this.tools?.set(t); this.presenter?.set(t);
@@ -2684,7 +2964,7 @@ class HostView {
   select(id) { this.sel = id; this.picking = false; this.editorKey = ''; this.sideSig = ''; this.set(this.t); }
   renderSide(t, qs) {
     const m = t.meta; const now = this.db.now();
-    const sig = JSON.stringify([this.sel, roomCount(t, this.db), m.active, m.mode, qs.map(q => [q.id, q.t, q.text, respCount(t, q.id), q.closed, q.t === 'quiz' ? quizPhase(q, now) : 0]), qaList(t).length]);
+    const sig = JSON.stringify([this.sel, !!m.linksOn, linkList(t).filter(l => okUrl(l.u)).length, roomCount(t, this.db), m.active, m.mode, qs.map(q => [q.id, q.t, q.text, respCount(t, q.id), q.closed, q.t === 'quiz' ? quizPhase(q, now) : 0]), qaList(t).length]);
     if (sig === this.sideSig) return; this.sideSig = sig;
     const onScreen = id => (id === 'join' && m.mode === 'join') || (id === 'qa' && m.mode === 'qa') || (m.active === id && ['q', 'board', 'lobby'].includes(m.mode));
     const fixed = (id, ic, cls, label, meta) => h('button', { class: 'qitem' + (this.sel === id ? ' sel' : ''), type: 'button', onclick: () => this.select(id) },
@@ -2698,6 +2978,7 @@ class HostView {
       h('div', { class: 'side-label' }, 'ทั้งห้อง'),
       fixed('join', 'qr', 't-mc', 'หน้าเข้าร่วม (QR)', `ออนไลน์ ${fmtN(roomCount(t, this.db))} คน`),
       fixed('qa', 'qa', 't-qa', 'Q&A', `${fmtN(qaList(t).length)} คำถาม${t.meta.qaOn === false ? ' · ปิดรับ' : ''}`),
+      fixed('links', 'clip', 't-links', 'ลิงก์เอกสาร', [m.linksOn ? h('span', { class: 'pill live' }, 'เปิดอยู่') : null, `${fmtN(linkList(t).filter(l => okUrl(l.u)).length)} ลิงก์${m.linksOn ? '' : ' · ปิดอยู่'}`]),
       h('div', { class: 'side-label', style: { marginTop: '6px' } }, `คำถาม (${qs.length})`), ...items,
       h('button', { class: 'btn' + (qs.length ? '' : ' primary'), type: 'button', style: { marginTop: '6px' }, onclick: () => this.addModal() }, icon('plus'), 'เพิ่มคำถาม'),
       h('div', { class: 'side-av' }, avatar(qs.length ? 'idea' : 'point'), h('span', null, qs.length ? 'กด “นำเสนอเต็มจอ” เมื่อพร้อม' : 'เริ่มจากเพิ่มคำถามแรก')));
@@ -2714,7 +2995,7 @@ class HostView {
   }
   renderEditor(t) {
     const id = this.sel; const q = getQ(t, id);
-    const key = id === 'join' || id === 'qa' ? id + ':' + (t.meta.qaOn === false ? 0 : 1) : `${id}:${q.t}:${asArr(q.opts).length}:${ansOf(t, q)}:${q.multi}:${q.limit}:${q.max}:${respCount(t, id) ? 1 : 0}:${t.img?.[id]?.length || 0}`;
+    const key = id === 'links' ? 'links:' + (t.meta.linksOn ? 1 : 0) + JSON.stringify(linkList(t).map(l => [l.id, l.k || 'link', l.ord, okUrl(l.u)])) : id === 'join' || id === 'qa' ? id + ':' + (t.meta.qaOn === false ? 0 : 1) : `${id}:${q.t}:${asArr(q.opts).length}:${ansOf(t, q)}:${q.multi}:${q.limit}:${q.max}:${respCount(t, id) ? 1 : 0}:${t.img?.[id]?.length || 0}`;
     if (key === this.editorKey || this.edit.contains(document.activeElement) && document.activeElement.matches('input:not([type=checkbox]), textarea')) return;
     this.editorKey = key; const db = this.db, code = this.code;
     if (id === 'join') {
@@ -2723,6 +3004,7 @@ class HostView {
         h('div', null, h('div', { class: 'label' }, 'ลิงก์ผู้เข้าร่วม'), h('div', { class: 'row' }, h('input', { class: 'input mono', id: 'ed-link', value: joinUrl(code), readonly: true, style: { fontSize: '.85em' } }), h('button', { class: 'btn', type: 'button', onclick: () => copyText(joinUrl(code)) }, icon('copy'), 'คัดลอก'))),
         h('div', { class: 'hint' }, 'คีย์ลัดบนจอนำเสนอ: ← → หรือปุ่ม clicker เลื่อนคำถาม · H ซ่อนผล · L อันดับ Quiz · Q แสดง Q&A · J กลับหน้านี้ · F เต็มจอ'));
     }
+    if (id === 'links') return this.edit.replaceChildren(...this.linksEditor(t));
     if (id === 'qa') {
       const tg = h('input', { type: 'checkbox', id: 'ed-qaon', checked: t.meta.qaOn !== false });
       tg.addEventListener('change', () => write(db, code, { 'meta/qaOn': tg.checked }));
@@ -2789,17 +3071,59 @@ class HostView {
     this.edit.replaceChildren(h('div', { class: 'panel-head' }, h('h3', null, h('span', { class: TYPES[q.t].cls }, icon(TYPES[q.t].icon)), TYPES[q.t].name),
       h('div', { class: 'row', style: { gap: '4px' } }, h('button', { class: 'btn ghost sm', type: 'button', onclick: dup }, icon('copy'), 'ทำสำเนา'), delBox)), ...parts);
   }
+  linksEditor(t) {
+    const db = this.db, code = this.code; const list = linkList(t); const on = !!t.meta.linksOn;
+    const tg = h('input', { type: 'checkbox', id: 'ed-linkson', checked: on }); tg.addEventListener('change', () => write(db, code, { 'meta/linksOn': tg.checked || null }));
+    const nextOrd = () => { const ls = linkList(this.t); return (ls.length ? Math.max(...ls.map(x => x.ord || 0)) : 0) + 1; };
+    const add = k => {
+      if (linkList(this.t).length >= MAX_LINKS) return toast(`ใส่ได้สูงสุด ${MAX_LINKS} ลิงก์`);
+      const nid = 'l' + rid(7);
+      write(db, code, { [`links/${nid}`]: { k, t: '', u: '', ord: nextOrd() } }).then(() => setTimeout(() => document.getElementById('ed-lu-' + nid)?.focus(), 80));
+    };
+    const swap = (i, d) => { const ls = linkList(this.t); const x = ls[i], y = ls[i + d]; if (!x || !y) return; write(db, code, { [`links/${x.id}/ord`]: y.ord || 0, [`links/${y.id}/ord`]: x.ord || 0 }); };
+    const rows = list.map((l, i) => {
+      const k = LINK_KINDS[l.k] || LINK_KINDS.link;
+      const sel = h('select', { class: 'select', 'aria-label': 'ชนิดลิงก์' }, Object.entries(LINK_KINDS).map(([kk, v]) => h('option', { value: kk, selected: (l.k || 'link') === kk }, v.th)));
+      sel.addEventListener('change', () => write(db, code, { [`links/${l.id}/k`]: sel.value }));
+      const tIn = h('input', { class: 'input', id: 'ed-lt-' + l.id, maxLength: 60, placeholder: `ชื่อปุ่ม เช่น ${k.def}`, value: l.t || '', 'aria-label': 'ชื่อปุ่มที่ผู้เรียนเห็น' });
+      const saveT = debounce(v => write(db, code, { [`links/${l.id}/t`]: v.trim().slice(0, 60) }), 400);
+      tIn.addEventListener('input', () => saveT(tIn.value)); tIn.addEventListener('blur', () => saveT.flush(tIn.value));
+      const uIn = h('input', { class: 'input mono', id: 'ed-lu-' + l.id, maxLength: 2000, placeholder: 'วางลิงก์ เช่น https://drive.google.com/…', value: l.u || '', inputmode: 'url', autocomplete: 'off', spellcheck: false, 'aria-label': 'ลิงก์' });
+      const note = h('small', { class: 'link-note' });
+      const saveU = () => {
+        const n = normUrl(uIn.value);
+        if (n === null || (n && !okUrl(n))) { uIn.classList.add('bad'); note.textContent = 'ลิงก์ต้องขึ้นต้นด้วย https:// เช่น https://drive.google.com/…'; return; }
+        uIn.classList.remove('bad'); note.textContent = n ? urlHost(n) : ''; if (n !== uIn.value) uIn.value = n;
+        if (n !== (getQ(this.t, null), linkList(this.t).find(x => x.id === l.id)?.u || '')) write(db, code, { [`links/${l.id}/u`]: n });
+      };
+      uIn.addEventListener('change', saveU); uIn.addEventListener('paste', () => setTimeout(saveU, 0));
+      if (l.u) note.textContent = okUrl(l.u) ? urlHost(l.u) : 'ลิงก์ไม่ถูกต้อง';
+      const del = h('button', { class: 'icon-btn', type: 'button', title: 'ลบลิงก์', 'aria-label': `ลบลิงก์ ${l.t || k.def}`, onclick: () => write(db, code, { [`links/${l.id}`]: null }) }, icon('trash'));
+      return h('div', { class: 'link-row ' + k.cls },
+        h('span', { class: 'ic' }, icon(k.icon)), sel, tIn, uIn, note,
+        h('div', { class: 'link-acts' },
+          h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'เลื่อนขึ้น', disabled: i === 0, onclick: () => swap(i, -1) }, icon('up')),
+          h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'เลื่อนลง', disabled: i === list.length - 1, onclick: () => swap(i, 1) }, icon('down')), del));
+    });
+    return [h('div', { class: 'panel-head' }, h('h3', null, h('span', { class: 't-links' }, icon('clip')), 'ลิงก์สำหรับผู้เรียน')),
+      h('p', { class: 'muted' }, 'วางลิงก์เอกสารประกอบการเรียนหรือฟอร์มส่งการบ้าน เปิดสวิตช์แล้วผู้เรียนจะเห็นปุ่มลิงก์ทางซ้ายของจอ กดแล้วเปิดในแท็บใหม่'),
+      h('label', { class: 'toggle link-toggle' + (on ? ' on' : ''), for: 'ed-linkson' }, tg, h('span', null, h('b', null, on ? 'ผู้เรียนเห็นลิงก์อยู่' : 'ยังไม่ให้ผู้เรียนเห็น'), h('small', null, on ? 'ปิดสวิตช์เพื่อซ่อนจากมือถือทุกเครื่อง' : 'เปิดสวิตช์เมื่อพร้อมแจก'))),
+      rows.length ? h('div', { class: 'link-rows' }, rows) : h('div', { class: 'link-empty' }, icon('clip'), h('span', null, 'ยังไม่มีลิงก์ กดปุ่มด้านล่างเพื่อเพิ่ม')),
+      h('div', { class: 'row link-adds' }, Object.entries(LINK_KINDS).map(([kk, v]) => h('button', { class: 'btn', type: 'button', onclick: () => add(kk) }, icon('plus'), v.add))),
+      h('p', { class: 'hint' }, 'ลิงก์ Google Drive / Docs / Slides ตั้งค่าแชร์เป็น “ทุกคนที่มีลิงก์” ก่อน ไม่งั้นผู้เรียนจะเปิดไม่ได้')];
+  }
   renderCtrl(t) {
     const m = t.meta; const id = this.sel; const q = getQ(t, id); const db = this.db, code = this.code; const now = this.db.now();
     const ph = q?.t === 'quiz' ? quizPhase(q, now) : '';
     const onScreen = id === 'join' ? m.mode === 'join' : id === 'qa' ? m.mode === 'qa' : m.active === id && ['q', 'board', 'lobby'].includes(m.mode);
     const inLobby = m.mode === 'lobby' && m.active === id; const hasKey = q?.t === 'mc' && ansList(t.keys?.[id]).length > 0;
-    const sig = JSON.stringify([id, onScreen, m.mode, q?.closed, q?.hide, ph, respCount(t, id) > 0, inLobby, hasKey, q?.ans != null, m.lobbyDone, inLobby ? quizPlayers(t, db).length : 0]);
+    const sig = JSON.stringify([id, onScreen, m.mode, q?.closed, q?.hide, ph, respCount(t, id) > 0, inLobby, hasKey, q?.ans != null, m.lobbyDone, inLobby ? quizPlayers(t, db).length : 0, id === 'links' ? [!!m.linksOn, shownLinks({ ...t, meta: { linksOn: true } }).length] : 0]);
     if (sig !== this.ctrlSig) {
       this.ctrlSig = sig;
-      this.status.replaceChildren(onScreen ? h('span', { class: 'pill live' }, 'อยู่บนจอตอนนี้') : h('span', { class: 'pill' }, 'ตัวอย่าง'));
+      this.status.replaceChildren(id === 'links' ? h('span', { class: 'pill' }, 'จอตอนนี้') : onScreen ? h('span', { class: 'pill live' }, 'อยู่บนจอตอนนี้') : h('span', { class: 'pill' }, 'ตัวอย่าง'));
       const b = [h('button', { class: 'btn primary', type: 'button', title: 'ขึ้นจอให้ผู้เรียนเห็นพร้อมกัน แล้วเปิดโหมดนำเสนอเต็มจอ', onclick: () => this.present(id) }, icon('full'), q?.t === 'quiz' && ph === 'ready' && !inLobby ? (m.lobbyDone ? 'เริ่มข้อนี้เต็มจอ' : 'เปิดห้องรอ Quiz เต็มจอ') : 'นำเสนอเต็มจอ')];
       if (id === 'join') b.push(onScreen ? h('span', { class: 'hint' }, 'หน้าเข้าร่วมอยู่บนจอ') : h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('play'), 'แสดงบนจอ'));
+      else if (id === 'links') { const n = shownLinks({ ...t, meta: { linksOn: true } }).length; b.length = 0; b.push(m.linksOn ? h('button', { class: 'btn', type: 'button', onclick: () => write(db, code, { 'meta/linksOn': null }) }, icon('eyeOff'), 'ซ่อนลิงก์จากผู้เรียน') : h('button', { class: 'btn primary', type: 'button', disabled: !n, onclick: () => write(db, code, { 'meta/linksOn': true }) }, icon('eye'), 'เปิดให้ผู้เรียนเห็น'), h('span', { class: 'hint' }, !n ? 'ใส่ลิงก์อย่างน้อย 1 ลิงก์ก่อน' : m.linksOn ? `มือถือผู้เรียนเห็น ${n} ลิงก์` : `${n} ลิงก์ รอเปิด`)); }
       else if (id === 'qa') b.push(onScreen ? h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('stop'), 'เอาลงจากจอ') : h('button', { class: 'btn', type: 'button', onclick: () => Act.mode(db, code, 'qa') }, icon('play'), 'แสดง Q&A บนจอ'));
       else if (q) {
         if (inLobby) b.push(h('span', { class: 'pill live' }, `ห้องรอ · ${fmtN(quizPlayers(t, db).length)} คน`), h('button', { class: 'btn navy', type: 'button', onclick: () => { unlockAudio(); Act.activate(db, code, q, true); } }, icon('play'), 'เริ่ม Quiz'));
@@ -2829,6 +3153,13 @@ class HostView {
   }
   renderMod(t, q) {
     const id = this.sel; const db = this.db, code = this.code;
+    if (id === 'links') {
+      const list = linkList(t).filter(l => okUrl(l.u)); const sig = 'links' + JSON.stringify([!!t.meta.linksOn, list.map(l => [l.id, l.k, l.t, l.u])]);
+      if (sig === this.modSig) return; this.modSig = sig;
+      return this.mod.replaceChildren(h('div', { class: 'label', style: { margin: 0 } }, 'ผู้เรียนจะเห็นแบบนี้ (แถบซ้ายบนจอกว้าง · ปุ่ม “เอกสาร” มุมซ้ายบนบนมือถือ)'),
+        list.length ? h('div', { class: 'links-preview' + (t.meta.linksOn ? '' : ' off') }, h('div', { class: 'pv-links-head' }, icon('clip'), h('b', null, 'เอกสารและลิงก์')), h('div', { class: 'pv-links-list' }, list.map(l => linkCard(l, true))))
+          : h('p', { class: 'hint' }, 'ยังไม่มีลิงก์ที่ใช้ได้'));
+    }
     if (id === 'qa') {
       const items = qaList(t, 'top');
       const sig = JSON.stringify(items.map(x => [x.id, x.votes, x.star, x.done, x.text]));
@@ -2875,7 +3206,7 @@ class ScreenView {
     this.onKey = canControl ? stageKeys(() => this.t, db, code, full) : null; if (this.onKey) addEventListener('keydown', this.onKey);
     try { navigator.wakeLock?.request('screen').then(l => { this.lock = l; }).catch(() => {}); } catch { /* optional */ }
     this.agent = db.kind === 'firebase' ? new Agent(db, code) : null;
-    this.unsub = db.listen(code, t => { this.t = t; this.agent?.set(t); this.stage.set(t); });
+    this.unsub = db.listen(code, t => { this.t = t; this.agent?.set(t); this.stage.set(t); if (t?.meta) { if (!this.stamped && canControl) { this.stamped = true; stampVersion(db, code, t.meta); } checkVersion(t.meta, false); } });
   }
   destroy() { this.unsub?.(); this.stage.destroy(); this.agent?.destroy(); removeEventListener('mousemove', this.onMove); if (this.onKey) removeEventListener('keydown', this.onKey); try { this.lock?.release(); } catch { /* ignore */ } }
 }
