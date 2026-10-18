@@ -775,6 +775,36 @@ body.pip { margin: 0; min-height: 100vh; display: grid; place-items: center; bac
 body.pip .mini-bar .btn { background: var(--surface); color: var(--ink); border-color: var(--line); }
 body.pip .mini-bar .btn.primary { background: var(--brand); color: var(--on-brand); border-color: transparent; }
 
+/* ---------- รีเซ็ตห้อง / ทำสำเนาห้อง ---------- */
+.reset-box { display: grid; gap: 12px; }
+.reset-box p { margin: 0; }
+.linkbtn { border: 0; background: none; padding: 0; color: var(--brand-ink, var(--brand)); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.room-row .acts { display: flex; align-items: center; gap: 4px; }
+.icon-btn.busy { opacity: .5; cursor: progress; }
+.cd-sub { color: var(--ink-2); font-size: 1em; }
+
+/* ---------- ขยายตัวอักษรทั้งระบบ 15% ---------- */
+html { font-size: 115%; }
+body { font-size: 17.25px; }
+.pv { font-size: 18.4px; }
+.device .pv { font-size: 15px; }
+.stage-inner { font-size: min(3.45cqh, 1.955cqw); }
+.stage .float-back, .st-timer.big .tm-x { font-size: 16px; }
+.fs-hint { font-size: 17px; }
+.tools { width: min(410px, calc(100% - 24px)); }
+.tools.mini { width: 280px; }
+
+/* แถบบนแผงควบคุม: ตัวอักษรใหญ่ขึ้นแล้วให้อยู่บรรทัดเดียว */
+.host-top { flex-wrap: nowrap; }
+.host-top .brand > span { display: none; }
+.host-top .title-input { flex: 4 1 160px; }
+.host-top .spacer { flex: 1 1 0; min-width: 0; }
+.host { max-width: 1640px; }
+.host-top { gap: 10px 12px; }
+.host-top .btn, .host-top .code-chip, .host-top .split { flex: none; }
+@media (max-width: 1360px) { .host-top .btn .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
+@media (max-width: 1100px) { .host-top { flex-wrap: wrap; } }
+
 </style>
 </head>
 <body>
@@ -1000,6 +1030,7 @@ class LocalBackend {
   }
   async replace(code, tree) { this.trees.set(code, tree); LS.set(this._key(code), tree); try { this.bc?.postMessage({ code }); } catch { /* ignore */ } this._emit(code); }
   async exists(code) { return !!(LS.get(this._key(code)) || this.trees.get(code))?.meta; }
+  async getEvent(code) { return LS.get(this._key(code)) || this.trees.get(code) || null; }
   async createEvent(code, pin, data) { await this.replace(code, mapTS(data, () => Date.now())); }
   async isOwner() { return true; }
   async claim() { return true; }
@@ -1066,6 +1097,7 @@ class FirebaseBackend {
   }
   async updateRoot(updates) { const u = {}; for (const [k, v] of Object.entries(updates)) u[k] = this.ts(v); return this.D.update(this.D.ref(this.db), u); }
   async exists(code) { return (await this.D.get(this.ref(`events/${code}/meta`))).exists(); }
+  async getEvent(code) { return (await this.D.get(this.ref('events/' + code))).val(); }
   async createEvent(code, pin, data) {
     const u = await this.need();
     await this.D.set(this.ref('pins/' + code), pin);
@@ -1215,9 +1247,10 @@ function qaList(t, sort = 'top') {
 }
 
 const Act = {
-  activate(db, code, q) {
+  // count = true เฉพาะตอนเริ่มจากห้องรอ (ข้อแรก) ข้อต่อไปเปิดให้ตอบทันที
+  activate(db, code, q, count = false) {
     const u = { 'meta/active': q.id, 'meta/mode': 'q', 'meta/ts': TS };
-    if (q.t === 'quiz' && !q.start) { u[`qs/${q.id}/start`] = Math.round(db.now() + QUIZ_COUNT); u[`qs/${q.id}/end`] = null; u[`qs/${q.id}/ans`] = null; u['meta/lobbyDone'] = true; }
+    if (q.t === 'quiz' && !q.start) { u[`qs/${q.id}/start`] = Math.round(db.now() + (count ? QUIZ_COUNT : 0)); u[`qs/${q.id}/end`] = null; u[`qs/${q.id}/ans`] = null; u['meta/lobbyDone'] = true; }
     return write(db, code, u);
   },
   // Quiz ข้อแรกของชุด: เปิดห้องรอให้ผู้เรียนใส่ชื่อก่อน ข้อต่อไปเริ่มนับถอยหลังเลย
@@ -1231,19 +1264,27 @@ const Act = {
     for (const k of Object.keys(t?.score || {})) u[`score/${k}`] = null;
     return write(db, code, u);
   },
+  // ล้างการกดทั้งห้อง: คำตอบ โหวต คะแนน สถานะคำถาม (เลือกได้ว่าจะล้าง Q&A / รายชื่อด้วย) คำถาม รูป เฉลย ธีม คงไว้
+  resetRoom(db, code, t, { qa = true, ppl = false } = {}) {
+    const u = { res: null, agg: null, score: null, 'meta/mode': 'join', 'meta/active': null, 'meta/lobbyDone': null, 'meta/ts': TS };
+    for (const q of qList(t)) for (const k of ['start', 'end', 'closed', 'hide', 'hid', 'ans']) if (q[k] != null) u[`qs/${q.id}/${k}`] = null;
+    if (qa) { u.qa = null; u['meta/qaN'] = null; }
+    if (ppl) u.ppl = null;
+    return write(db, code, u);
+  },
   offscreen: (db, code) => write(db, code, { 'meta/active': null, 'meta/mode': 'join', 'meta/ts': TS }),
   mode: (db, code, m) => write(db, code, { 'meta/mode': m, 'meta/ts': TS }),
-  restartQuiz: (db, code, q) => write(db, code, { [`res/${q.id}`]: null, [`qs/${q.id}/start`]: Math.round(db.now() + QUIZ_COUNT), [`qs/${q.id}/end`]: null, [`qs/${q.id}/ans`]: null, 'meta/active': q.id, 'meta/mode': 'q', 'meta/ts': TS }),
+  restartQuiz: (db, code, q) => write(db, code, { [`res/${q.id}`]: null, [`qs/${q.id}/start`]: Math.round(db.now()), [`qs/${q.id}/end`]: null, [`qs/${q.id}/ans`]: null, 'meta/active': q.id, 'meta/mode': 'q', 'meta/ts': TS }),
   clear(db, code, t, q) {
     const u = { [`res/${q.id}`]: null, [`qs/${q.id}/hid`]: null };
-    if (q.t === 'quiz') { const live = t.meta?.active === q.id; u[`qs/${q.id}/start`] = live ? Math.round(db.now() + QUIZ_COUNT) : null; u[`qs/${q.id}/end`] = null; u[`qs/${q.id}/ans`] = null; }
+    if (q.t === 'quiz') { const live = t.meta?.active === q.id; u[`qs/${q.id}/start`] = live ? Math.round(db.now()) : null; u[`qs/${q.id}/end`] = null; u[`qs/${q.id}/ans`] = null; }
     else u[`agg/${q.id}`] = null;
     return write(db, code, u);
   },
   nav(db, code, t, dir) {
     const qs = qList(t); const m = t?.meta || {}; const i = qs.findIndex(q => q.id === m.active); const cur = qs[i];
     if (dir > 0) {
-      if (m.mode === 'lobby' && cur) return Act.activate(db, code, cur);
+      if (m.mode === 'lobby' && cur) return Act.activate(db, code, cur, true);
       const ph = cur?.t === 'quiz' ? quizPhase(cur, db.now()) : '';
       if (m.mode === 'q' && ph === 'live') return write(db, code, { [`qs/${cur.id}/end`]: TS }); // ข้ามเวลาที่เหลือ
       if (m.mode === 'q' && ph === 'count') return null;
@@ -1353,9 +1394,9 @@ function makeTimer() {
 function QuizScene(q, phase) {
   const head = sceneHead(q); let body; let rows = null; let timer = null; const optEls = [];
   if (phase === 'count') {
-    const num = h('div', { class: 'cd-num' }); const qt = h('div', { class: 'cd-q' });
-    const el = h('div', { class: 'scene countdown' }, h('div', { class: 'cd' }, h('div', { class: 'cd-kick' }, icon('quiz'), 'เตรียมตัว!'), qt, num));
-    return { el, timed: true, count: (t, q) => respCount(t, q.id), update(t, q, now) { qt.textContent = q.text || ''; const n = Math.max(1, Math.ceil((q.start - now) / 1000)); if (num.textContent !== String(n)) { num.textContent = n; num.classList.remove('pop'); void num.offsetWidth; num.classList.add('pop'); } } };
+    const num = h('div', { class: 'cd-num' }); const qt = h('div', { class: 'cd-q' }); const sub = h('div', { class: 'cd-sub' });
+    const el = h('div', { class: 'scene countdown' }, h('div', { class: 'cd' }, h('div', { class: 'cd-kick' }, icon('quiz'), 'เตรียมตัว!'), qt, sub, num));
+    return { el, timed: true, count: (t, q) => respCount(t, q.id), update(t, q, now) { const nq = qList(t).filter(x => x.t === 'quiz').length; qt.textContent = 'Quiz กำลังจะเริ่ม'; sub.textContent = `ทั้งหมด ${fmtN(nq)} ข้อ · ตอบถูกและเร็วได้คะแนนมาก`; const n = Math.max(1, Math.ceil((q.start - now) / 1000)); if (num.textContent !== String(n)) { num.textContent = n; num.classList.remove('pop'); void num.offsetWidth; num.classList.add('pop'); } } };
   }
   if (phase === 'ended') {
     body = h('div', { class: 'bars' }); rows = barRows(body, asArr(q.opts));
@@ -2016,7 +2057,10 @@ class HomeView {
       const acts = h('div', { class: 'acts' });
       const row = h('div', { class: 'room-row' },
         h('a', { class: 'room-main', href: '#host-' + r.code }, h('span', { class: 'rt' }, r.title || 'ไม่มีชื่อ', r.dev ? h('span', { class: 'pill dev' }, 'DEV') : null), h('span', { class: 'rm mono' }, fmtCode(r.code) + (r.at ? ' · ' + fmtDate(r.at) : ''))), acts);
-      const idle = () => acts.replaceChildren(h('button', { class: 'icon-btn', type: 'button', title: 'ลบห้อง', 'aria-label': `ลบห้อง ${r.title || r.code}`, onclick: ask }, icon('trash')));
+      const dup = async e => { const b = e.currentTarget; b.disabled = true; b.classList.add('busy'); try { const nc = await duplicateRoom(r.code, r.title); if (nc && !IS_LIVE) this.renderRooms(myRooms().filter(x => x.code !== 'demo')); } finally { b.disabled = false; b.classList.remove('busy'); } };
+      const idle = () => acts.replaceChildren(
+        h('button', { class: 'icon-btn', type: 'button', title: 'ทำสำเนาห้อง (คำถามครบ ไม่เอาคำตอบ)', 'aria-label': `ทำสำเนาห้อง ${r.title || r.code}`, onclick: dup }, icon('copy')),
+        h('button', { class: 'icon-btn', type: 'button', title: 'ลบห้อง', 'aria-label': `ลบห้อง ${r.title || r.code}`, onclick: ask }, icon('trash')));
       const ask = () => acts.replaceChildren(h('span', { class: 'confirm-q' }, 'ลบถาวร?'),
         h('button', { class: 'btn danger solid sm', type: 'button', onclick: async e => { e.target.disabled = true; const res = await this.db.deleteRoom(r.code).catch(() => null); toast(res === 'deleted' ? 'ลบห้องแล้ว' : res === 'unlisted' ? 'เอาออกจากรายการแล้ว (บัญชีนี้ไม่ได้เป็นเจ้าของห้อง)' : 'ลบไม่สำเร็จ', res ? '' : 'bad'); if (!IS_LIVE) this.renderRooms(myRooms().filter(x => x.code !== 'demo')); } }, 'ลบ'),
         h('button', { class: 'btn sm', type: 'button', onclick: idle }, 'ยกเลิก'));
@@ -2025,17 +2069,35 @@ class HomeView {
   }
   destroy() { this.offUser?.(); this.offRooms?.(); }
 }
-async function createRoom(title) {
+// ทำสำเนาห้อง: เอาคำถาม ตัวเลือก รูป เฉลย ธีม มาครบ แต่ไม่เอาคำตอบ คะแนน Q&A รายชื่อ และสถานะตอนนำเสนอ
+function roomCopyData(src, title) {
+  const m = src?.meta || {}; const qs = {};
+  for (const [id, q] of Object.entries(src?.qs || {})) { const { start, end, closed, hide, hid, ans, ...rest } = q || {}; qs[id] = rest; }
+  return {
+    meta: { title, at: TS, mode: 'join', qaOn: m.qaOn !== false, ...(m.theme ? { theme: m.theme } : {}), ...(m.qr === false ? { qr: false } : {}), ...(CHANNEL === 'dev' ? { dev: true } : {}) },
+    ...(Object.keys(qs).length ? { qs } : {}), ...(src?.keys ? { keys: src.keys } : {}), ...(src?.img ? { img: src.img } : {}),
+  };
+}
+async function duplicateRoom(code, title) {
+  const db = LIVE; await db.ready;
+  const src = await db.getEvent(code).catch(e => { console.error(e); return null; });
+  if (!src?.meta) return toast('อ่านข้อมูลห้องต้นฉบับไม่ได้', 'bad'), null;
+  const name = ((src.meta.title || title || 'คลาส') + ' (สำเนา)').slice(0, 80);
+  const nc = await createRoom(name, roomCopyData(src, name), false);
+  if (nc) toast(`ทำสำเนาแล้ว: ${name} · รหัส ${fmtCode(nc)}`);
+  return nc;
+}
+async function createRoom(title, base = null, open = true) {
   const db = LIVE; await db.ready;
   if (IS_LIVE && !db.user) return toast('ล็อกอินด้วย Google ก่อนสร้างห้อง', 'bad');
-  const data = { meta: { title: title || 'คลาสใหม่', at: TS, mode: 'join', qaOn: true, ...(CHANNEL === 'dev' ? { dev: true } : {}) } };
+  const data = base || { meta: { title: title || 'คลาสใหม่', at: TS, mode: 'join', qaOn: true, ...(CHANNEL === 'dev' ? { dev: true } : {}) } };
   for (let i = 0; i < 5; i++) {
     const code = String(100000 + Math.floor(Math.random() * 900000)); const pin = String(1000 + Math.floor(Math.random() * 9000));
     if (await db.exists(code)) continue;
     try {
       await db.createEvent(code, pin, data);
       await rememberRoom(db, code, { title: data.meta.title, pin, at: Date.now(), ...(CHANNEL === 'dev' ? { dev: true } : {}) });
-      go('#host-' + code); return;
+      if (open) go('#host-' + code); return code;
     } catch (e) { console.warn('create failed, retrying', e); }
   }
   toast(IS_LIVE ? `สร้างห้องไม่สำเร็จ บัญชี ${db.user?.email || ''} อาจยังไม่มีสิทธิ์สร้างห้อง` : 'สร้างห้องไม่สำเร็จ', 'bad');
@@ -2079,8 +2141,8 @@ const mixHex = (a, b, w) => '#' + hexRGB(a).map((v, i) => Math.round(v * (1 - w)
 const lum = x => { const [r, g, b] = hexRGB(x).map(v => v / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * b; };
 function themeOf(meta) { const th = meta?.theme; if (!th || !HEX.test(th.a || '')) return null; return { a: th.a, s: HEX.test(th.s || '') ? th.s : mixHex(th.a, '#000000', .65) }; }
 // พื้นสีเข้มใช้ตัวอักษรขาว (คอนทราสต์กับขาว ≥ 2.8) พื้นสีอ่อนใช้ตัวอักษรเข้ม
-// พื้นสีเข้มหรือสีสดพอ (ตัวขาวตัดได้ ≥ 2.6:1) ใช้ตัวอักษรสีขาว ไม่งั้นใช้สีกรมท่าเข้ม
-const onColor = hex => 1.05 / (lum(hex) + .05) >= 2.6 ? '#FFFFFF' : '#13213B';
+// พื้นทุกสีใช้ตัวอักษรขาว ยกเว้นพื้นสว่างมาก (ขาว เทาอ่อน สีพาสเทลอ่อน) ใช้สีกรมท่าเข้ม
+const onColor = hex => lum(hex) > .6 ? '#13213B' : '#FFFFFF';
 // ธีมของห้อง: ใส่ไว้ที่ body ทั้งหน้า (แผงควบคุม จอนำเสนอ มือถือผู้เรียน และ pop-up) · หน้าที่ไม่ใช่ห้องจะล้างออก
 const ROOM_VARS = ['--th-a', '--th-s', '--th-on', '--room-l', '--on-room-l'];
 function applyRoomTheme(meta) {
@@ -2145,7 +2207,7 @@ class QuizMusic {
     if (st !== this.state) {
       const prev = this.state; this.state = st; this.lastSec = null;
       if (st === 'end' && prev === 'live') this.gong();
-      if (st === 'live' && prev === 'count' && audioCtx) this.blip(audioCtx.currentTime, 84, .4, .55);
+      if (st === 'live' && prev !== 'live' && audioCtx) this.blip(audioCtx.currentTime, 84, .4, .55);
       if (st === 'board') this.fanfare(false);
       if (st === 'final') this.fanfare(true);
       this.setLoop({ lobby: 'lobby', live: 'live', board: 'calm', final: 'calm' }[st] || null);
@@ -2267,10 +2329,10 @@ class ToolsPanel {
       h('button', { class: 'btn ghost', type: 'button', onclick: () => this.resetTimer() }, icon('refresh'), 'รีเซ็ต'),
       h('button', { class: 'btn ghost', type: 'button', onclick: () => this.clearTimer() }, icon('x'), 'ล้าง'));
     this.miniBtn = h('button', { class: 'btn', type: 'button', title: 'ย่อหน้าต่างให้เหลือเฉพาะเวลา', onclick: () => this.setMini(true) }, icon('mini'), 'จอเล็ก');
-    this.pinBtn = h('button', { class: 'btn', type: 'button', title: 'ปักหมุดเวลาไว้บนสุด แม้สลับไปโปรแกรมอื่น (Chrome หรือ Edge บนคอมพิวเตอร์)', onclick: () => this.pin() }, icon('pin'), 'ปักหมุด');
+    this.pinBtn = h('button', { class: 'btn', type: 'button', title: 'ปักหมุดเวลาไว้บนสุด แม้สลับไปโปรแกรมอื่น (Chrome หรือ Edge บนคอมพิวเตอร์)', onclick: () => this.pipWin ? this.unpin() : this.pin() }, icon('pin'), 'ปักหมุด');
     const timerSec = h('section', { class: 'tool-sec tm-sec' },
       h('h3', null, icon('clock'), 'จับเวลา'), this.tmBig, this.mkMini(false), this.tmState,
-      h('div', { class: 'chips' }, preset(60, '1 นาที'), preset(180, '3 นาที'), preset(300, '5 นาที'), preset(600, '10 นาที'), preset(900, '15 นาที')),
+      h('div', { class: 'chips' }, preset(60, '1 นาที'), preset(120, '2 นาที'), preset(180, '3 นาที'), preset(300, '5 นาที'), preset(600, '10 นาที'), preset(900, '15 นาที')),
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.custom, h('button', { class: 'btn', type: 'button', onclick: () => this.setCustom() }, 'ตั้งเวลา')),
       this.tmCtl, h('div', { class: 'row', style: { gap: '6px' } }, this.fsBtn, this.miniBtn, this.pinBtn),
       h('label', { class: 'toggle', for: 'tm-snd' }, snd, 'เสียงเตือนเมื่อหมดเวลา (ดังจากเครื่องนี้)'));
@@ -2326,6 +2388,10 @@ class ToolsPanel {
   // หน้าต่างลอยอยู่บนสุดของทุกโปรแกรม (Document Picture-in-Picture มีใน Chrome/Edge บนคอมพิวเตอร์)
   async pin() {
     if (this.pipWin) { try { this.pipWin.focus(); } catch { /* ignore */ } return; }
+    if (this.pinning) return; this.pinning = true;
+    try { await this.openPip(); } finally { this.pinning = false; }
+  }
+  async openPip() {
     const dpip = window.documentPictureInPicture;
     if (!dpip?.requestWindow) { this.setMini(true); return toast('เบราว์เซอร์นี้ปักหมุดไม่ได้ ใช้ Chrome หรือ Edge บนคอมพิวเตอร์ ตอนนี้ย่อเป็นจอเล็กให้แทน'); }
     let win; try { win = await dpip.requestWindow({ width: 300, height: 180 }); } catch (e) { console.warn(e); return toast('เปิดหน้าต่างปักหมุดไม่ได้', 'bad'); }
@@ -2334,11 +2400,11 @@ class ToolsPanel {
     this.pipTime = h('div', { class: 'tm-big mono' }, this.tmBig.textContent);
     d.body.append(h('div', { class: 'pip-wrap' }, this.pipTime, this.mkMini(true)));
     this.pipWin = win; this.syncPip(); this.renderTimer(); this.syncPinBtn();
-    win.addEventListener('pagehide', () => { this.gos = this.gos.filter(g => g.ownerDocument === document); this.pipWin = null; this.pipTime = null; this.syncPinBtn(); }, { once: true });
+    win.addEventListener('pagehide', () => { if (this.pipWin !== win) return; this.gos = this.gos.filter(g => g.ownerDocument === document); this.pipWin = null; this.pipTime = null; this.syncPinBtn(); }, { once: true });
   }
   unpin() { try { this.pipWin?.close(); } catch { /* ignore */ } }
   syncPip() { const b = this.pipWin?.document.body; if (!b) return; const cls = 'pip ' + document.body.className; if (b.className !== cls) b.className = cls; if (b.style.cssText !== document.body.style.cssText) b.style.cssText = document.body.style.cssText; }
-  syncPinBtn() { const on = !!this.pipWin; this.pinBtn.classList.toggle('on', on); this.pinBtn.replaceChildren(icon(on ? 'x' : 'pin'), on ? 'เลิกปักหมุด' : 'ปักหมุด'); this.pinBtn.onclick = () => on ? this.unpin() : this.pin(); }
+  syncPinBtn() { const on = !!this.pipWin; this.pinBtn.classList.toggle('on', on); this.pinBtn.replaceChildren(icon(on ? 'x' : 'pin'), on ? 'เลิกปักหมุด' : 'ปักหมุด'); }
   // ลากหน้าต่างไปวางตรงไหนก็ได้ จำตำแหน่งไว้ในเครื่องนี้
   dragStart(e) {
     if (e.button !== 0 || e.target.closest('button, input, a')) return;
@@ -2507,9 +2573,10 @@ class HostView {
     this.top = h('header', { class: 'host-top' }, IS_LIVE && code !== 'demo' ? brand() : null, this.titleIn,
       h('button', { class: 'code-chip', type: 'button', title: 'คัดลอกลิงก์ผู้เข้าร่วม', onclick: () => copyText(joinUrl(code)) }, icon('link'), fmtCode(code)),
       this.people, h('span', { class: 'spacer' }),
-      h('button', { class: 'btn sm', type: 'button', title: 'ธีมสีของจอและมือถือผู้เรียน', onclick: () => this.themeModal() }, this.themeDot = h('span', { class: 'theme-dot' }), 'ธีมสี'),
+      h('button', { class: 'btn sm', type: 'button', title: 'ธีมสีของจอและมือถือผู้เรียน', 'aria-label': 'ธีมสี', onclick: () => this.themeModal() }, this.themeDot = h('span', { class: 'theme-dot' }), h('span', { class: 'lbl' }, 'ธีมสี')),
       this.toolsBtn = h('button', { class: 'btn sm', type: 'button', 'aria-expanded': 'false', title: 'จับเวลาและเล่นเพลง', onclick: () => this.tools.toggle() }, icon('sliders'), 'เครื่องมือ', this.toolsInfo = h('span', { class: 'tools-info mono', hidden: true })),
-      h('button', { class: 'btn sm', type: 'button', onclick: () => exportXlsx(this.t, code) }, icon('download'), 'Excel'),
+      h('button', { class: 'btn sm', type: 'button', title: 'ดาวน์โหลดผลเป็น Excel', 'aria-label': 'Excel', onclick: () => exportXlsx(this.t, code) }, icon('download'), h('span', { class: 'lbl' }, 'Excel')),
+      h('button', { class: 'btn sm', type: 'button', title: 'รีเซ็ตห้อง: ล้างคำตอบ โหวต และคะแนนทั้งห้อง (คำถามยังอยู่)', 'aria-label': 'รีเซ็ตห้อง', onclick: () => this.resetModal() }, icon('refresh'), h('span', { class: 'lbl' }, 'รีเซ็ตห้อง')),
       h('span', { class: 'split' },
         h('button', { class: 'btn navy sm', type: 'button', title: 'เริ่มจากหน้าที่เลือกอยู่ แล้วขึ้นเต็มจอ', onclick: () => this.present() }, icon('monitor'), 'เปิดจอนำเสนอ'),
         IN_FRAME ? null : h('button', { class: 'btn navy sm', type: 'button', title: 'เปิดจอนำเสนอในแท็บใหม่ (ใช้เมื่อต่อจอแยก)', 'aria-label': 'เปิดจอนำเสนอในแท็บใหม่', onclick: () => this.openScreenTab() }, icon('ext'))));
@@ -2544,6 +2611,24 @@ class HostView {
     this.themeDot.style.background = themeOf(t.meta)?.a || '#FF6B00';
     if (document.activeElement !== this.qrTg) this.qrTg.checked = t.meta.qr !== false;
     this.tools?.set(t); this.presenter?.set(t);
+  }
+  resetModal() {
+    const t = this.t; if (!t?.meta) return;
+    const nRes = qList(t).reduce((s, q) => s + respCount(t, q.id), 0); const nQa = qaList(t).length; const nP = pplCount(t);
+    const qa = h('input', { type: 'checkbox', id: 'rs-qa', checked: true }); const ppl = h('input', { type: 'checkbox', id: 'rs-ppl' });
+    const go = h('button', { class: 'btn danger solid', type: 'button' }, icon('refresh'), 'รีเซ็ตห้อง');
+    const dlg = openModal('รีเซ็ตห้องเรียน', h('div', { class: 'reset-box' },
+      h('p', null, 'ล้างคำตอบ โหวต และคะแนน Quiz ทุกข้อ (', h('b', null, fmtN(nRes) + ' คำตอบ'), ') แล้วกลับไปหน้าเข้าร่วม'),
+      h('p', { class: 'muted' }, 'คำถาม รูป เฉลย และธีมสียังอยู่ครบ'),
+      h('label', { class: 'toggle', for: 'rs-qa' }, qa, `ล้างคำถาม Q&A ด้วย (${fmtN(nQa)} คำถาม)`),
+      h('label', { class: 'toggle', for: 'rs-ppl' }, ppl, `ล้างรายชื่อผู้เข้าร่วม (${fmtN(nP)} คน) ทุกคนต้องใส่ชื่อใหม่`),
+      h('p', { class: 'hint' }, 'ย้อนกลับไม่ได้ ถ้าอยากเก็บผลไว้ ', h('button', { class: 'linkbtn', type: 'button', onclick: () => exportXlsx(this.t, this.code) }, 'ดาวน์โหลด Excel'), ' ก่อน'),
+      h('div', { class: 'row', style: { justifyContent: 'flex-end', gap: '8px' } }, h('button', { class: 'btn', type: 'button', onclick: () => dlg.close() }, 'ยกเลิก'), go)));
+    go.addEventListener('click', async () => {
+      go.disabled = true;
+      try { if (this.t?.meta?.timer?.big) await write(this.db, this.code, { 'meta/timer/big': null }); await Act.resetRoom(this.db, this.code, this.t, { qa: qa.checked, ppl: ppl.checked }); toast('รีเซ็ตห้องแล้ว'); dlg.close(); }
+      catch (e) { console.error(e); toast('รีเซ็ตไม่สำเร็จ', 'bad'); go.disabled = false; }
+    });
   }
   syncToolsBtn(txt) {
     if (txt !== undefined) this.toolsTxt = txt;
@@ -2717,7 +2802,7 @@ class HostView {
       if (id === 'join') b.push(onScreen ? h('span', { class: 'hint' }, 'หน้าเข้าร่วมอยู่บนจอ') : h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('play'), 'แสดงบนจอ'));
       else if (id === 'qa') b.push(onScreen ? h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('stop'), 'เอาลงจากจอ') : h('button', { class: 'btn', type: 'button', onclick: () => Act.mode(db, code, 'qa') }, icon('play'), 'แสดง Q&A บนจอ'));
       else if (q) {
-        if (inLobby) b.push(h('span', { class: 'pill live' }, `ห้องรอ · ${fmtN(quizPlayers(t, db).length)} คน`), h('button', { class: 'btn navy', type: 'button', onclick: () => { unlockAudio(); Act.activate(db, code, q); } }, icon('play'), 'เริ่ม Quiz'));
+        if (inLobby) b.push(h('span', { class: 'pill live' }, `ห้องรอ · ${fmtN(quizPlayers(t, db).length)} คน`), h('button', { class: 'btn navy', type: 'button', onclick: () => { unlockAudio(); Act.activate(db, code, q, true); } }, icon('play'), 'เริ่ม Quiz'));
         else b.push(onScreen ? h('button', { class: 'btn', type: 'button', onclick: () => Act.offscreen(db, code) }, icon('stop'), 'เอาลงจากจอ')
           : q.t === 'quiz' && ph === 'ready' ? h('button', { class: 'btn', type: 'button', onclick: () => { unlockAudio(); Act.go(db, code, t, q); } }, icon('play'), m.lobbyDone ? 'เริ่มข้อนี้บนจอ' : 'เปิดห้องรอบนจอ')
           : h('button', { class: 'btn', type: 'button', onclick: () => Act.activate(db, code, q) }, icon('play'), 'แสดงบนจอ'));
