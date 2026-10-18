@@ -805,6 +805,11 @@ body { font-size: 17.25px; }
 @media (max-width: 1360px) { .host-top .btn .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
 @media (max-width: 1100px) { .host-top { flex-wrap: wrap; } }
 
+/* แจ้งว่ามีเวอร์ชันใหม่ (หน้าที่เปิดค้างไว้) */
+.v-banner { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 200; display: inline-flex; align-items: center; gap: 10px; padding: 8px 8px 8px 16px; border-radius: 99px; background: var(--ink); color: var(--surface); box-shadow: var(--shadow); font-size: .92em; animation: toastIn .3s ease-out; }
+.v-banner svg.i { width: 18px; height: 18px; }
+.v-banner .btn { background: var(--brand); color: var(--on-brand); border-color: transparent; }
+
 </style>
 </head>
 <body>
@@ -833,6 +838,7 @@ const FIREBASE_CONFIG = {
 };
 const FIREBASE_VERSION = '10.12.2';
 const CHANNEL = 'dev'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
+const BUILD = 1792304923017; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 const SUGGESTED_SITE = 'live.powerpointboy.com';
 const ADMIN_EMAIL = 'twish.ong@gmail.com'; // บัญชีเดียวที่เข้าหลังบ้านได้ (กฎใน Firebase ล็อกไว้ที่อีเมลนี้เหมือนกัน)
@@ -1218,6 +1224,19 @@ const ansList = a => a == null ? [] : Array.isArray(a) ? a : typeof a === 'objec
 // คนที่ออนไลน์อยู่จริง (มือถือเปิดหน้าห้องค้างไว้) · ห้องจำลองในเครื่องนับจากรายชื่อ
 const onlineIds = (t, db) => db?.kind === 'local' ? Object.keys(t?.ppl || {}) : Object.keys(t?.on || {}).filter(k => t?.ppl?.[k]);
 const roomCount = (t, db) => onlineIds(t, db).length;
+// เวอร์ชันแอป: แผงควบคุมเขียนเวอร์ชันของตัวเองลงห้อง (แยกเว็บจริง/dev) หน้าที่เปิดค้างไว้ด้วยเวอร์ชันเก่าจะโหลดใหม่เอง
+const VKEY = CHANNEL === 'dev' ? 'vdev' : 'v';
+function stampVersion(db, code, meta) { if (db.kind === 'firebase' && BUILD && code !== 'demo' && !(meta?.[VKEY] >= BUILD)) write(db, code, { ['meta/' + VKEY]: BUILD }); }
+let vBanner = null;
+function checkVersion(meta, auto) {
+  const v = meta?.[VKEY]; if (!BUILD || !(v > BUILD)) return;
+  const k = 'ppb:reload:' + v; let tried = false; try { tried = sessionStorage.getItem(k) === '1'; } catch { /* ignore */ }
+  const reload = () => { try { sessionStorage.setItem(k, '1'); } catch { /* ignore */ } location.replace(location.pathname + '?v=' + v + location.hash); };
+  if (auto && !tried) return reload();
+  if (vBanner) return;
+  vBanner = h('div', { class: 'v-banner', role: 'status' }, icon('refresh'), h('span', null, 'มีเวอร์ชันใหม่'), h('button', { class: 'btn sm', type: 'button', onclick: reload }, 'โหลดใหม่'));
+  document.body.append(vBanner);
+}
 const quizPlayers = (t, db) => onlineIds(t, db).filter(k => t.ppl?.[k]?.n);
 const ansOf = (t, q) => t?.keys?.[q.id] ?? q.ans;
 function quizPoints(q, r, ans) {
@@ -1698,6 +1717,7 @@ class Phone {
     const t = this.t; this.timed = false;
     if (!t?.meta) { this.tabs.hidden = true; this.headT.textContent = 'Powerpointboy Live'; this.headC.textContent = ''; return this.paint('none', () => h('div', { class: 'wait' }, avatar('confused', 'pv-av-lg'), h('b', null, 'ไม่พบห้องรหัสนี้'), h('span', null, 'ตรวจรหัสอีกครั้ง หรือสแกน QR บนจอ'))); }
     const m = t.meta; const me = t.ppl?.[this.pid];
+    if (this.pid) checkVersion(m, true);
     applyRoomTheme(m);
     if (this.lastSaved !== (m.title || '')) { this.lastSaved = m.title || ''; rememberLast(this.code, m.title); }
     this.headT.textContent = m.title || 'Powerpointboy Live'; this.headC.textContent = '#' + fmtCode(this.code);
@@ -2600,6 +2620,8 @@ class HostView {
   set(t) {
     this.t = t;
     if (!t?.meta) { this.edit.replaceChildren(h('div', { class: 'empty' }, h('b', null, 'ไม่พบห้องนี้'), h('a', { href: '#admin' }, 'กลับหน้าแรก'))); return; }
+    if (!this.stamped) { this.stamped = true; stampVersion(this.db, this.code, t.meta); }
+    checkVersion(t.meta, false);
     if (document.activeElement !== this.titleIn) this.titleIn.value = t.meta.title || '';
     this.people.replaceChildren(icon('users'), `ออนไลน์ ${fmtN(roomCount(t, this.db))} คน`); this.people.title = `เคยเข้าห้องทั้งหมด ${fmtN(pplCount(t))} คน`;
     const qs = qList(t);
@@ -2875,7 +2897,7 @@ class ScreenView {
     this.onKey = canControl ? stageKeys(() => this.t, db, code, full) : null; if (this.onKey) addEventListener('keydown', this.onKey);
     try { navigator.wakeLock?.request('screen').then(l => { this.lock = l; }).catch(() => {}); } catch { /* optional */ }
     this.agent = db.kind === 'firebase' ? new Agent(db, code) : null;
-    this.unsub = db.listen(code, t => { this.t = t; this.agent?.set(t); this.stage.set(t); });
+    this.unsub = db.listen(code, t => { this.t = t; this.agent?.set(t); this.stage.set(t); if (t?.meta) { if (!this.stamped && canControl) { this.stamped = true; stampVersion(db, code, t.meta); } checkVersion(t.meta, false); } });
   }
   destroy() { this.unsub?.(); this.stage.destroy(); this.agent?.destroy(); removeEventListener('mousemove', this.onMove); if (this.onKey) removeEventListener('keydown', this.onKey); try { this.lock?.release(); } catch { /* ignore */ } }
 }
