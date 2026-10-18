@@ -1050,6 +1050,45 @@ button.tip { cursor: pointer; transition: transform .12s; } button.tip:hover { t
   .app.full > .pv .pv-links { min-height: 0; overflow-y: auto; align-content: start; scrollbar-width: thin; }
 }
 
+/* =====================================================================
+   เว็บไซต์ Workshop = กล่องขวา (จอกว้าง) / ลิ้นชักขวา (มือถือ)
+   ===================================================================== */
+.pv { grid-template-rows: auto auto minmax(0, 1fr) auto; }
+.pv-quick { display: flex; align-items: center; gap: 8px; padding: 0 16px 6px; }
+.pv:not(.has-links) .pv-quick { display: none; }
+.pv-tools-btn { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 7px 12px 7px 10px; border: 0; border-radius: 99px; background: #0E7490; color: #fff; font-weight: 600; font-size: .84em; box-shadow: 0 8px 18px -10px rgba(14, 116, 144, .9); }
+.pv-tools-btn[hidden] { display: none; }
+.pv-tools-btn svg.i { width: 17px; height: 17px; }
+.pv-tools-btn b { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; background: rgba(255, 255, 255, .25); font-size: .85em; }
+.pv-tools-btn.ping { animation: pingT 1.2s ease-out 2; }
+@keyframes pingT { 0% { box-shadow: 0 0 0 0 rgba(14, 116, 144, .6); } 100% { box-shadow: 0 0 0 14px transparent; } }
+.pv-tools-panel { position: absolute; z-index: 40; inset: 0 0 0 auto; width: min(86%, 340px); display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--surface); border-radius: 26px 0 0 26px; box-shadow: -18px 0 40px -20px rgba(19, 33, 59, .45); transform: translateX(105%); visibility: hidden; transition: transform .28s cubic-bezier(.2,.8,.2,1), visibility 0s linear .28s; }
+.pv.tools-open .pv-tools-panel { transform: none; visibility: visible; transition: transform .28s cubic-bezier(.2,.8,.2,1); }
+.pv.tools-open .pv-links-back { opacity: 1; pointer-events: auto; }
+.pv-tools-phead { display: flex; align-items: center; gap: 10px; padding: 18px 12px 12px 18px; }
+.pv-tools-phead .ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; flex: none; background: color-mix(in srgb, #0E7490 14%, var(--surface)); color: #0E7490; }
+.pv-tools-phead .tt { flex: 1; display: grid; min-width: 0; } .pv-tools-phead .tt b { font-family: var(--f-display); } .pv-tools-phead .tt small { color: var(--ink-3); font-size: .76em; }
+.pv-tools-list { display: grid; gap: 8px; align-content: start; overflow-y: auto; padding: 4px 12px 16px; }
+.pv-tools-list .pv-link { padding: 12px; }
+@media (max-width: 959px) { .pv-links .s-tools { display: none; } }
+
+@media (min-width: 960px) {
+  .app.full > .pv .pv-quick { display: none; }
+  .app.full > .pv .pv-tools-panel { display: none; }
+}
+@media (min-width: 1200px) {
+  .app.full > .pv .s-tools { display: none; }
+  .app.full > .pv:not(.has-docs) .pv-links { display: none; }
+  body.themed .app.full > .pv.has-tools, .app.full > .pv.has-tools { width: min(100% - 48px, 1480px); grid-template-columns: 270px minmax(0, 1fr) 300px; grid-template-areas: "brand head tools" "nav body tools" "links body tools" "me body tools"; }
+  .app.full > .pv.has-tools .pv-tools-panel { display: grid; grid-area: tools; position: relative; inset: auto; z-index: auto; width: auto; transform: none; visibility: visible; transition: none; align-self: start; max-height: 100%; border-radius: 28px; box-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 20px 50px -30px rgba(19, 33, 59, .35); }
+  .app.full > .pv .pv-tools-x { display: none; }
+  .app.full > .pv .pv-tools-phead { padding: 22px 18px 12px 20px; }
+  .app.full > .pv .pv-tools-list { padding: 4px 14px 18px; }
+  .app.full > .pv .pv-tools-list .pv-link { box-shadow: none; background: var(--surface-2); }
+  .app.full > .pv .pv-tools-list .pv-link:hover { background: color-mix(in srgb, #0E7490 8%, var(--surface)); }
+  .app.full > .pv.has-tools .pv-tools { display: none; }
+}
+
 </style>
 </head>
 <body>
@@ -1078,7 +1117,7 @@ const FIREBASE_CONFIG = {
 };
 const FIREBASE_VERSION = '10.12.2';
 const CHANNEL = 'dev'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
-const BUILD = 1792318406975; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
+const BUILD = 1792319259727; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 const SUGGESTED_SITE = 'live.powerpointboy.com';
 const ADMIN_EMAIL = 'twish.ong@gmail.com'; // บัญชีเดียวที่เข้าหลังบ้านได้ (กฎใน Firebase ล็อกไว้ที่อีเมลนี้เหมือนกัน)
@@ -1989,32 +2028,43 @@ class Phone {
     this.linksBtn = h('button', { class: 'pv-links-btn', type: 'button', hidden: true, 'aria-label': 'ลิงก์จากวิทยากร', onclick: () => this.toggleLinks() }, icon('clip'), this.linksLbl, this.linksN);
     this.linksList = h('div', { class: 'pv-links-list' });
     this.linksEl = h('aside', { class: 'pv-links', 'aria-label': 'เอกสารและลิงก์' },
-      h('div', { class: 'pv-links-head' }, icon('clip'), h('b', null, 'ลิงก์จากวิทยากร'), h('button', { class: 'icon-btn pv-links-x', type: 'button', 'aria-label': 'ปิด', onclick: () => this.toggleLinks(false) }, icon('x'))), this.linksList);
-    this.linksBack = h('div', { class: 'pv-links-back', onclick: () => this.toggleLinks(false) });
+      h('div', { class: 'pv-links-head' }, icon('clip'), h('b', null, 'เอกสารและลิงก์'), h('button', { class: 'icon-btn pv-links-x', type: 'button', 'aria-label': 'ปิด', onclick: () => this.toggleLinks(false) }, icon('x'))), this.linksList);
+    this.linksBack = h('div', { class: 'pv-links-back', onclick: () => { this.toggleLinks(false); this.toggleTools(false); } });
+    // เว็บไซต์ Workshop: จอกว้างเป็นกล่องขวา มือถือเป็นปุ่มขวาที่เปิดลิ้นชักจากด้านขวา
+    this.toolsN = h('b');
+    this.toolsBtn = h('button', { class: 'pv-tools-btn', type: 'button', hidden: true, 'aria-label': 'เว็บไซต์ Workshop', onclick: () => this.toggleTools() }, icon('globe'), h('span', null, 'เว็บไซต์'), this.toolsN);
+    this.toolsList = h('div', { class: 'pv-tools-list' });
+    this.toolsEl = h('aside', { class: 'pv-tools-panel', 'aria-label': 'เว็บไซต์ Workshop' },
+      h('div', { class: 'pv-tools-phead' }, h('span', { class: 'ic' }, icon('globe')), h('span', { class: 'tt' }, h('b', null, 'เว็บไซต์ Workshop'), h('small', null, 'กดเข้าได้เลย เปิดในแท็บใหม่')), h('button', { class: 'icon-btn pv-tools-x', type: 'button', 'aria-label': 'ปิด', onclick: () => this.toggleTools(false) }, icon('x'))), this.toolsList);
+    this.quick = h('div', { class: 'pv-quick' }, this.linksBtn, this.toolsBtn);
     // จอกว้าง: แถบซ้ายมีโลโก้ เมนู ลิงก์ และการ์ดผู้เรียน
     this.brandEl = h('div', { class: 'pv-brand' }, h('span', { class: 'brand', html: MARK }, h('span', null, 'Powerpointboy ', h('b', null, 'Live'))), h('small', null, 'ตอบสด · เรียนสนุก'));
     this.meEl = h('div', { class: 'pv-me', hidden: true });
     this.headPts = h('span', { class: 'pv-chip pts-chip', hidden: true });
-    this.el = h('div', { class: 'pv' }, this.brandEl, h('div', { class: 'pv-head' }, this.linksBtn, this.headT, h('div', { class: 'pv-head-r' }, this.headPts, this.headC)), this.body, this.tabs, this.linksBack, this.linksEl, this.meEl);
+    this.el = h('div', { class: 'pv' }, this.brandEl, h('div', { class: 'pv-head' }, this.headT, h('div', { class: 'pv-head-r' }, this.headPts, this.headC)), this.quick, this.body, this.tabs, this.linksBack, this.linksEl, this.toolsEl, this.meEl);
     Object.assign(this, { tab: 'poll', key: '', live: null, draft: {}, sel: {}, editing: {}, qaSort: 'new', lastMode: undefined, lastActive: undefined, anon: false, timed: false });
     this.timer = setInterval(() => { if (this.timed) this.render(); }, 250);
   }
   set(t) { this.t = t; this.render(); }
   setTab(tab) { this.tab = tab; this.key = ''; this.render(); }
-  toggleLinks(on) { this.linksOpen = on ?? !this.linksOpen; this.el.classList.toggle('links-open', !!this.linksOpen); }
+  toggleLinks(on) { this.linksOpen = on ?? !this.linksOpen; this.el.classList.toggle('links-open', !!this.linksOpen); if (this.linksOpen) this.toggleTools(false); }
+  toggleTools(on) { this.toolsOpen = on ?? !this.toolsOpen; this.el.classList.toggle('tools-open', !!this.toolsOpen); if (this.toolsOpen && this.linksOpen) { this.linksOpen = false; this.el.classList.remove('links-open'); } }
   renderLinks(t) {
     const docs = shownLinks(t, 'links'), tools = shownLinks(t, 'tools');
     const sig = JSON.stringify([docs, tools].map(L => L.map(l => [l.id, l.k, l.t, l.u]))); if (sig === this.linksSig) return;
     const was = this.linksPrev; this.linksSig = sig; this.linksPrev = { d: docs.length, w: tools.length };
     const n = docs.length + tools.length, has = n > 0;
-    this.el.classList.toggle('has-links', has); this.linksBtn.hidden = !has; this.linksN.textContent = n;
-    this.linksLbl.textContent = docs.length && tools.length ? 'ลิงก์' : tools.length ? 'เว็บไซต์' : 'เอกสาร';
-    if (!has) this.toggleLinks(false);
-    const sec = (g, L, card) => L.length ? h('section', { class: 'pv-links-sec' }, h('div', { class: 'pv-links-sub' }, icon(LINK_GROUPS[g].icon), LINK_GROUPS[g].title), L.map(l => card(l))) : null;
+    this.el.classList.toggle('has-links', has); this.el.classList.toggle('has-docs', docs.length > 0); this.el.classList.toggle('has-tools', tools.length > 0);
+    this.linksBtn.hidden = !docs.length; this.linksN.textContent = docs.length; this.linksLbl.textContent = 'เอกสาร';
+    this.toolsBtn.hidden = !tools.length; this.toolsN.textContent = tools.length;
+    if (!docs.length) this.toggleLinks(false); if (!tools.length) this.toggleTools(false);
+    const sec = (g, L, card) => L.length ? h('section', { class: 'pv-links-sec s-' + g }, h('div', { class: 'pv-links-sub' }, icon(LINK_GROUPS[g].icon), LINK_GROUPS[g].title), L.map(l => card(l))) : null;
     this.linksList.replaceChildren(...[sec('links', docs, linkCard), sec('tools', tools, toolCard), has ? h('p', { class: 'pv-links-note' }, 'เปิดในแท็บใหม่ กลับมาตอบคำถามต่อได้เลย') : null].filter(Boolean));
-    if (has && was) {
-      this.linksBtn.classList.remove('ping'); void this.linksBtn.offsetWidth; this.linksBtn.classList.add('ping');
-      if (!was.w && tools.length) toast('วิทยากรแชร์เว็บไซต์ Workshop แล้ว กดเข้าได้เลย'); else if (!was.d && docs.length) toast('วิทยากรแชร์เอกสารและลิงก์แล้ว');
+    this.toolsList.replaceChildren(...tools.map(l => toolCard(l)));
+    const ping = b => { b.classList.remove('ping'); void b.offsetWidth; b.classList.add('ping'); };
+    if (was) {
+      if (!was.w && tools.length) { ping(this.toolsBtn); toast('วิทยากรแชร์เว็บไซต์ Workshop แล้ว กดเข้าได้เลย'); } else if (tools.length && was.w !== tools.length) ping(this.toolsBtn);
+      if (!was.d && docs.length) { ping(this.linksBtn); if (was.w || !tools.length) toast('วิทยากรแชร์เอกสารและลิงก์แล้ว'); } else if (docs.length && was.d !== docs.length) ping(this.linksBtn);
     }
   }
   paint(key, build) {
@@ -3190,7 +3240,7 @@ class HostView {
     const hosts = new Set(list.map(l => urlHost(l.u)));
     const presets = tools ? TOOL_PRESETS.filter(([, u]) => !hosts.has(urlHost(u))) : [];
     return [h('div', { class: 'panel-head' }, h('h3', null, h('span', { class: G.cls }, icon(G.icon)), tools ? 'เว็บไซต์สำหรับ Workshop' : 'ลิงก์สำหรับผู้เรียน')),
-      h('p', { class: 'muted' }, tools ? 'เว็บที่ผู้เรียนต้องเปิดใช้ระหว่างทำ Workshop เช่น ChatGPT หรือ Canva เปิดสวิตช์แล้วผู้เรียนกดเข้าได้ทันที ขึ้นเป็นปุ่มใหญ่ตอนไม่มีคำถามบนจอ และอยู่ในแถบซ้ายตลอด' : 'วางลิงก์เอกสารประกอบการเรียนหรือฟอร์มส่งการบ้าน เปิดสวิตช์แล้วผู้เรียนจะเห็นปุ่มลิงก์ทางซ้ายของจอ กดแล้วเปิดในแท็บใหม่'),
+      h('p', { class: 'muted' }, tools ? 'เว็บที่ผู้เรียนต้องเปิดใช้ระหว่างทำ Workshop เช่น ChatGPT หรือ Canva เปิดสวิตช์แล้วผู้เรียนกดเข้าได้ทันที อยู่ในกล่องด้านขวาของจอผู้เรียนตลอด' : 'วางลิงก์เอกสารประกอบการเรียนหรือฟอร์มส่งการบ้าน เปิดสวิตช์แล้วผู้เรียนจะเห็นปุ่มลิงก์ทางซ้ายของจอ กดแล้วเปิดในแท็บใหม่'),
       h('label', { class: 'toggle link-toggle' + (on ? ' on' : ''), for: 'ed-' + g + 'on' }, tg, h('span', null, h('b', null, on ? (tools ? 'ผู้เรียนเห็นเว็บไซต์อยู่' : 'ผู้เรียนเห็นลิงก์อยู่') : 'ยังไม่ให้ผู้เรียนเห็น'), h('small', null, on ? 'ปิดสวิตช์เพื่อซ่อนจากมือถือทุกเครื่อง' : 'เปิดสวิตช์เมื่อพร้อมให้ผู้เรียนใช้'))),
       rows.length ? h('div', { class: 'link-rows' }, rows) : h('div', { class: 'link-empty' }, icon(G.icon), h('span', null, tools ? 'ยังไม่มีเว็บไซต์ กดเพิ่มด่วนหรือเพิ่มเอง' : 'ยังไม่มีลิงก์ กดปุ่มด้านล่างเพื่อเพิ่ม')),
       tools ? h('div', { class: 'row link-adds' }, h('button', { class: 'btn', type: 'button', onclick: () => add() }, icon('plus'), 'เพิ่มเว็บไซต์'))
@@ -3243,9 +3293,9 @@ class HostView {
       const G = LINK_GROUPS[id]; const list = readyLinks(t, id); const sig = id + JSON.stringify([!!t.meta[G.flag], list.map(l => [l.id, l.k, l.t, l.u])]);
       if (sig === this.modSig) return; this.modSig = sig;
       const off = t.meta[G.flag] ? '' : ' off';
-      if (id === 'tools') return this.mod.replaceChildren(h('div', { class: 'label', style: { margin: 0 } }, 'ผู้เรียนจะเห็นแบบนี้ (ปุ่มใหญ่ตอนไม่มีคำถามบนจอ + แถบซ้าย/ปุ่มลิงก์มุมซ้ายบน)'),
+      if (id === 'tools') return this.mod.replaceChildren(h('div', { class: 'label', style: { margin: 0 } }, 'ผู้เรียนจะเห็นแบบนี้ (กล่องขวาบนจอกว้าง · ปุ่ม “เว็บไซต์” ด้านขวาบนมือถือ · ปุ่มใหญ่ตอนไม่มีคำถามบนจอ)'),
         list.length ? h('div', { class: 'tools-preview' + off }, h('div', { class: 'pv-tools-grid' }, list.map(toolTile))) : h('p', { class: 'hint' }, 'ยังไม่มีเว็บไซต์ที่ใช้ได้'));
-      return this.mod.replaceChildren(h('div', { class: 'label', style: { margin: 0 } }, 'ผู้เรียนจะเห็นแบบนี้ (แถบซ้ายบนจอกว้าง · ปุ่ม “เอกสาร” มุมซ้ายบนบนมือถือ)'),
+      return this.mod.replaceChildren(h('div', { class: 'label', style: { margin: 0 } }, 'ผู้เรียนจะเห็นแบบนี้ (แถบซ้ายบนจอกว้าง · ปุ่ม “เอกสาร” ด้านซ้ายบนมือถือ)'),
         list.length ? h('div', { class: 'links-preview' + off }, h('div', { class: 'pv-links-head' }, icon('clip'), h('b', null, 'เอกสารและลิงก์')), h('div', { class: 'pv-links-list' }, list.map(l => linkCard(l, true))))
           : h('p', { class: 'hint' }, 'ยังไม่มีลิงก์ที่ใช้ได้'));
     }
