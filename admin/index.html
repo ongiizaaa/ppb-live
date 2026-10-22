@@ -954,16 +954,16 @@ button.tip { cursor: pointer; transition: transform .12s; } button.tip:hover { t
   body.themed .app.full > .pv, .app.full > .pv { width: min(100% - 48px, 1180px); margin: 22px auto 26px; height: auto; flex: 1; min-height: 0; border: 0; border-radius: 0; box-shadow: none; overflow: visible; background: transparent;
     grid-template-columns: 280px minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr) auto; column-gap: 26px;
     grid-template-areas: "brand head" "nav body" "links body" "fill body" "me body"; }
-  .app.full > .pv::before { content: ''; grid-column: 1; grid-row: 1 / -1; background: var(--surface); border-radius: 28px; box-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 20px 50px -30px rgba(19, 33, 59, .35); }
+  .app.full > .pv::before { content: ''; grid-column: 1; grid-row: 2 / -1; margin-top: 4px; background: var(--surface); border-radius: 28px; box-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 20px 50px -30px rgba(19, 33, 59, .35); }
   .app.full > .pv > * { position: relative; }
-  .app.full > .pv .pv-brand { grid-area: brand; display: grid; gap: 4px; padding: 26px 24px 18px; border-bottom: 1px solid var(--line); margin: 0 18px; padding-left: 6px; padding-right: 6px; }
+  .app.full > .pv .pv-brand { grid-area: brand; display: grid; gap: 2px; align-self: center; padding: 14px 8px 12px; }
   .app.full > .pv .pv-brand .brand { font-size: 1.12rem; }
   .app.full > .pv .pv-brand small { color: var(--ink-3); font-size: .78em; padding-left: calc(1.75em + .55em); }
-  .app.full > .pv .pv-head { grid-area: head; padding: 18px 4px 12px; }
+  .app.full > .pv .pv-head { grid-area: head; align-self: center; padding: 14px 4px 12px; }
   .app.full > .pv .pv-head .t { font-size: 1.5em; letter-spacing: -.01em; }
   .app.full > .pv .pv-links-btn { display: none; }
   .app.full > .pv .pv-body { grid-area: body; overflow-y: auto; padding: 4px 4px 28px; gap: 16px; align-content: start; }
-  .app.full > .pv .pv-tabs { grid-area: nav; display: grid; grid-template-columns: 1fr; margin: 14px 14px 0; padding: 0; background: transparent; box-shadow: none; gap: 4px; }
+  .app.full > .pv .pv-tabs { grid-area: nav; display: grid; grid-template-columns: 1fr; margin: 18px 14px 0; padding: 0; background: transparent; box-shadow: none; gap: 4px; }
   .app.full > .pv .pv-tabs[hidden] { display: none; }
   .app.full > .pv .pv-tabs button { justify-content: flex-start; padding: 12px 14px; font-size: .95em; color: var(--ink-2); }
   .app.full > .pv .pv-tabs button:hover { background: var(--surface-2); }
@@ -1079,8 +1079,8 @@ button.tip { cursor: pointer; transition: transform .12s; } button.tip:hover { t
 @media (min-width: 1200px) {
   .app.full > .pv .s-tools { display: none; }
   .app.full > .pv:not(.has-docs) .pv-links { display: none; }
-  body.themed .app.full > .pv.has-tools, .app.full > .pv.has-tools { width: min(100% - 48px, 1480px); grid-template-columns: 270px minmax(0, 1fr) 300px; grid-template-areas: "brand head tools" "nav body tools" "links body tools" "me body tools"; }
-  .app.full > .pv.has-tools .pv-tools-panel { display: grid; grid-area: tools; position: relative; inset: auto; z-index: auto; width: auto; transform: none; visibility: visible; transition: none; align-self: start; max-height: 100%; border-radius: 28px; box-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 20px 50px -30px rgba(19, 33, 59, .35); }
+  body.themed .app.full > .pv.has-tools, .app.full > .pv.has-tools { width: min(100% - 48px, 1480px); grid-template-columns: 270px minmax(0, 1fr) 300px; grid-template-areas: "brand head head" "nav body tools" "links body tools" "me body tools"; }
+  .app.full > .pv.has-tools .pv-tools-panel { display: grid; grid-area: tools; position: relative; inset: auto; z-index: auto; width: auto; transform: none; visibility: visible; transition: none; align-self: start; max-height: calc(100% - 4px); margin-top: 4px; border-radius: 28px; box-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 20px 50px -30px rgba(19, 33, 59, .35); }
   .app.full > .pv .pv-tools-x { display: none; }
   .app.full > .pv .pv-tools-phead { padding: 22px 18px 12px 20px; }
   .app.full > .pv .pv-tools-list { padding: 4px 14px 18px; }
@@ -1088,6 +1088,36 @@ button.tip { cursor: pointer; transition: transform .12s; } button.tip:hover { t
   .app.full > .pv .pv-tools-list .pv-link:hover { background: color-mix(in srgb, #0E7490 8%, var(--surface)); }
   .app.full > .pv.has-tools .pv-tools { display: none; }
 }
+
+/* =====================================================================
+   แผงควบคุม (admin) · กล่องมุมโค้งมีเงาแบบหน้าผู้เรียน
+   ===================================================================== */
+:root { --r: 22px; --r-sm: 12px; --card-shadow: 0 1px 2px rgba(19, 33, 59, .04), 0 18px 44px -28px rgba(19, 33, 59, .34); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --card-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 18px 44px -24px rgba(0, 0, 0, .7); } }
+:root[data-theme="dark"] { --card-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 18px 44px -24px rgba(0, 0, 0, .7); }
+.card, .host-top, .host-side, .panel, body.themed .host-top, body.themed .host-side, body.themed .panel { border: 0; border-radius: var(--r); box-shadow: var(--card-shadow); }
+.host-top { padding: 12px 18px; }
+.host-side { padding: 16px 12px; border-radius: 26px; }
+.panel { padding: 22px; }
+.card { padding: 24px; }
+.qitem { border-radius: 14px; padding: 10px 10px; }
+.qitem .ticon { border-radius: 10px; }
+.room-row, .room-main, .roomlist a { border-radius: 16px; }
+.moditem { border-radius: 14px; }
+.acct, .sim-ctrl { border: 0; box-shadow: var(--card-shadow); }
+/* พื้นหลังแผงควบคุม = สีอ่อนไล่จากสีธีมห้อง (จอนำเสนอในตัวอย่างยังใช้สีธีมเต็ม) */
+body:has(> .app > .host), body:has(> .app > .home) { background: radial-gradient(70% 55% at 0% 0%, color-mix(in srgb, var(--brand) 15%, transparent), transparent 70%), radial-gradient(55% 45% at 100% 0%, color-mix(in srgb, var(--brand) 9%, transparent), transparent 70%), var(--bg); background-attachment: fixed; }
+/* สวิตช์เปิด/ปิดในเมนูซ้าย (ลิงก์เอกสาร / เว็บไซต์ Workshop) */
+.qitem.link-item { cursor: pointer; }
+.qitem.link-item.on .qmeta { color: var(--good); font-weight: 500; }
+.side-switch { display: inline-grid; place-items: center; padding: 6px 2px 6px 8px; cursor: pointer; }
+.side-switch input { appearance: none; margin: 0; width: 38px; height: 22px; border-radius: 99px; background: color-mix(in srgb, var(--ink-3) 45%, var(--surface)); position: relative; cursor: pointer; transition: background .15s; flex: none; }
+.side-switch input::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .3); transition: transform .18s cubic-bezier(.2, .8, .2, 1); }
+.side-switch input:checked { background: var(--good); }
+.side-switch input:checked::after { transform: translateX(16px); }
+.side-switch input:disabled { opacity: .4; cursor: not-allowed; }
+.side-switch input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.link-toggle.on input:checked { background: var(--good); }
 
 </style>
 </head>
@@ -1117,7 +1147,7 @@ const FIREBASE_CONFIG = {
 };
 const FIREBASE_VERSION = '10.12.2';
 const CHANNEL = 'prod'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
-const BUILD = 1792319259727; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
+const BUILD = 1792329547263; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 const SUGGESTED_SITE = 'live.powerpointboy.com';
 const ADMIN_EMAIL = 'twish.ong@gmail.com'; // บัญชีเดียวที่เข้าหลังบ้านได้ (กฎใน Firebase ล็อกไว้ที่อีเมลนี้เหมือนกัน)
@@ -1519,7 +1549,8 @@ const LINK_GROUPS = {
   links: { flag: 'linksOn', title: 'เอกสารและลิงก์', side: 'ลิงก์เอกสาร', icon: 'clip', cls: 't-links', max: 8, unit: 'ลิงก์' },
   tools: { flag: 'toolsOn', title: 'เว็บไซต์ Workshop', side: 'เว็บไซต์ Workshop', icon: 'globe', cls: 't-tools', max: 12, unit: 'เว็บ' },
 };
-const TOOL_PRESETS = [['ChatGPT', 'https://chatgpt.com'], ['Claude', 'https://claude.ai'], ['Gemini', 'https://gemini.google.com'], ['Copilot', 'https://copilot.microsoft.com'], ['Gamma', 'https://gamma.app'], ['Canva', 'https://www.canva.com'], ['NotebookLM', 'https://notebooklm.google.com'], ['Perplexity', 'https://www.perplexity.ai']];
+const TOOL_PRESETS = [['Slide Gallery', 'https://slides.powerpointboy.com/'], ['Pixel Map Generator', 'https://map.powerpointboy.com/'], ['ChatGPT', 'https://chatgpt.com'], ['Claude', 'https://claude.ai'], ['Gemini', 'https://gemini.google.com'], ['Copilot', 'https://copilot.microsoft.com'], ['M365 Copilot Chat', 'https://m365.cloud.microsoft/chat'],
+  ['Gamma', 'https://gamma.app'], ['Canva', 'https://www.canva.com'], ['NotebookLM', 'https://notebooklm.google.com'], ['Perplexity', 'https://www.perplexity.ai'], ['SVG Repo', 'https://www.svgrepo.com/'], ['Storyset', 'https://storyset.com/'], ['Pexels', 'https://www.pexels.com/']];
 const linkList = (t, g = 'links') => Object.entries(t?.[g] || {}).map(([id, l]) => ({ id, ...l })).sort((a, b) => (a.ord || 0) - (b.ord || 0));
 const okUrl = u => /^https?:\/\/[^\s/]+\.[^\s]+$/i.test(String(u || '').trim());
 const normUrl = raw => { let s = String(raw || '').trim(); if (!s) return ''; if (!/^[a-z][\w+.-]*:/i.test(s)) s = 'https://' + s.replace(/^\/+/, ''); return /^https?:\/\//i.test(s) ? s.slice(0, 2000) : null; };
@@ -3109,10 +3140,20 @@ class HostView {
       h('div', { class: 'side-label' }, 'ทั้งห้อง'),
       fixed('join', 'qr', 't-mc', 'หน้าเข้าร่วม (QR)', `ออนไลน์ ${fmtN(roomCount(t, this.db))} คน`),
       fixed('qa', 'qa', 't-qa', 'Q&A', `${fmtN(qaList(t).length)} คำถาม${t.meta.qaOn === false ? ' · ปิดรับ' : ''}`),
-      ...Object.entries(LINK_GROUPS).map(([g, G]) => fixed(g, G.icon, G.cls, G.side, [m[G.flag] ? h('span', { class: 'pill live' }, 'เปิดอยู่') : null, `${fmtN(readyLinks(t, g).length)} ${G.unit}${m[G.flag] ? '' : ' · ปิดอยู่'}`])),
+      ...Object.entries(LINK_GROUPS).map(([g, G]) => this.linkSideItem(t, g, G)),
       h('div', { class: 'side-label', style: { marginTop: '6px' } }, `คำถาม (${qs.length})`), ...items,
       h('button', { class: 'btn' + (qs.length ? '' : ' primary'), type: 'button', style: { marginTop: '6px' }, onclick: () => this.addModal() }, icon('plus'), 'เพิ่มคำถาม'),
       h('div', { class: 'side-av' }, avatar(qs.length ? 'idea' : 'point'), h('span', null, qs.length ? 'กด “นำเสนอเต็มจอ” เมื่อพร้อม' : 'เริ่มจากเพิ่มคำถามแรก')));
+  }
+  // รายการลิงก์ในแถบซ้าย: กดที่ชื่อเพื่อแก้ไข กดสวิตช์ขวาเพื่อเปิด/ปิดให้ผู้เรียนเห็นได้ทันที
+  linkSideItem(t, g, G) {
+    const m = t.meta; const on = !!m[G.flag]; const n = readyLinks(t, g).length;
+    const sw = h('input', { type: 'checkbox', checked: on, disabled: !n && !on, 'aria-label': `แสดง${G.side}ให้ผู้เรียนเห็น` });
+    sw.addEventListener('change', () => write(this.db, this.code, { ['meta/' + G.flag]: sw.checked || null }));
+    const swWrap = h('label', { class: 'side-switch', title: !n ? `ยังไม่มี${G.unit}ที่ใช้ได้` : on ? 'ผู้เรียนเห็นอยู่ · กดเพื่อซ่อน' : 'กดเพื่อให้ผู้เรียนเห็น', onclick: e => e.stopPropagation() }, sw);
+    return h('div', { class: 'qitem link-item' + (this.sel === g ? ' sel' : '') + (on ? ' on' : ''), role: 'button', tabindex: '0', onclick: () => this.select(g), onkeydown: e => { if (e.key === 'Enter' && e.target === e.currentTarget) this.select(g); } },
+      h('span', { class: 'ticon ' + G.cls }, icon(G.icon)),
+      h('span', { style: { minWidth: '0' } }, h('div', { class: 'qt' }, G.side), h('div', { class: 'qmeta' }, `${fmtN(n)} ${G.unit} · ${on ? 'ผู้เรียนเห็นอยู่' : 'ปิดอยู่'}`)), swWrap);
   }
   move(qs, i, d) { const a = qs[i], b = qs[i + d]; if (!b) return; write(this.db, this.code, { [`qs/${a.id}/ord`]: b.ord, [`qs/${b.id}/ord`]: a.ord }); }
   async addQ(type) {
