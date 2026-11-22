@@ -563,6 +563,7 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .chip { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); border-radius: 99px; padding: .3em .85em; font-size: .88em; font-weight: 500; }
 .chip:hover { border-color: var(--brand); color: var(--brand-ink); }
 .tools .input[type=number] { width: 90px; flex: none; }
+.tools .input.vol-num { width: 4.2em; padding-inline: .4em; text-align: center; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 .yt-box { aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000; }
 .yt-box > * { width: 100%; height: 100%; border: 0; display: block; }
 .now { font-size: .88em; font-weight: 500; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1163,7 +1164,7 @@ const FIREBASE_CONFIG = {
 };
 const FIREBASE_VERSION = '10.12.2';
 const CHANNEL = 'dev'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
-const BUILD = 1795322437421; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
+const BUILD = 1795322748933; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 const SUGGESTED_SITE = 'live.powerpointboy.com';
 const ADMIN_EMAIL = 'twish.ong@gmail.com'; // บัญชีเดียวที่เข้าหลังบ้านได้ (กฎใน Firebase ล็อกไว้ที่อีเมลนี้เหมือนกัน)
@@ -2800,7 +2801,12 @@ class ToolsPanel {
     this.playBtn = h('button', { class: 'btn primary', type: 'button', disabled: true, onclick: () => this.togglePlay() }, icon('play'), 'เล่น');
     this.loopBtn = h('button', { class: 'btn' + (this.loop ? ' on' : ''), type: 'button', 'aria-pressed': String(this.loop), title: 'เล่นซ้ำเพลงนี้', onclick: () => { this.loop = !this.loop; LS.set('ppb:loop', this.loop); this.loopBtn.classList.toggle('on', this.loop); this.loopBtn.setAttribute('aria-pressed', String(this.loop)); } }, icon('repeat'), 'วนซ้ำ');
     this.volIn = h('input', { type: 'range', min: '0', max: '100', step: '5', class: 'vol', 'aria-label': 'ระดับเสียง' }); this.volIn.value = this.vol;
-    this.volIn.addEventListener('input', () => { this.vol = Number(this.volIn.value); LS.set('ppb:vol', this.vol); try { this.player?.setVolume(this.vol); } catch { /* ignore */ } });
+    this.volNum = h('input', { class: 'input vol-num', type: 'number', min: '0', max: '100', step: '1', inputmode: 'numeric', 'aria-label': 'ระดับเสียง YouTube (0–100)', title: 'พิมพ์ระดับเสียง 0–100' }); this.volNum.value = this.vol;
+    const setVol = (v, from) => { v = Math.max(0, Math.min(100, Math.round(Number(v)))); if (!Number.isFinite(v)) return; this.vol = v; LS.set('ppb:vol', v); if (from !== this.volIn) this.volIn.value = v; if (from !== this.volNum) this.volNum.value = v; try { this.player?.setVolume(v); } catch { /* ignore */ } };
+    this.volIn.addEventListener('input', () => setVol(this.volIn.value, this.volIn));
+    this.volNum.addEventListener('input', () => { if (this.volNum.value !== '') setVol(this.volNum.value, this.volNum); });
+    this.volNum.addEventListener('change', () => setVol(this.volNum.value === '' ? this.vol : this.volNum.value));
+    this.volNum.addEventListener('keydown', e => { if (e.key === 'Enter') { setVol(this.volNum.value === '' ? this.vol : this.volNum.value); this.volNum.blur(); } });
     this.linkIn = h('input', { class: 'input', id: 'yt-link', placeholder: 'วางลิงก์ YouTube', autocomplete: 'off' });
     this.linkIn.addEventListener('keydown', e => { if (e.key === 'Enter') this.addTrack(); });
     this.listEl = h('div', { class: 'tracks' });
@@ -2812,7 +2818,8 @@ class ToolsPanel {
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, h('button', { class: 'btn sm', type: 'button', title: 'ลองฟังเพลงช่วงตอบคำถาม 12 วินาที', onclick: () => this.qm.demo() }, icon('play'), 'ลองฟัง'), h('span', { class: 'row vol-wrap', style: { gap: '4px' } }, icon('volume'), qmVol)));
     const musicSec = h('section', { class: 'tool-sec music' },
       h('h3', null, icon('music'), 'เพลง'), qmBox, this.ytBox, this.nowEl,
-      h('div', { class: 'row', style: { gap: '6px' } }, this.playBtn, this.loopBtn, h('span', { class: 'row vol-wrap', style: { gap: '4px' } }, icon('volume'), this.volIn)),
+      h('div', { class: 'row', style: { gap: '6px' } }, this.playBtn, this.loopBtn),
+      h('div', { class: 'row vol-wrap', style: { gap: '6px', flexWrap: 'nowrap' } }, icon('volume'), this.volIn, this.volNum, h('span', { class: 'hint' }, '%')),
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.linkIn, h('button', { class: 'btn', type: 'button', onclick: () => this.addTrack() }, icon('plus'), 'เพิ่ม')),
       this.listEl,
       h('p', { class: 'hint' }, 'เพลงดังจากเครื่องที่เปิดหน้านี้ ต่อลำโพงห้องกับเครื่องนี้ · รายการเพลงบันทึกไว้ในบัญชี ใช้ได้ทุกห้อง'));
