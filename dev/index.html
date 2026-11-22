@@ -800,6 +800,58 @@ body.pip .mini-bar .btn.primary { background: var(--brand); color: var(--on-bran
 .icon-btn.busy { opacity: .5; cursor: progress; }
 .cd-sub { color: var(--ink-2); font-size: 1em; }
 
+/* ---------- รูปจากผู้เรียนขึ้นจอ ---------- */
+.st-pics { position: absolute; inset: 0; z-index: 6; display: grid; grid-template-rows: minmax(0, 1fr); padding: 2.2%; background: #0f1420; border-radius: inherit; }
+.st-pics[hidden] { display: none; }
+.st-pics-grid { display: grid; grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); gap: 1.6%; min-height: 0; }
+.st-pic { position: relative; margin: 0; min-height: 0; display: grid; place-items: center; border-radius: .5em; overflow: hidden; background: #1b2230; }
+.st-pic img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.st-pic figcaption { position: absolute; left: .6em; bottom: .6em; max-width: calc(100% - 1.2em); padding: .25em .8em; border-radius: 99px; background: rgba(0, 0, 0, .62); color: #fff; font-weight: 600; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-pics[data-n="1"] .st-pic figcaption { font-size: 1.35em; }
+.st-pic.click { cursor: zoom-in; }
+.st-pic-miss { color: #aab; font-size: 1.1em; }
+.st-pics-x { position: absolute; top: .8em; right: .8em; z-index: 2; opacity: .2; transition: opacity .2s; }
+.st-pics:hover .st-pics-x, .st-pics-x:focus-visible { opacity: 1; }
+.stage.pics-on .st-timer { z-index: 7; }
+/* มือถือ: ปุ่มส่งรูป */
+.pv-pic-btn { flex: none; display: inline-flex; align-items: center; gap: .35em; padding: .38em .85em; border: 0; border-radius: 99px; background: var(--brand); color: var(--on-brand); font: inherit; font-size: .85em; font-weight: 700; white-space: nowrap; box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--brand) 80%, #000); cursor: pointer; }
+.pv-pic-btn[hidden] { display: none; }
+.pv-pic-btn svg.i { width: 1.15em; height: 1.15em; }
+.pic-send { display: grid; gap: 12px; }
+.pic-srcs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pic-src { cursor: pointer; justify-content: center; }
+.pic-pick { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.pic-pick:empty { display: none; }
+.pic-pick-it { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--surface-2); }
+.pic-pick-it img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pic-pick-it .icon-btn { position: absolute; top: 4px; right: 4px; background: rgba(0, 0, 0, .55); color: #fff; width: 28px; height: 28px; }
+/* หลังบ้าน: แกลเลอรี */
+.pics-box { display: grid; gap: 12px; }
+.pics-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
+.pics-top .toggle span { display: grid; gap: 1px; }
+.pics-top .toggle small { color: var(--ink-3); font-size: .8em; font-weight: 400; }
+.pics-top label.btn { cursor: pointer; }
+.pics-bar, .pics-foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pics-bar .spacer, .pics-foot .spacer, .pic-meta .spacer { flex: 1; }
+.pics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: min(56dvh, 560px); overflow-y: auto; padding: 2px; }
+.pic-card { display: grid; gap: 4px; border-radius: 12px; padding: 4px; background: var(--surface-2); }
+.pic-card.sel { background: var(--brand-soft); box-shadow: 0 0 0 2px var(--brand); }
+.pic-thumb { position: relative; display: block; padding: 0; border: 0; border-radius: 9px; overflow: hidden; aspect-ratio: 4 / 3; background: #1b2230; cursor: pointer; }
+.pic-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pic-tick { position: absolute; top: 6px; left: 6px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: rgba(255, 255, 255, .85); color: transparent; border: 2px solid rgba(0, 0, 0, .15); }
+.pic-tick svg.i { width: 14px; height: 14px; stroke-width: 3; }
+.pic-card.sel .pic-tick { background: var(--brand); color: var(--on-brand); border-color: transparent; }
+.pic-live { position: absolute; right: 6px; top: 6px; padding: 1px 8px; border-radius: 99px; background: var(--good); color: #fff; font-size: .75em; font-weight: 700; }
+.pic-meta { display: flex; align-items: center; gap: 4px; padding: 0 2px 0 6px; min-width: 0; }
+.pic-n { font-size: .85em; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.pic-meta small { color: var(--ink-3); font-size: .75em; flex: none; }
+.pic-meta .icon-btn { width: 30px; height: 30px; flex: none; }
+.pics-empty { grid-column: 1 / -1; display: grid; justify-items: center; gap: 6px; padding: 24px 12px; text-align: center; }
+.btn.danger:not(.solid) { color: var(--bad); }
+.preview-frame { position: relative; }
+.pics-chip { position: absolute; right: 10px; top: 10px; z-index: 8; display: inline-flex; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; border-radius: 99px; background: var(--surface); box-shadow: var(--shadow); font-weight: 600; font-size: .88em; }
+.pics-chip[hidden] { display: none; }
+
 /* ---------- ขยายตัวอักษรทั้งระบบ 15% ---------- */
 html { font-size: 115%; }
 body { font-size: 17.25px; }
@@ -1164,7 +1216,7 @@ const FIREBASE_CONFIG = {
 };
 const FIREBASE_VERSION = '10.12.2';
 const CHANNEL = 'dev'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
-const BUILD = 1795322748933; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
+const BUILD = 1795330274439; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 const SUGGESTED_SITE = 'live.powerpointboy.com';
 const ADMIN_EMAIL = 'twish.ong@gmail.com'; // บัญชีเดียวที่เข้าหลังบ้านได้ (กฎใน Firebase ล็อกไว้ที่อีเมลนี้เหมือนกัน)
@@ -1379,7 +1431,21 @@ class LocalBackend {
   async addMusic(m) { const id = 'm' + Date.now().toString(36) + rid(4); this._music([...LS.get('ppb:music', []), { id, ...m }]); return id; }
   async updMusic(id, d) { this._music(LS.get('ppb:music', []).map(x => x.id === id ? { ...x, ...d } : x)); }
   async delMusic(id) { this._music(LS.get('ppb:music', []).filter(x => x.id !== id)); }
-  async deleteRoom(code) { await this.replace(code, null); try { localStorage.removeItem(this._key(code)); } catch { /* ignore */ } LS.set('ppb:rooms', myRooms().filter(r => r.code !== code)); return 'deleted'; }
+  async deleteRoom(code) { await this.replace(code, null); try { localStorage.removeItem(this._key(code)); localStorage.removeItem('ppb:pics:' + code); localStorage.removeItem('ppb:picf:' + code); } catch { /* ignore */ } LS.set('ppb:rooms', myRooms().filter(r => r.code !== code)); return 'deleted'; }
+  // รูปจากผู้เรียน (ห้องเรียนจำลอง): เก็บแยกจากข้อมูลห้อง รูปย่ออยู่ ppb:pics:{code} รูปเต็มอยู่ ppb:picf:{code}
+  picsListen(code, cb) { return this.listen(code, () => cb(LS.get('ppb:pics:' + code, {}) || {})); }
+  async picAdd(code, id, meta, full) {
+    const f = LS.get('ppb:picf:' + code, {}) || {}; f[id] = full; LS.set('ppb:picf:' + code, f);
+    if (!(LS.get('ppb:picf:' + code, {}) || {})[id]) throw new Error('quota');
+    const m = LS.get('ppb:pics:' + code, {}) || {}; m[id] = mapTS(meta, () => Date.now()); LS.set('ppb:pics:' + code, m);
+    await this.update(code, { 'meta/picsV': Date.now() });
+  }
+  async picFull(code, id) { return (LS.get('ppb:picf:' + code, {}) || {})[id] || null; }
+  async picsDel(code, ids) {
+    const m = LS.get('ppb:pics:' + code, {}) || {}, f = LS.get('ppb:picf:' + code, {}) || {};
+    for (const id of ids) { delete m[id]; delete f[id]; }
+    LS.set('ppb:pics:' + code, m); LS.set('ppb:picf:' + code, f); await this.update(code, { 'meta/picsV': Date.now() });
+  }
 }
 
 class FirebaseBackend {
@@ -1459,9 +1525,76 @@ class FirebaseBackend {
   async delMusic(id) { const u = await this.need(); return this.updateRoot({ [`users/${u.uid}/music/${id}`]: null }); }
   async deleteRoom(code) {
     const u = await this.need();
-    try { await this.updateRoot({ [`events/${code}`]: null, [`pins/${code}`]: null, [`owners/${code}/${u.uid}`]: null, [`users/${u.uid}/rooms/${code}`]: null }); return 'deleted'; }
+    try { await this.updateRoot({ [`pics/${code}`]: null, [`picsFull/${code}`]: null }).catch(e => console.warn('delete pics', e)); await this.updateRoot({ [`events/${code}`]: null, [`pins/${code}`]: null, [`owners/${code}/${u.uid}`]: null, [`users/${u.uid}/rooms/${code}`]: null }); return 'deleted'; }
     catch (e) { console.warn(e); await this.updateRoot({ [`users/${u.uid}/rooms/${code}`]: null }); return 'unlisted'; }
   }
+}
+
+// รูปจากผู้เรียน: อยู่นอก events/ เพื่อไม่ให้แผงควบคุมและจอต้องโหลดรูปทุกครั้งที่ห้องเปลี่ยน
+// pics/{code}/{id} = { n ชื่อผู้ส่ง, by, at, th รูปย่อ } อ่านได้เฉพาะผู้จัด · picsFull/{code}/{id} = รูปเต็ม (data URL)
+// ผู้เรียนเขียนได้เฉพาะรูปใหม่ และเฉพาะตอนผู้จัดเปิด meta/picsOn (กฎ Firebase)
+Object.assign(FirebaseBackend.prototype, {
+  picsListen(code, cb) { return this.D.onValue(this.ref(`pics/${code}`), s => cb(s.val() || {}), err => { console.error(err); cb({}); }); },
+  picAdd(code, id, meta, full) { return this.updateRoot({ [`picsFull/${code}/${id}`]: full, [`pics/${code}/${id}`]: meta }); },
+  async picFull(code, id) { return (await this.D.get(this.ref(`picsFull/${code}/${id}`))).val(); },
+  picsDel(code, ids) { const u = {}; for (const id of ids) { u[`pics/${code}/${id}`] = null; u[`picsFull/${code}/${id}`] = null; } return this.updateRoot(u); },
+});
+const PIC_CACHE = new Map();
+function picFull(db, code, id) {
+  const k = code + '/' + id; if (!PIC_CACHE.has(k)) PIC_CACHE.set(k, db.picFull(code, id).catch(e => { PIC_CACHE.delete(k); console.warn(e); return null; }));
+  return PIC_CACHE.get(k);
+}
+const PIC_MAX = 9; // ขึ้นจอพร้อมกันได้สูงสุด
+const PIC_TTLS = [[3, '3 ชั่วโมง'], [24, '1 วัน'], [168, '7 วัน'], [0, 'ไม่ลบเอง']];
+const picTtl = m => m?.picsTtl ?? 24;
+const picList = pics => Object.entries(pics || {}).map(([id, p]) => ({ id, ...p })).filter(p => p.th).sort((a, b) => (b.at || 0) - (a.at || 0));
+// ย่อรูปในเครื่องก่อนส่ง (หมุนตาม EXIF ให้เอง) ลดคุณภาพจนขนาดไม่เกิน limit ตัวอักษร
+async function shrinkPic(file, max, limit) {
+  let src;
+  try { src = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
+  catch { src = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = URL.createObjectURL(file); }); }
+  const w0 = src.width || src.naturalWidth, h0 = src.height || src.naturalHeight; if (!w0 || !h0) throw new Error('bad-image');
+  let scale = Math.min(1, max / Math.max(w0, h0)), q = .82, out = '';
+  for (let i = 0; i < 8; i++) {
+    const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w0 * scale)); c.height = Math.max(1, Math.round(h0 * scale));
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(src, 0, 0, c.width, c.height);
+    out = c.toDataURL('image/jpeg', q); if (out.length <= limit) return { url: out, w: c.width, h: c.height };
+    if (q > .55) q -= .12; else scale *= .8;
+  }
+  throw new Error('too-big');
+}
+// zip แบบไม่บีบอัด (รูป JPEG บีบอัดแล้ว) ไม่ต้องโหลดไลบรารีเพิ่ม
+const CRC_T = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(b) { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_T[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function makeZip(files) {
+  const enc = new TextEncoder(), parts = [], cen = []; let off = 0;
+  const d = new Date(), dt = ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)) & 0xFFFF, dd = (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()) & 0xFFFF;
+  for (const f of files) {
+    const name = enc.encode(f.name), data = f.data, crc = crc32(data);
+    const loc = new DataView(new ArrayBuffer(30));
+    [[0, 0x04034b50, 4], [4, 20, 2], [6, 0x0800, 2], [8, 0, 2], [10, dt, 2], [12, dd, 2], [14, crc, 4], [18, data.length, 4], [22, data.length, 4], [26, name.length, 2], [28, 0, 2]].forEach(([o, v, n]) => n === 4 ? loc.setUint32(o, v, true) : loc.setUint16(o, v, true));
+    const cd = new DataView(new ArrayBuffer(46));
+    [[0, 0x02014b50, 4], [4, 20, 2], [6, 20, 2], [8, 0x0800, 2], [10, 0, 2], [12, dt, 2], [14, dd, 2], [16, crc, 4], [20, data.length, 4], [24, data.length, 4], [28, name.length, 2], [30, 0, 2], [32, 0, 2], [34, 0, 2], [36, 0, 2], [38, 0, 4], [42, off, 4]].forEach(([o, v, n]) => n === 4 ? cd.setUint32(o, v, true) : cd.setUint16(o, v, true));
+    parts.push(loc, name, data); cen.push(cd, name); off += 30 + name.length + data.length;
+  }
+  const size = cen.reduce((s, x) => s + x.byteLength, 0), end = new DataView(new ArrayBuffer(22));
+  [[0, 0x06054b50, 4], [8, files.length, 2], [10, files.length, 2], [12, size, 4], [16, off, 4]].forEach(([o, v, n]) => n === 4 ? end.setUint32(o, v, true) : end.setUint16(o, v, true));
+  return new Blob([...parts, ...cen, end], { type: 'application/zip' });
+}
+const dataBytes = url => { const b = atob(url.slice(url.indexOf(',') + 1)); const a = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; };
+const picTime = at => at ? new Date(at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) : '';
+// ส่งรูปเข้าห้อง ใช้ทั้งมือถือผู้เรียนและหลังบ้าน
+async function sendPics(db, code, files, name, by) {
+  let ok = 0;
+  for (const f of files) {
+    if (!/^image\//.test(f.type) && !/\.(heic|heif|jpe?g|png|webp|gif)$/i.test(f.name || '')) { toast('ส่งได้เฉพาะไฟล์รูป', 'bad'); continue; }
+    try {
+      const full = await shrinkPic(f, 1600, 560000), th = await shrinkPic(f, 420, 70000);
+      const id = 'p' + Date.now().toString(36) + rid(5);
+      await db.picAdd(code, id, { n: String(name || '').slice(0, 40), by: by || '', at: TS, th: th.url, w: full.w, h: full.h }, full.url); ok++;
+    } catch (e) { console.error(e); toast(e?.message === 'too-big' || e?.message === 'bad-image' ? 'เปิดรูปนี้ไม่ได้ ลองถ่ายใหม่หรือเลือกรูปอื่น' : /permission/i.test(e?.message || '') ? 'วิทยากรยังไม่เปิดรับรูป' : e?.message === 'quota' ? 'ห้องเรียนจำลองเก็บรูปได้จำกัด ลบรูปเก่าก่อน' : 'ส่งรูปไม่สำเร็จ ลองอีกครั้ง', 'bad'); }
+  }
+  return ok;
 }
 
 // มือถือผู้เรียนบน Firebase: ฟังเฉพาะข้อมูลที่ต้องใช้ ไม่โหลดคำตอบของคนอื่น
@@ -2003,8 +2136,9 @@ class Stage {
     this.tmTxt = h('span', { class: 'tm-num' });
     this.tmEl = h('div', { class: 'st-timer', hidden: true, role: 'timer' }, icon('clock'), this.tmTxt,
       controls ? h('button', { class: 'btn sm tm-x', type: 'button', onclick: () => write(db, code, { 'meta/timer/big': null }) }, icon('x'), 'ปิดหน้าจับเวลา') : null);
-    this.el.append(h('div', { class: 'stage-inner' }, this.top, h('div', { class: 'st-card' }, this.body), this.foot, this.tmEl));
-    this.key = ''; this.scene = null; this.topSig = '';
+    this.picEl = h('div', { class: 'st-pics', hidden: true });
+    this.el.append(h('div', { class: 'stage-inner' }, this.top, h('div', { class: 'st-card' }, this.body), this.foot, this.tmEl, this.picEl));
+    this.key = ''; this.scene = null; this.topSig = ''; this.picSig = '';
     this.tick = setInterval(() => { this.renderTimer(); if (this.scene?.timed) this.render(); }, 200);
   }
   setPreview(p) { this.preview = p; this.render(); }
@@ -2034,7 +2168,25 @@ class Stage {
       this.topR.replaceChildren(...(kind === 'join' || kind === 'lobby' ? [] : [h('span', { class: 'jn' }, 'เข้าร่วมที่ ', h('b', null, siteLabel(this.code)), ' · ', h('b', null, '#' + fmtCode(this.code)))]),
         h('span', { class: 'cnt', title: who }, icon('users'), fmtN(n)));
     }
-    this.renderTimer();
+    this.renderTimer(); this.renderPics();
+  }
+  // รูปจากผู้เรียนที่ผู้จัดเลือกขึ้นจอ ทับทุกอย่างจนกว่าจะปิด
+  renderPics() {
+    const show = asArr(this.t?.meta?.picsShow).filter(x => typeof x === 'string').slice(0, PIC_MAX), names = this.t?.meta?.picsCap || {};
+    const sig = JSON.stringify([show, show.map(id => names[id] || '')]); if (sig === this.picSig) return; this.picSig = sig;
+    this.picEl.hidden = !show.length; this.el.classList.toggle('pics-on', show.length > 0);
+    if (!show.length) { this.picEl.replaceChildren(); return; }
+    const n = show.length, cols = n === 1 ? 1 : n <= 4 ? 2 : 3; this.picEl.dataset.n = n;
+    this.picEl.style.setProperty('--cols', n === 3 ? 3 : cols);
+    const figs = show.map(id => {
+      const img = h('img', { alt: names[id] ? 'รูปจาก ' + names[id] : 'รูปจากผู้เรียน', decoding: 'async' });
+      picFull(this.db, this.code, id).then(u => { if (u) img.src = u; else img.replaceWith(h('div', { class: 'st-pic-miss' }, 'รูปนี้ถูกลบแล้ว')); });
+      const fig = h('figure', { class: 'st-pic' }, img, names[id] ? h('figcaption', null, names[id]) : null);
+      if (this.controls && n > 1) { fig.classList.add('click'); fig.title = 'คลิกเพื่อขยายรูปนี้'; fig.addEventListener('click', () => write(this.db, this.code, { 'meta/picsShow': [id] })); }
+      return fig;
+    });
+    this.picEl.replaceChildren(h('div', { class: 'st-pics-grid' }, figs),
+      this.controls ? h('button', { class: 'btn sm st-pics-x', type: 'button', onclick: () => write(this.db, this.code, { 'meta/picsShow': null }) }, icon('x'), 'ปิดรูป') : null);
   }
   renderTimer() {
     const tm = this.t?.meta?.timer;
@@ -2050,6 +2202,7 @@ function stageKeys(getT, db, code, onFull) {
   return e => {
     if (e.target.closest?.('input, textarea, select, [contenteditable]')) return;
     const t = getT(); if (!t?.meta) return; const k = e.key;
+    if (asArr(t.meta.picsShow).length && ['Escape', 'ArrowRight', 'PageDown', ' ', 'Enter', 'ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); e.stopImmediatePropagation(); write(db, code, { 'meta/picsShow': null }); return; }
     if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(k)) { e.preventDefault(); Act.nav(db, code, t, 1); }
     else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); Act.nav(db, code, t, -1); }
     else if (k === 'h' || k === 'H') Act.toggleHide(db, code, t);
@@ -2089,7 +2242,8 @@ class Phone {
     this.brandEl = h('div', { class: 'pv-brand' }, h('span', { class: 'brand', html: MARK }, h('span', null, 'Powerpointboy ', h('b', null, 'Live'))), h('small', null, 'ตอบสด · เรียนสนุก'));
     this.meEl = h('div', { class: 'pv-me', hidden: true });
     this.headPts = h('span', { class: 'pv-chip pts-chip', hidden: true });
-    this.el = h('div', { class: 'pv' }, this.brandEl, h('div', { class: 'pv-head' }, this.headT, h('div', { class: 'pv-head-r' }, this.headPts, this.headC)), this.quick, this.body, this.tabs, this.linksBack, this.linksEl, this.toolsEl, this.meEl);
+    this.picBtn = h('button', { class: 'pv-pic-btn', type: 'button', hidden: true, title: 'ส่งรูปให้วิทยากรเปิดบนจอ', onclick: () => this.picModal() }, icon('image'), h('span', null, 'ส่งรูป'));
+    this.el = h('div', { class: 'pv' }, this.brandEl, h('div', { class: 'pv-head' }, this.headT, h('div', { class: 'pv-head-r' }, this.picBtn, this.headPts, this.headC)), this.quick, this.body, this.tabs, this.linksBack, this.linksEl, this.toolsEl, this.meEl);
     Object.assign(this, { tab: 'poll', key: '', live: null, draft: {}, sel: {}, editing: {}, qaSort: 'new', lastMode: undefined, lastActive: undefined, anon: false, timed: false });
     this.timer = setInterval(() => { if (this.timed) this.render(); }, 250);
   }
@@ -2127,6 +2281,8 @@ class Phone {
     const m = t.meta; const me = t.ppl?.[this.pid];
     if (this.pid) checkVersion(m, true);
     this.renderMe(me);
+    const picOk = !!(me && m.picsOn && m.mode !== 'lobby'); if (this.picBtn.hidden === picOk) { this.picBtn.hidden = !picOk; this.el.classList.toggle('has-pic', picOk); if (picOk && this.picSeen === false) toast('วิทยากรเปิดรับรูปแล้ว กด “ส่งรูป” ได้เลย'); } this.picSeen = picOk;
+    if (!picOk) this.picDlg?.close();
     applyRoomTheme(m);
     if (this.lastSaved !== (m.title || '')) { this.lastSaved = m.title || ''; rememberLast(this.code, m.title); }
     this.headT.textContent = m.title || 'Powerpointboy Live'; this.headC.textContent = '#' + fmtCode(this.code);
@@ -2310,6 +2466,27 @@ class Phone {
     if (me) this.meEl.replaceChildren(h('span', { class: 'pv-me-av' }, (name.trim()[0] || '?').toUpperCase()),
       h('span', { class: 'pv-me-tx' }, h('b', null, name || 'ผู้เรียน (ไม่ระบุชื่อ)'), h('small', null, s.pts > 0 ? `${fmtN(s.pts)} คะแนน${s.rank ? ' · อันดับ ' + s.rank : ''}` : 'ยังไม่มีคะแนน Quiz')));
   }
+  // ส่งรูปขึ้นจอ: ถ่ายใหม่หรือเลือกจากคลังรูป ย่อรูปในเครื่องก่อนส่ง วิทยากรเลือกเองว่าจะขึ้นจอรูปไหน
+  picModal() {
+    if (this.picDlg) return;
+    const me = this.t?.ppl?.[this.pid];
+    const name = h('input', { class: 'input', id: 'pic-n-' + this.pid, maxLength: 40, placeholder: 'เช่น กลุ่ม 3 หรือชื่อเล่น', value: LS.get('ppb:picName', '') || me?.n || '' });
+    const files = [];
+    const grid = h('div', { class: 'pic-pick' });
+    const send = h('button', { class: 'btn primary block lg', type: 'button', disabled: true }, icon('upload'), 'ส่งรูป');
+    const paint = () => { grid.replaceChildren(...files.map((f, i) => h('div', { class: 'pic-pick-it' }, h('img', { src: f.prev, alt: '' }), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'เอารูปนี้ออก', onclick: () => { URL.revokeObjectURL(f.prev); files.splice(i, 1); paint(); } }, icon('x'))))); send.disabled = !files.length; send.replaceChildren(icon('upload'), files.length > 1 ? `ส่ง ${files.length} รูป` : 'ส่งรูป'); };
+    const add = list => { for (const f of list) { if (files.length >= 5) { toast('ส่งได้ครั้งละ 5 รูป'); break; } files.push(Object.assign(f, { prev: URL.createObjectURL(f) })); } paint(); };
+    const mk = (cap, label, ic) => { const inp = h('input', { type: 'file', accept: 'image/*', hidden: true }); if (cap) inp.setAttribute('capture', 'environment'); else inp.multiple = true; inp.addEventListener('change', () => { add([...inp.files]); inp.value = ''; }); return h('label', { class: 'btn block pic-src' }, inp, icon(ic), label); };
+    send.addEventListener('click', async () => {
+      const n = name.value.trim(); LS.set('ppb:picName', n); send.disabled = true; send.replaceChildren('กำลังส่ง…');
+      const ok = await sendPics(this.db, this.code, files.slice(), n, this.pub);
+      if (ok) { toast(ok > 1 ? `ส่ง ${ok} รูปแล้ว วิทยากรจะเลือกขึ้นจอ` : 'ส่งรูปแล้ว วิทยากรจะเลือกขึ้นจอ'); this.picDlg?.close(); } else paint();
+    });
+    this.picDlg = openModal('ส่งรูปขึ้นจอ', h('div', { class: 'pic-send' },
+      h('div', { class: 'pic-srcs' }, mk(true, 'ถ่ายรูป', 'image'), mk(false, 'เลือกจากคลังรูป', 'upload')), grid,
+      h('label', { class: 'label', for: name.id, style: { margin: 0 } }, 'ชื่อที่จะขึ้นใต้รูป (ไม่ใส่ก็ได้)'), name, send,
+      h('p', { class: 'hint' }, 'รูปไปถึงวิทยากรก่อน วิทยากรเลือกเองว่าจะเปิดรูปไหนบนจอ')), { onClose: () => { files.forEach(f => URL.revokeObjectURL(f.prev)); this.picDlg = null; } });
+  }
   hero(hi, title, sub, av) {
     return h('div', { class: 'pv-hero' }, h('div', { class: 'hero-tx' }, h('div', { class: 'hero-hi' }, hi), title ? h('b', null, title) : null, sub ? h('span', null, sub) : null), avatar(av, 'hero-av'));
   }
@@ -2362,7 +2539,7 @@ class Phone {
     return [h('div', { class: 'pv-card has-av' }, avatar('idea', 'pv-av-corner'), h('label', { class: 'label', for: id, style: { margin: 0 } }, 'Q&A'), ta,
       h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' } }, h('label', { class: 'toggle', for: anon.id }, anon, 'ไม่แสดงชื่อ'), counter), btn), sorter, listEl];
   }
-  destroy() { clearInterval(this.timer); }
+  destroy() { clearInterval(this.timer); this.picDlg?.close(); }
 }
 
 /* ---------------- shell bits ---------------- */
@@ -3066,6 +3243,7 @@ class HostView {
       this.people, h('span', { class: 'spacer' }),
       h('button', { class: 'btn sm', type: 'button', title: 'ธีมสีของจอและมือถือผู้เรียน', 'aria-label': 'ธีมสี', onclick: () => this.themeModal() }, this.themeDot = h('span', { class: 'theme-dot' }), h('span', { class: 'lbl' }, 'ธีมสี')),
       this.toolsBtn = h('button', { class: 'btn sm', type: 'button', 'aria-expanded': 'false', title: 'จับเวลาและเล่นเพลง', onclick: () => this.tools.toggle() }, icon('sliders'), 'เครื่องมือ', this.toolsInfo = h('span', { class: 'tools-info mono', hidden: true })),
+      this.picsBtn = h('button', { class: 'btn sm', type: 'button', title: 'รูปจากผู้เรียน: เลือกรูปขึ้นจอ', 'aria-label': 'รูปภาพ', onclick: () => this.picsModal() }, icon('image'), h('span', { class: 'lbl' }, 'รูปภาพ'), this.picsInfo = h('span', { class: 'tools-info mono', hidden: true })),
       h('button', { class: 'btn sm', type: 'button', title: 'ดาวน์โหลดผลเป็น Excel', 'aria-label': 'Excel', onclick: () => exportXlsx(this.t, code) }, icon('download'), h('span', { class: 'lbl' }, 'Excel')),
       h('button', { class: 'btn sm', type: 'button', title: 'รีเซ็ตห้อง: ล้างคำตอบ โหวต และคะแนนทั้งห้อง (คำถามยังอยู่)', 'aria-label': 'รีเซ็ตห้อง', onclick: () => this.resetModal() }, icon('refresh'), h('span', { class: 'lbl' }, 'รีเซ็ตห้อง')),
       h('span', { class: 'split' },
@@ -3078,7 +3256,7 @@ class HostView {
     this.ctrlBtns = h('div', { class: 'ctrlbar' }); this.status = h('div'); this.mod = h('div', { style: { display: 'grid', gap: '10px' } });
     this.qrTg = h('input', { type: 'checkbox', id: 'qr-tg', checked: true });
     this.qrTg.addEventListener('change', () => write(db, code, { 'meta/qr': this.qrTg.checked ? null : false }));
-    this.ctrl.append(h('div', { class: 'panel-head' }, h('h3', null, icon('monitor'), 'ภาพบนจอ'), h('div', { class: 'row', style: { gap: '12px' } }, h('label', { class: 'toggle sm', for: 'qr-tg', title: 'แสดง QR code บนจอนำเสนอ' }, this.qrTg, 'QR บนจอ'), this.status)), h('div', { class: 'preview-frame' }, this.stage.el), this.ctrlBtns, this.mod);
+    this.ctrl.append(h('div', { class: 'panel-head' }, h('h3', null, icon('monitor'), 'ภาพบนจอ'), h('div', { class: 'row', style: { gap: '12px' } }, h('label', { class: 'toggle sm', for: 'qr-tg', title: 'แสดง QR code บนจอนำเสนอ' }, this.qrTg, 'QR บนจอ'), this.status)), h('div', { class: 'preview-frame' }, this.stage.el, this.picsChip = h('div', { class: 'pics-chip', hidden: true })), this.ctrlBtns, this.mod);
     root.append(...[modeBar(code === 'demo' ? 'host-demo' : 'host', code), h('div', { class: 'host' }, this.top, this.side, h('main', { class: 'host-main' }, this.edit, this.ctrl))].filter(Boolean));
     this.tools = new ToolsPanel(this); root.append(this.tools.el);
     // เบราว์เซอร์ยอมให้เล่นเสียงหลังผู้ใช้คลิกหรือกดปุ่มครั้งแรก
@@ -3087,6 +3265,87 @@ class HostView {
     document.addEventListener('paste', this.onPaste);
     this.agent = db.kind === 'firebase' ? new Agent(db, code) : null;
     this.unsub = db.listen(code, t => { this.agent?.set(t); this.set(t); });
+    this.pics = {}; this.picsSeen = LS.get('ppb:picsSeen:' + code, 0);
+    this.offPics = db.picsListen(code, p => { this.pics = p || {}; this.syncPics(); this.picsView?.(); this.prunePics(); });
+    this.pruneTick = setInterval(() => this.prunePics(), 10 * 60 * 1000);
+  }
+  syncPics() {
+    const L = picList(this.pics), fresh = L.filter(p => (p.at || 0) > this.picsSeen).length, on = !!this.t?.meta?.picsOn;
+    const sig = [L.length, fresh, on].join('|'); if (sig === this.picsSig) return;
+    if (this.picsSig && fresh > (this.picsFresh || 0)) toast(`มีรูปใหม่จากผู้เรียน ${fresh} รูป · กด “รูปภาพ” ด้านบน`);
+    this.picsSig = sig; this.picsFresh = fresh;
+    this.picsBtn.classList.toggle('on', on); this.picsInfo.hidden = !fresh; this.picsInfo.textContent = fresh ? '+' + fresh : '';
+  }
+  // ลบรูปที่เก่ากว่าเวลาที่ตั้งไว้ (ทำตอนเปิดแผงควบคุมห้องนี้อยู่)
+  prunePics() {
+    const ttl = picTtl(this.t?.meta); if (!ttl || !this.t?.meta || this.pruning) return;
+    const cut = this.db.now() - ttl * 3600e3, old = picList(this.pics).filter(p => p.at && p.at < cut && !asArr(this.t.meta.picsShow).includes(p.id)).map(p => p.id);
+    if (!old.length) return; this.pruning = true; this.db.picsDel(this.code, old).catch(e => console.warn('prune pics', e)).finally(() => { this.pruning = false; });
+  }
+  showPics(ids) {
+    ids = ids.slice(0, PIC_MAX); const cap = {}; for (const id of ids) { const n = this.pics[id]?.n; if (n) cap[id] = n; }
+    write(this.db, this.code, { 'meta/picsShow': ids.length ? ids : null, 'meta/picsCap': ids.length && Object.keys(cap).length ? cap : null });
+    if (ids.length && !this.presenter) { this.presenter = new Presenter(this); this.presenter.full(); }
+  }
+  async zipPics(btn) {
+    const L = picList(this.pics).reverse(); if (!L.length) return toast('ยังไม่มีรูป');
+    btn.disabled = true; const label = [...btn.childNodes]; const files = [], seen = {};
+    try {
+      for (const [i, p] of L.entries()) {
+        btn.replaceChildren(`กำลังรวมรูป ${i + 1}/${L.length}…`);
+        const u = await picFull(this.db, this.code, p.id); if (!u) continue;
+        const base = `${String(i + 1).padStart(2, '0')} ${(p.n || 'ไม่ระบุชื่อ').replace(/[\\/:*?"<>|]+/g, ' ').trim()} ${picTime(p.at).replace(':', '.')}`.trim();
+        const nm = seen[base] ? `${base} (${++seen[base]})` : (seen[base] = 1, base); files.push({ name: nm + '.jpg', data: dataBytes(u) });
+      }
+      const a = h('a', { href: URL.createObjectURL(makeZip(files)) }); a.download = `รูป ${(this.t?.meta?.title || 'ห้อง').replace(/[\\/:*?"<>|]+/g, ' ')} ${fmtCode(this.code)}.zip`; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+      toast(`ดาวน์โหลด ${files.length} รูปแล้ว`);
+    } catch (e) { console.error(e); toast('รวมรูปไม่สำเร็จ', 'bad'); }
+    finally { btn.disabled = false; btn.replaceChildren(...label); }
+  }
+  picsModal() {
+    if (this.picsDlg) return;
+    const sel = new Set();
+    this.picsSeen = this.db.now(); LS.set('ppb:picsSeen:' + this.code, this.picsSeen); this.picsFresh = 0; this.picsSig = ''; this.syncPics();
+    const onTg = h('input', { type: 'checkbox', id: 'pics-on' });
+    onTg.addEventListener('change', () => write(this.db, this.code, { 'meta/picsOn': onTg.checked || null }));
+    const ttl = h('select', { class: 'input', id: 'pics-ttl', style: { width: 'auto' } }, PIC_TTLS.map(([v, l]) => h('option', { value: String(v) }, l)));
+    ttl.addEventListener('change', () => { write(this.db, this.code, { 'meta/picsTtl': Number(ttl.value) }); });
+    const up = h('input', { type: 'file', accept: 'image/*', multiple: true, hidden: true });
+    up.addEventListener('change', async () => { const L = [...up.files]; up.value = ''; if (L.length) { toast('กำลังอัปโหลด…'); const ok = await sendPics(this.db, this.code, L, 'วิทยากร', 'host'); if (ok) toast(`เพิ่ม ${ok} รูปแล้ว`); } });
+    const grid = h('div', { class: 'pics-grid' }), bar = h('div', { class: 'pics-bar' }), count = h('span', { class: 'muted' });
+    const zipBtn = h('button', { class: 'btn sm', type: 'button', onclick: () => this.zipPics(zipBtn) }, icon('download'), 'ดาวน์โหลดทั้งหมด (.zip)');
+    const del = async ids => { if (!ids.length) return; await this.db.picsDel(this.code, ids).catch(e => { console.error(e); toast('ลบไม่สำเร็จ', 'bad'); }); ids.forEach(id => sel.delete(id)); const sh = asArr(this.t?.meta?.picsShow).filter(x => !ids.includes(x)); if (sh.length !== asArr(this.t?.meta?.picsShow).length) this.showPics(sh); };
+    const paint = () => {
+      const m = this.t?.meta || {}, L = picList(this.pics), shown = asArr(m.picsShow);
+      for (const id of [...sel]) if (!this.pics[id]) sel.delete(id);
+      if (document.activeElement !== onTg) onTg.checked = !!m.picsOn; if (document.activeElement !== ttl) ttl.value = String(picTtl(m));
+      count.textContent = L.length ? `${fmtN(L.length)} รูป` : '';
+      grid.replaceChildren(...(L.length ? L.map(p => {
+        const on = sel.has(p.id), live = shown.includes(p.id);
+        return h('div', { class: 'pic-card' + (on ? ' sel' : '') + (live ? ' live' : '') },
+          h('button', { class: 'pic-thumb', type: 'button', 'aria-pressed': String(on), title: 'กดเพื่อเลือก (เลือกหลายรูปได้)', onclick: () => { on ? sel.delete(p.id) : sel.size >= PIC_MAX ? toast(`ขึ้นจอพร้อมกันได้สูงสุด ${PIC_MAX} รูป`) : sel.add(p.id); paint(); } },
+            h('img', { src: p.th, alt: '' }), h('span', { class: 'pic-tick' }, icon('check')), live ? h('span', { class: 'pic-live' }, 'บนจอ') : null),
+          h('div', { class: 'pic-meta' }, h('span', { class: 'pic-n', title: p.n || '' }, p.n || 'ไม่ระบุชื่อ'), h('small', null, picTime(p.at)),
+            h('span', { class: 'spacer' }),
+            h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'ขึ้นจอรูปนี้', title: 'ขึ้นจอรูปนี้รูปเดียว', onclick: () => { this.showPics([p.id]); this.picsDlg?.close(); } }, icon('monitor')),
+            h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'ลบรูปนี้', title: 'ลบรูปนี้', onclick: () => del([p.id]) }, icon('trash'))));
+      }) : [h('div', { class: 'pics-empty' }, avatar('point', 'note-av'), h('b', null, m.picsOn ? 'รอรูปจากผู้เรียน' : 'ยังไม่มีรูป'), h('span', { class: 'muted' }, m.picsOn ? 'ผู้เรียนกดปุ่ม “ส่งรูป” บนมือถือ รูปจะขึ้นที่นี่ทันที ยังไม่ขึ้นจอจนกว่าคุณจะเลือก' : 'เปิดสวิตช์ด้านบน แล้วผู้เรียนจะเห็นปุ่ม “ส่งรูป” บนมือถือ'))]));
+      bar.replaceChildren(...[
+        h('button', { class: 'btn primary', type: 'button', disabled: !sel.size, onclick: () => { this.showPics([...sel].sort((a, b) => (this.pics[a]?.at || 0) - (this.pics[b]?.at || 0))); this.picsDlg?.close(); } }, icon('monitor'), sel.size > 1 ? `ขึ้นจอ ${sel.size} รูปพร้อมกัน` : 'ขึ้นจอรูปที่เลือก'),
+        shown.length ? h('button', { class: 'btn', type: 'button', onclick: () => this.showPics([]) }, icon('x'), 'ปิดรูปบนจอ') : null,
+        L.length ? h('button', { class: 'btn ghost sm', type: 'button', onclick: () => { if (sel.size) sel.clear(); else L.slice(0, PIC_MAX).forEach(p => sel.add(p.id)); paint(); } }, sel.size ? 'ล้างที่เลือก' : `เลือก ${Math.min(L.length, PIC_MAX)} รูปล่าสุด`) : null,
+        h('span', { class: 'spacer' }),
+        sel.size ? h('button', { class: 'btn ghost sm danger', type: 'button', onclick: () => del([...sel]) }, icon('trash'), `ลบ ${sel.size} รูป`) : null].filter(Boolean));
+    };
+    this.picsDlg = openModal('รูปจากผู้เรียน', h('div', { class: 'pics-box' },
+      h('div', { class: 'pics-top' },
+        h('label', { class: 'toggle', for: 'pics-on' }, onTg, h('span', null, h('b', null, 'เปิดรับรูปจากผู้เรียน'), h('small', null, 'มือถือผู้เรียนจะมีปุ่ม “ส่งรูป” · ถ่ายใหม่หรือเลือกจากคลังรูปได้'))),
+        h('label', { class: 'btn sm' }, up, icon('upload'), 'เพิ่มรูปจากเครื่องนี้')),
+      h('p', { class: 'hint', style: { margin: 0 } }, 'กดที่รูปเพื่อเลือก (สูงสุด ' + PIC_MAX + ' รูป) แล้วกด “ขึ้นจอ” · บนจอนำเสนอกด → หรือ Space เพื่อปิดรูปแล้วไปต่อ'),
+      bar, grid,
+      h('div', { class: 'pics-foot' }, count, h('span', { class: 'spacer' }), h('label', { class: 'row', for: 'pics-ttl', style: { gap: '6px' } }, h('span', { class: 'muted' }, 'ลบรูปอัตโนมัติหลัง'), ttl), zipBtn)),
+      { wide: true, onClose: () => { this.picsDlg = null; this.picsView = null; this.picsSeen = this.db.now(); LS.set('ppb:picsSeen:' + this.code, this.picsSeen); this.picsSig = ''; this.syncPics(); } });
+    this.picsView = paint; paint();
   }
   set(t) {
     this.t = t;
@@ -3104,6 +3363,9 @@ class HostView {
     this.themeDot.style.background = themeOf(t.meta)?.a || '#FF6B00';
     if (document.activeElement !== this.qrTg) this.qrTg.checked = t.meta.qr !== false;
     this.tools?.set(t); this.presenter?.set(t);
+    this.syncPics?.(); this.picsView?.();
+    const nShow = asArr(t.meta.picsShow).length; if (String(nShow) !== this.picsChip.dataset.n) { this.picsChip.dataset.n = nShow; this.picsChip.hidden = !nShow;
+      this.picsChip.replaceChildren(icon('image'), `รูปบนจอ ${nShow} รูป`, h('button', { class: 'btn sm', type: 'button', onclick: () => this.picsModal() }, 'เลือกใหม่'), h('button', { class: 'btn sm', type: 'button', onclick: () => this.showPics([]) }, icon('x'), 'ปิดรูป')); }
   }
   resetModal() {
     const t = this.t; if (!t?.meta) return;
@@ -3133,6 +3395,7 @@ class HostView {
   goLive(sel = this.sel) {
     const t = this.t; if (!t?.meta) return; const m = t.meta, db = this.db, code = this.code;
     if (m.timer?.big) write(db, code, { 'meta/timer/big': null });
+    if (asArr(m.picsShow).length) write(db, code, { 'meta/picsShow': null });
     if (sel === 'join') { if (m.mode !== 'join' || m.active) Act.offscreen(db, code); }
     else if (sel === 'qa') { if (m.mode !== 'qa') Act.mode(db, code, 'qa'); }
     else { const q = getQ(t, sel); if (q && !(m.active === q.id && ['q', 'board', 'lobby'].includes(m.mode))) Act.go(db, code, t, q); }
@@ -3413,7 +3676,7 @@ class HostView {
       rows.length ? h('div', { class: 'modlist' }, rows.map(r => h('div', { class: 'moditem' + (hid[r.key] ? ' off' : '') }, h('span', { style: { minWidth: '0', overflowWrap: 'anywhere' } }, r.text, cloud ? h('span', { class: 'faint' }, ` ×${r.n}`) : null),
         h('button', { class: 'icon-btn', type: 'button', title: hid[r.key] ? 'แสดง' : 'ซ่อน', 'aria-label': hid[r.key] ? 'แสดงบนจอ' : 'ซ่อนจากจอ', onclick: () => write(db, code, { [`qs/${q.id}/hid/${r.key}`]: hid[r.key] ? null : true }) }, icon(hid[r.key] ? 'eye' : 'eyeOff'))))) : h('div', { class: 'empty' }, 'ยังไม่มีคำตอบ'));
   }
-  destroy() { this.unsub?.(); this.stage.destroy(); this.agent?.destroy(); this.presenter?.close(); this.tools?.destroy(); document.removeEventListener('paste', this.onPaste); removeEventListener('pointerdown', this.onGesture, true); removeEventListener('keydown', this.onGesture, true); }
+  destroy() { this.unsub?.(); this.offPics?.(); clearInterval(this.pruneTick); this.picsDlg?.close(); this.stage.destroy(); this.agent?.destroy(); this.presenter?.close(); this.tools?.destroy(); document.removeEventListener('paste', this.onPaste); removeEventListener('pointerdown', this.onGesture, true); removeEventListener('keydown', this.onGesture, true); }
 }
 
 class ScreenView {
