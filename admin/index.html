@@ -563,6 +563,7 @@ svg.i { width: 1.15em; height: 1.15em; flex: none; stroke: currentColor; fill: n
 .chip { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); border-radius: 99px; padding: .3em .85em; font-size: .88em; font-weight: 500; }
 .chip:hover { border-color: var(--brand); color: var(--brand-ink); }
 .tools .input[type=number] { width: 90px; flex: none; }
+.tools .input.vol-num { width: 4.2em; padding-inline: .4em; text-align: center; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 .yt-box { aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000; }
 .yt-box > * { width: 100%; height: 100%; border: 0; display: block; }
 .now { font-size: .88em; font-weight: 500; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -655,6 +656,22 @@ body.themed .app.full > .pv { border: 0; box-shadow: none; border-radius: 0; ove
 .tools.dragging { transition: none; box-shadow: 0 30px 70px -18px rgba(19, 33, 59, .6); }
 .tools.dragging .tools-head { cursor: grabbing; }
 .grip { width: 10px; height: 16px; flex: none; opacity: .45; background: radial-gradient(circle, currentColor 1.2px, transparent 1.4px) 0 0 / 5px 5px; }
+
+/* ---------- หน้าต่างเครื่องมือ: ปรับขนาดได้ + กว้างพอแบ่ง 2 คอลัมน์ (จับเวลา | เพลง) ---------- */
+.tools { max-height: min(86dvh, 760px); container: tools / inline-size; }
+.tools-rs { position: absolute; z-index: 2; touch-action: none; }
+.rs-l { left: -4px; top: 14px; bottom: 14px; width: 10px; cursor: ew-resize; }
+.rs-r { right: -4px; top: 14px; bottom: 14px; width: 10px; cursor: ew-resize; }
+.rs-b { left: 14px; right: 14px; bottom: -4px; height: 10px; cursor: ns-resize; }
+.rs-bl { left: -4px; bottom: -4px; width: 18px; height: 18px; cursor: nesw-resize; }
+.rs-br { right: -4px; bottom: -4px; width: 18px; height: 18px; cursor: nwse-resize; }
+.rs-br::after { content: ''; position: absolute; right: 9px; bottom: 9px; width: 9px; height: 9px; border-right: 2px solid var(--ink-3); border-bottom: 2px solid var(--ink-3); border-radius: 0 0 4px 0; opacity: .55; }
+.tools.mini .tools-rs { display: none; }
+@container tools (min-width: 600px) {
+  .tools-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); overflow: hidden; gap: 0; padding: 0; }
+  .tools-body > .tool-sec { overflow-y: auto; min-height: 0; align-content: start; padding: 14px 16px 16px; }
+  .tools-body > .tool-sec + .tool-sec { border-top: 0; border-left: 1px solid var(--line); padding-top: 14px; }
+}
 
 /* ---------- แนบรูปในตัวแก้ไข ---------- */
 .img-drop { width: 100%; display: grid; justify-items: center; gap: 4px; padding: 16px 12px; border: 1.5px dashed var(--line); border-radius: 10px; background: var(--surface-2); color: var(--ink-2); text-align: center; }
@@ -791,7 +808,7 @@ body { font-size: 17.25px; }
 .stage-inner { font-size: min(3.45cqh, 1.955cqw); }
 .stage .float-back, .st-timer.big .tm-x { font-size: 16px; }
 .fs-hint { font-size: 17px; }
-.tools { width: min(410px, calc(100% - 24px)); }
+.tools { width: min(780px, calc(100% - 24px)); }
 .tools.mini { width: 280px; }
 
 /* แถบบนแผงควบคุม: ตัวอักษรใหญ่ขึ้นแล้วให้อยู่บรรทัดเดียว */
@@ -1147,7 +1164,7 @@ const FIREBASE_CONFIG = {
 };
 const FIREBASE_VERSION = '10.12.2';
 const CHANNEL = 'prod'; // 'dev' = หน้าทดสอบที่ /dev/ (สคริปต์ build เปลี่ยนให้เอง)
-const BUILD = 1792329547263; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
+const BUILD = 1795322748933; // เวลาที่ build (สคริปต์ build ใส่ให้) ใช้เช็กว่าหน้าที่เปิดค้างไว้เป็นเวอร์ชันล่าสุดไหม
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 const SUGGESTED_SITE = 'live.powerpointboy.com';
 const ADMIN_EMAIL = 'twish.ong@gmail.com'; // บัญชีเดียวที่เข้าหลังบ้านได้ (กฎใน Firebase ล็อกไว้ที่อีเมลนี้เหมือนกัน)
@@ -2747,6 +2764,7 @@ function ytParse(raw) {
 }
 const musicName = m => m?.title || (m?.v ? 'YouTube · ' + m.v : 'YouTube playlist');
 
+const TOOLS_MIN = { w: 300, h: 240 };
 class ToolsPanel {
   constructor(host) {
     Object.assign(this, { host, db: host.db, code: host.code, open: false, tracks: [], cur: null, player: null, playing: false, beeped: '', gos: [], mini: false });
@@ -2762,19 +2780,20 @@ class ToolsPanel {
     this.custom = h('input', { class: 'input', id: 'tm-custom', type: 'number', min: '0.5', max: '180', step: '0.5', placeholder: 'นาที', 'aria-label': 'ตั้งเวลาเอง (นาที)' });
     this.custom.addEventListener('keydown', e => { if (e.key === 'Enter') this.setCustom(); });
     this.tmGo = h('button', { class: 'btn primary', type: 'button', onclick: () => this.startPause() }, icon('play'), 'เริ่ม');
-    this.fsBtn = h('button', { class: 'btn navy', type: 'button', onclick: () => this.toggleFull() }, icon('full'), 'แสดงเต็มจอ');
+    this.fsBtn = h('button', { class: 'btn', type: 'button', onclick: () => this.toggleFull() }, icon('full'), 'แสดงเต็มจอ');
     const snd = h('input', { type: 'checkbox', id: 'tm-snd', checked: this.sound }); snd.addEventListener('change', () => { this.sound = snd.checked; LS.set('ppb:beep', this.sound); if (this.sound) unlockAudio(); });
     this.tmCtl = h('div', { class: 'row', style: { gap: '6px' } }, this.tmGo,
       h('button', { class: 'btn', type: 'button', onclick: () => this.addMinute() }, '+1 นาที'),
       h('button', { class: 'btn ghost', type: 'button', onclick: () => this.resetTimer() }, icon('refresh'), 'รีเซ็ต'),
       h('button', { class: 'btn ghost', type: 'button', onclick: () => this.clearTimer() }, icon('x'), 'ล้าง'));
     this.miniBtn = h('button', { class: 'btn', type: 'button', title: 'ย่อหน้าต่างให้เหลือเฉพาะเวลา', onclick: () => this.setMini(true) }, icon('mini'), 'จอเล็ก');
-    this.pinBtn = h('button', { class: 'btn', type: 'button', title: 'ปักหมุดเวลาไว้บนสุด แม้สลับไปโปรแกรมอื่น (Chrome หรือ Edge บนคอมพิวเตอร์)', onclick: () => this.pipWin ? this.unpin() : this.pin() }, icon('pin'), 'ปักหมุด');
+    this.pinBtn = h('button', { class: 'btn navy', type: 'button', title: 'ปักหมุดเวลาไว้บนสุด แม้สลับไปโปรแกรมอื่น (Chrome หรือ Edge บนคอมพิวเตอร์)', onclick: () => this.pipWin ? this.unpin() : this.pin() }, icon('pin'), 'ปักหมุด');
     const timerSec = h('section', { class: 'tool-sec tm-sec' },
       h('h3', null, icon('clock'), 'จับเวลา'), this.tmBig, this.mkMini(false), this.tmState,
+      h('div', { class: 'row', style: { gap: '6px' } }, this.pinBtn, this.fsBtn, this.miniBtn),
       h('div', { class: 'chips' }, preset(60, '1 นาที'), preset(120, '2 นาที'), preset(180, '3 นาที'), preset(300, '5 นาที'), preset(600, '10 นาที'), preset(900, '15 นาที')),
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.custom, h('button', { class: 'btn', type: 'button', onclick: () => this.setCustom() }, 'ตั้งเวลา')),
-      this.tmCtl, h('div', { class: 'row', style: { gap: '6px' } }, this.fsBtn, this.miniBtn, this.pinBtn),
+      this.tmCtl,
       h('label', { class: 'toggle', for: 'tm-snd' }, snd, 'เสียงเตือนเมื่อหมดเวลา (ดังจากเครื่องนี้)'));
     // เพลง
     this.ytBox = h('div', { class: 'yt-box', hidden: true }, this.ytSlot = h('div'));
@@ -2782,7 +2801,12 @@ class ToolsPanel {
     this.playBtn = h('button', { class: 'btn primary', type: 'button', disabled: true, onclick: () => this.togglePlay() }, icon('play'), 'เล่น');
     this.loopBtn = h('button', { class: 'btn' + (this.loop ? ' on' : ''), type: 'button', 'aria-pressed': String(this.loop), title: 'เล่นซ้ำเพลงนี้', onclick: () => { this.loop = !this.loop; LS.set('ppb:loop', this.loop); this.loopBtn.classList.toggle('on', this.loop); this.loopBtn.setAttribute('aria-pressed', String(this.loop)); } }, icon('repeat'), 'วนซ้ำ');
     this.volIn = h('input', { type: 'range', min: '0', max: '100', step: '5', class: 'vol', 'aria-label': 'ระดับเสียง' }); this.volIn.value = this.vol;
-    this.volIn.addEventListener('input', () => { this.vol = Number(this.volIn.value); LS.set('ppb:vol', this.vol); try { this.player?.setVolume(this.vol); } catch { /* ignore */ } });
+    this.volNum = h('input', { class: 'input vol-num', type: 'number', min: '0', max: '100', step: '1', inputmode: 'numeric', 'aria-label': 'ระดับเสียง YouTube (0–100)', title: 'พิมพ์ระดับเสียง 0–100' }); this.volNum.value = this.vol;
+    const setVol = (v, from) => { v = Math.max(0, Math.min(100, Math.round(Number(v)))); if (!Number.isFinite(v)) return; this.vol = v; LS.set('ppb:vol', v); if (from !== this.volIn) this.volIn.value = v; if (from !== this.volNum) this.volNum.value = v; try { this.player?.setVolume(v); } catch { /* ignore */ } };
+    this.volIn.addEventListener('input', () => setVol(this.volIn.value, this.volIn));
+    this.volNum.addEventListener('input', () => { if (this.volNum.value !== '') setVol(this.volNum.value, this.volNum); });
+    this.volNum.addEventListener('change', () => setVol(this.volNum.value === '' ? this.vol : this.volNum.value));
+    this.volNum.addEventListener('keydown', e => { if (e.key === 'Enter') { setVol(this.volNum.value === '' ? this.vol : this.volNum.value); this.volNum.blur(); } });
     this.linkIn = h('input', { class: 'input', id: 'yt-link', placeholder: 'วางลิงก์ YouTube', autocomplete: 'off' });
     this.linkIn.addEventListener('keydown', e => { if (e.key === 'Enter') this.addTrack(); });
     this.listEl = h('div', { class: 'tracks' });
@@ -2794,15 +2818,18 @@ class ToolsPanel {
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, h('button', { class: 'btn sm', type: 'button', title: 'ลองฟังเพลงช่วงตอบคำถาม 12 วินาที', onclick: () => this.qm.demo() }, icon('play'), 'ลองฟัง'), h('span', { class: 'row vol-wrap', style: { gap: '4px' } }, icon('volume'), qmVol)));
     const musicSec = h('section', { class: 'tool-sec music' },
       h('h3', null, icon('music'), 'เพลง'), qmBox, this.ytBox, this.nowEl,
-      h('div', { class: 'row', style: { gap: '6px' } }, this.playBtn, this.loopBtn, h('span', { class: 'row vol-wrap', style: { gap: '4px' } }, icon('volume'), this.volIn)),
+      h('div', { class: 'row', style: { gap: '6px' } }, this.playBtn, this.loopBtn),
+      h('div', { class: 'row vol-wrap', style: { gap: '6px', flexWrap: 'nowrap' } }, icon('volume'), this.volIn, this.volNum, h('span', { class: 'hint' }, '%')),
       h('div', { class: 'row', style: { gap: '6px', flexWrap: 'nowrap' } }, this.linkIn, h('button', { class: 'btn', type: 'button', onclick: () => this.addTrack() }, icon('plus'), 'เพิ่ม')),
       this.listEl,
       h('p', { class: 'hint' }, 'เพลงดังจากเครื่องที่เปิดหน้านี้ ต่อลำโพงห้องกับเครื่องนี้ · รายการเพลงบันทึกไว้ในบัญชี ใช้ได้ทุกห้อง'));
     this.headLbl = h('b', null, icon('sliders'), 'เครื่องมือ');
     this.head = h('div', { class: 'tools-head', title: 'ลากเพื่อย้ายหน้าต่าง' }, h('span', { class: 'grip', 'aria-hidden': 'true' }), this.headLbl, h('span', { class: 'spacer' }), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'ซ่อนเครื่องมือ', title: 'ซ่อน (เพลงและเวลายังเดินต่อ)', onclick: () => this.toggle(false) }, icon('x')));
-    this.el.append(this.head, h('div', { class: 'tools-body' }, timerSec, musicSec));
+    const grips = ['l', 'r', 'b', 'bl', 'br'].map(d => { const g = h('span', { class: 'tools-rs rs-' + d, 'aria-hidden': 'true', title: 'ลากเพื่อปรับขนาด · ดับเบิลคลิกเพื่อกลับขนาดเดิม' }); g.addEventListener('pointerdown', e => this.resizeStart(e, d, g)); g.addEventListener('dblclick', () => this.resetSize()); return g; });
+    this.el.append(this.head, h('div', { class: 'tools-body' }, timerSec, musicSec), ...grips);
     this.head.addEventListener('pointerdown', e => this.dragStart(e));
-    this.onResize = () => { if (this.pos) this.place(this.pos.x, this.pos.y); }; addEventListener('resize', this.onResize);
+    this.onResize = () => { if (this.size && !this.mini) this.applySize(); if (this.pos) this.place(this.pos.x, this.pos.y); }; addEventListener('resize', this.onResize);
+    this.size = LS.get('ppb:toolsSize', null); if (this.size) this.applySize();
     const saved = LS.get('ppb:toolsPos'); if (saved) requestAnimationFrame(() => this.place(saved.x, saved.y));
     this.offMusic = this.db.listenMusic ? this.db.listenMusic(list => { this.tracks = list; this.renderTracks(); }) : null;
     this.renderTracks();
@@ -2820,7 +2847,7 @@ class ToolsPanel {
       h('button', { class: 'btn ghost', type: 'button', 'aria-label': pip ? 'เลิกปักหมุด' : 'ขยายหน้าต่าง', title: pip ? 'เลิกปักหมุด' : 'ขยายกลับเป็นหน้าต่างเต็ม', onclick: () => pip ? this.unpin() : this.setMini(false) }, icon(pip ? 'x' : 'full')));
   }
   setMini(on) {
-    this.mini = on; LS.set('ppb:toolsMini', on); this.el.classList.toggle('mini', on);
+    this.mini = on; LS.set('ppb:toolsMini', on); this.el.classList.toggle('mini', on); this.applySize();
     this.headLbl.replaceChildren(icon(on ? 'clock' : 'sliders'), on ? 'จับเวลา' : 'เครื่องมือ');
     if (on && !this.open) this.toggle(true);
     requestAnimationFrame(() => { if (this.pos) this.place(this.pos.x, this.pos.y); });
@@ -2859,6 +2886,30 @@ class ToolsPanel {
     x = Math.max(8, Math.min(W - r.width - 8, x)); y = Math.max(8, Math.min(H - Math.min(r.height, H - 16) - 8, y));
     this.pos = { x: Math.round(x), y: Math.round(y) }; Object.assign(this.el.style, { left: this.pos.x + 'px', top: this.pos.y + 'px', right: 'auto', bottom: 'auto' });
   }
+  // ลากขอบซ้าย/ขวา/ล่าง หรือมุมล่าง เพื่อปรับขนาดหน้าต่าง จำขนาดไว้ในเครื่องนี้ (กว้างพอจะแบ่งจับเวลากับเพลงเป็น 2 คอลัมน์)
+  resizeStart(e, dir, grip) {
+    if (e.button !== 0 || this.mini) return;
+    const r = this.el.getBoundingClientRect(); this.place(r.left, r.top);
+    const W = document.documentElement.clientWidth, H = innerHeight, x0 = e.clientX, y0 = e.clientY;
+    this.el.classList.add('dragging'); try { grip.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+    const move = ev => {
+      const dx = ev.clientX - x0, dy = ev.clientY - y0; let { left, top, width, height } = r;
+      if (dir.includes('r')) width = Math.min(W - left - 8, r.width + dx);
+      if (dir.includes('l')) { width = Math.min(r.right - 8, r.width - dx); left = r.right - Math.max(TOOLS_MIN.w, width); }
+      if (dir.includes('b')) height = Math.min(H - top - 8, r.height + dy);
+      this.size = { w: Math.round(Math.max(TOOLS_MIN.w, width)), h: Math.round(Math.max(TOOLS_MIN.h, height)) }; this.applySize();
+      if (dir.includes('l')) this.place(left, top);
+    };
+    const up = () => { grip.removeEventListener('pointermove', move); grip.removeEventListener('pointerup', up); grip.removeEventListener('pointercancel', up); this.el.classList.remove('dragging'); LS.set('ppb:toolsSize', this.size); if (this.pos) LS.set('ppb:toolsPos', this.pos); };
+    grip.addEventListener('pointermove', move); grip.addEventListener('pointerup', up); grip.addEventListener('pointercancel', up); e.preventDefault();
+  }
+  applySize() {
+    const s = !this.mini && this.size;
+    if (!s) { Object.assign(this.el.style, { width: '', height: '', maxHeight: '' }); return; }
+    const W = document.documentElement.clientWidth, H = innerHeight;
+    Object.assign(this.el.style, { width: Math.min(s.w, W - 16) + 'px', height: Math.min(s.h, H - 16) + 'px', maxHeight: 'none' });
+  }
+  resetSize() { this.size = null; LS.set('ppb:toolsSize', null); this.applySize(); requestAnimationFrame(() => { if (this.pos) this.place(this.pos.x, this.pos.y); }); }
   toggleFull() {
     const tm = this.tm; if (!tm) return toast('ตั้งเวลาก่อน แล้วค่อยกดแสดงเต็มจอ');
     const on = !tm.big; this.patchTimer({ big: on || null });
